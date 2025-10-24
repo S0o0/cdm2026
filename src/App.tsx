@@ -23,7 +23,7 @@ function App() {
 
     <BrowserRouter>
       <header className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
-        <div className="container-fluid"> {/* Container fluid pour étendre sur toute la largeur */}
+        <div className="container-fluid">
           <Link className="navbar-brand fw-bold d-flex align-items-center me-3 ps-3" to="/">
             <img src={logo} alt="CDM 2026 Logo" style={{ height: '80px' }} />
           </Link>
