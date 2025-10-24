@@ -42,20 +42,23 @@ function App() {
         </div>
       </header>
 
-      {/* Ajouter mt-5 ou pt-5 pour descendre la div sous la navbar */}
-      <div className="hero-image d-flex justify-content-center align-items-center mt-5 pt-5">
-        <img
-          src={home}
-          alt="CDM 2026"
-          className="img-fluid"
-        />
-      </div>
 
       <main className="container mt-5 pt-5">
         <Routes>
           <Route
             path="/"
-            element={<MatchesCarousel />}
+            element={
+              <>
+                <div className="hero-image d-flex justify-content-center pt-2">
+                  <img
+                    src={home}
+                    alt="CDM 2026"
+                    className="img-fluid"
+                  />
+                </div>
+                <MatchesCarousel />
+              </>
+            }
           />
           <Route path="/groups" element={<Groups />} />
           <Route path="/matches" element={<Matches />} />
