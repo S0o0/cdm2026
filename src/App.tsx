@@ -6,8 +6,8 @@ import Groups from './components/Groups';
 //import Stadiums from './components/Stadiums';
 //import Teams from './components/Teams';
 const API_URL: string = import.meta.env.VITE_API_URL;
-import logo from './assets/wc26logo.avif'; // Logo CDM 2026
-import signin from './assets/usericon.png'; // Icone de connexion
+import logo from './assets/home/wc26logo.avif'; // Logo CDM 2026
+import signin from './assets/home/usericon.png'; // Icone de connexion
 
 function App() {
   const [count, setCount] = useState(0);
