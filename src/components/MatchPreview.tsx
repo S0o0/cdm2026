@@ -14,14 +14,14 @@ const MatchPreview: React.FC<MatchPreviewProps> = ({ match }) => {
                     <img
                         src={`https://worldcup2026.shrp.dev${match.homeTeam.flagImagePath}`}
                         alt={match.homeTeam.name}
-                        style={{ width: '10px', height: 'auto' }}
+                        style={{ width: '40px', height: 'auto' }}
                     />
                     <span>{match.homeTeam.name}</span>
                     <span className="fw-bold mx-2">vs</span>
                     <img
                           src={`https://worldcup2026.shrp.dev${match.awayTeam.flagImagePath}`}
                         alt={match.awayTeam.name}
-                        style={{ width: '30px', height: 'auto' }}
+                        style={{ width: '40px', height: 'auto' }}
                     />
                     <span>{match.awayTeam.name}</span>
                 </div>
