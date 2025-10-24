@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Group } from "../types/Group";
+import { countryImages } from "./CountryImages";
 
 function Groups() {
   const [groups, setGroups] = useState<Group[]>([]);
@@ -57,10 +58,9 @@ function Groups() {
             onClick={() => navigate(`/teams/${team.id}`)}
           >
             <img
-              src={team.flag}
-              alt={team.name}
-              className="w-100 h-100"
-              style={{ objectFit: "cover" }}
+            src={countryImages[team.name] || team.flag} 
+            className="w-100 h-100"
+            style={{ objectFit: "cover" }}
             />
             <div
               className="position-absolute top-50 start-50 translate-middle text-white fw-bold text-center"
