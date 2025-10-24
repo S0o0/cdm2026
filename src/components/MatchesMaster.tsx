@@ -23,11 +23,13 @@ const MatchesMaster: React.FC = () => {
   if (matches.length === 0) return <p>Aucun match disponible</p>;
 
   return (
-    <ul className="list-group pt-5">
-      {matches.map(match => (
-        <MatchPreview key={match.id} match={match} />
-      ))}
-    </ul>
+    <div className="container d-flex justify-content-center pt-5">
+      <ul className="list-group gap-2">
+        {matches.map(match => (
+          <MatchPreview key={match.id} match={match} />
+        ))}
+      </ul>
+    </div>
   );
 };
 

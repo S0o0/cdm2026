@@ -36,11 +36,13 @@ const MatchesCarousel: React.FC = () => {
         <button className="btn btn-dark" onClick={prev}>◀</button>
         <button className="btn btn-dark" onClick={next}>▶</button>
       </div>
-      <ul className="list-group list-group-horizontal gap-2">
+      <div className='overflow-auto'>
+      <ul className="list-group list-group-horizontal gap-2 flex-nowrap">
         {visibleMatches.map(match => (
           <MatchPreview key={match.id} match={match} />
         ))}
       </ul>
+      </div>
     </div>
   );
 };
