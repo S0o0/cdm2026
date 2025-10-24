@@ -1,3 +1,5 @@
 Ecrire :
-bun add vite 
-Lenny
+bun add vite
+npm install react-router-dom
+npm install --save-dev @types/react-router-dom
+npm install bootstrap
