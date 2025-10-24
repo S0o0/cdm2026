@@ -1,19 +1,6 @@
 import { useEffect, useState } from "react";
+import type { Group } from "../types/Group";
 
-interface Team {
-  id: number;
-  name: string;
-  code: string;
-  flag: string;
-  confederation: string;
-  continent: string;
-}
-
-interface Group {
-  id: number;
-  name: string;
-  teams: Team[];
-}
 
 function Groups() {
   const [groups, setGroups] = useState<Group[]>([]);
