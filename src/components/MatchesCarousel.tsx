@@ -39,7 +39,7 @@ const MatchesCarousel: React.FC = () => {
       <div className='overflow-auto'>
       <ul className="list-group list-group-horizontal gap-2 flex-nowrap">
         {visibleMatches.map(match => (
-          <MatchPreview key={match.id} match={match} />
+          <MatchPreview key={match.id} match={match} showDate={true}/>
         ))}
       </ul>
       </div>

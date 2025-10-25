@@ -3,9 +3,10 @@ import type { Match } from '../types/Match';
 
 interface MatchPreviewProps {
     match: Match;
+    showDate?: boolean;
 }
 
-const MatchPreview: React.FC<MatchPreviewProps> = ({ match }) => {
+const MatchPreview: React.FC<MatchPreviewProps> = ({ match, showDate }) => {
     const matchDate = new Date(match.date);
     // Format date as DD/MM
     const formattedDate = `${String(matchDate.getDate()).padStart(2, '0')}/${String(matchDate.getMonth() + 1).padStart(2, '0')}`;
@@ -21,7 +22,7 @@ const MatchPreview: React.FC<MatchPreviewProps> = ({ match }) => {
             {/* Stadium - Date */}
             <div className="d-flex justify-content-between mb-2 gap-2">
                 <span>{match.stadium.name} - {match.stadium.city}</span> 
-                <span>{formattedDate}</span>
+                {showDate && <span>{formattedDate}</span>}
             </div>
 
             {/* Home Team + Code*/}
