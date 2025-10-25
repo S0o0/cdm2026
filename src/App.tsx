@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import './App.css';
 
 
+
 //import Stadiums from './components/Stadiums';
 //import Teams from './components/Teams';
 const API_URL: string = import.meta.env.VITE_API_URL;
@@ -15,6 +16,7 @@ import signin from './assets/home/usericon.png'; // Login Icon
 import Groups from './components/Groups';
 import Matches from './components/MatchesMaster';
 import MatchesCarousel from './components/MatchesCarousel';
+import MatchDetails from './components/MatchDetails';
 import Stades from './components/StadiumsMaster';
 import Home from './components/Home';
 
@@ -59,6 +61,7 @@ function App() {
           />
           <Route path="/groups" element={<Groups />} />
           <Route path="/matches" element={<Matches />} />
+          <Route path="/matches/:matchId" element={<MatchDetails />} />
           <Route path="/stadiums" element={<Stades />} />
         </Routes>
       </main>

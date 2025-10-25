@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MatchPreview from './MatchPreview';
 import type { Match } from '../types/Match';
+import { Link } from 'react-router-dom';
 
 const MatchesMaster: React.FC = () => {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -47,7 +48,9 @@ const MatchesMaster: React.FC = () => {
               <div key={match.id} className="col-12 col-md-6 col-lg-4">
                 <div className="card shadow-sm border-0 h-100 hover-shadow transition-all">
                   <div className="card-body text-center p-4">
-                    <MatchPreview match={match} />
+                    <Link to={`/matches/${match.id}`}>
+                      <MatchPreview match={match} />
+                    </Link>
                   </div>
                 </div>
               </div>
