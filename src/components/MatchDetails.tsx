@@ -45,7 +45,7 @@ const MatchDetails: React.FC = () => {
                     <p><strong>Statut:</strong> {match.status}</p>
                     <p><strong>Places disponibles:</strong> {match.availableSeats}</p>
                     <p><strong>Multiplicateur de prix:</strong> {match.priceMultiplier}</p>
-                    <Link to="/" className="btn btn-primary mt-3">Retour</Link>
+                    <Link to="/matches" className="btn btn-primary mt-3">Retour</Link>
                 </div>
             </div>
         </div>
