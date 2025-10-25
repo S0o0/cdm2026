@@ -22,13 +22,34 @@ const MatchesMaster: React.FC = () => {
   if (loading) return <p>Chargement des matchs...</p>;
   if (matches.length === 0) return <p>Aucun match disponible</p>;
 
+  // Group matches by date
+  const groupedMatches = matches.reduce((groups: Record<string, Match[]>, match) => {
+    const date = new Date(match.date).toLocaleDateString('fr-FR', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+    if (!groups[date]) groups[date] = [];
+    groups[date].push(match);
+    return groups;
+  }, {});
+
   return (
-    <div className="container d-flex justify-content-center pt-5">
-      <ul className="list-group gap-2">
-        {matches.map(match => (
-          <MatchPreview key={match.id} match={match} />
-        ))}
-      </ul>
+    <div className="container pt-5">
+      {Object.entries(groupedMatches).map(([date, dayMatches]) => (
+        <div key={date} className="mb-4">
+          <h5 className="text-start fw-bold text-capitalize mb-3">
+            {date}
+          </h5>
+
+          <ul className="list-group gap-2">
+            {dayMatches.map(match => (
+              <MatchPreview key={match.id} match={match} />
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 };
