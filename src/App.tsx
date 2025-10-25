@@ -16,6 +16,7 @@ import Groups from './components/Groups';
 import Matches from './components/MatchesMaster';
 import MatchesCarousel from './components/MatchesCarousel';
 import Stades from './components/StadiumsMaster';
+import Home from './components/Home';
 
 
 function App() {
@@ -51,13 +52,7 @@ function App() {
             path="/"
             element={
               <>
-                <div className="hero-image d-flex justify-content-center pt-2">
-                  <img
-                    src={home}
-                    alt="CDM 2026"
-                    className="img-fluid"
-                  />
-                </div>
+                <Home />
                 <MatchesCarousel />
               </>
             }
