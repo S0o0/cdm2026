@@ -36,18 +36,23 @@ const MatchesMaster: React.FC = () => {
   }, {});
 
   return (
-    <div className="container pt-5">
+    <div className="container py-5">
       {Object.entries(groupedMatches).map(([date, dayMatches]) => (
-        <div key={date} className="mb-4">
-          <h5 className="text-start fw-bold text-capitalize mb-3">
+        <div key={date} className="mb-5">
+          <h4 className="fw-bold text-capitalize mb-4 border-bottom pb-2">
             {date}
-          </h5>
-
-          <ul className="list-group gap-2">
+          </h4>
+          <div className="row g-4">
             {dayMatches.map(match => (
-              <MatchPreview key={match.id} match={match} />
+              <div key={match.id} className="col-12 col-md-6 col-lg-4">
+                <div className="card shadow-sm border-0 h-100 hover-shadow transition-all">
+                  <div className="card-body text-center p-4">
+                    <MatchPreview match={match} />
+                  </div>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       ))}
     </div>
