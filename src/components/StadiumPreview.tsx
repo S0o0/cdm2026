@@ -12,7 +12,7 @@ const StadiumPreview: React.FC<StadiumPreviewProps> = ({ stadium }) => {
             <div className="card text-white">
                 <div className="position-relative">
                     <img 
-                        src={`https://worldcup2026.shrp.dev${stadium.imagePath}`} 
+                        src={`${stadium.id}.webp`} 
                         className="card-img" 
                         alt={stadium.name} 
                     />
