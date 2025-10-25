@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import './App.css';
-//import Matches from './components/Matches';
-import Groups from './components/Groups';
+
+
 //import Stadiums from './components/Stadiums';
 //import Teams from './components/Teams';
 const API_URL: string = import.meta.env.VITE_API_URL;
@@ -12,8 +12,10 @@ import home from './assets/home/home.webp'; // Home Image
 import logo from './assets/home/wc26logo.avif'; // World Cup 2026 Logo
 import signin from './assets/home/usericon.png'; // Login Icon
 // Components
+import Groups from './components/Groups';
 import Matches from './components/MatchesMaster';
 import MatchesCarousel from './components/MatchesCarousel';
+import Stades from './components/StadiumsMaster';
 
 
 function App() {
@@ -62,6 +64,7 @@ function App() {
           />
           <Route path="/groups" element={<Groups />} />
           <Route path="/matches" element={<Matches />} />
+          <Route path="/stadiums" element={<Stades />} />
         </Routes>
       </main>
     </BrowserRouter>

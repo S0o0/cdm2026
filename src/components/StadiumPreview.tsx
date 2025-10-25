@@ -8,13 +8,14 @@ interface StadiumPreviewProps {
 const StadiumPreview: React.FC<StadiumPreviewProps> = ({ stadium }) => {
 
     return (
-        <div className="col-12 col-md-4 mb-4">
+        <div className="col-12 col-md-4 mb-4 pt-4">
             <div className="card text-white">
                 <div className="position-relative">
                     <img 
-                        src={`${stadium.id}.webp`} 
+                        src={`/stadiums/${stadium.id}.webp`} 
                         className="card-img" 
                         alt={stadium.name} 
+                        style={{ width: '300px', height: '200px', objectFit: 'cover' }}
                     />
                     <div className="card-img-overlay d-flex align-items-start p-2">
                         <h5 className="card-title bg-dark bg-opacity-50 rounded px-2">{stadium.name}</h5>
