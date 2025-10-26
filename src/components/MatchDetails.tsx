@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import type { Match, MatchAvailability } from '../types/Match';
-import MatchService from '../services/MatchService';
+import { MatchService } from '../services/MatchService';
 
 const API_URL = import.meta.env.VITE_API_URL;
 

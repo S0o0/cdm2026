@@ -1,21 +1,32 @@
 import type { Match, MatchAvailability } from "../types/Match";
+import { apiFetch } from "./Api";
 
-const API_URL = import.meta.env.VITE_API_URL;
+/**
+ * Service pour interagir avec les endpoints liés aux matchs.
+ * Gère la récupération des matchs, des détails et des disponibilités.
+ */
+export class MatchService {
+  /**
+   * Récupère la liste de tous les matchs
+   * Endpoint : GET /matches
+   */
+  static async getMatches(): Promise<Match[]> {
+    return apiFetch<Match[]>("/matches");
+  }
 
-export default class MatchService {
-    // Récupérer les informations d’un match
-    static async getMatch(id: number): Promise<Match> {
-        const res = await fetch(`${API_URL}/matches/${id}`);
-        if (!res.ok) throw new Error("Erreur lors du chargement du match");
-        const json = await res.json();
-        return json.data;
-    }
+  /**
+   * Récupère les informations détaillées d’un match
+   * Endpoint : GET /matches/{id}
+   */
+  static async getMatch(id: number): Promise<Match> {
+    return apiFetch<Match>(`/matches/${id}`);
+  }
 
-    // Récupérer la disponibilité et les prix des tickets d’un match
-    static async getAvailability(id: number): Promise<MatchAvailability> {
-        const res = await fetch(`${API_URL}/matches/${id}/availability`);
-        if (!res.ok) throw new Error("Erreur lors du chargement de la disponibilité (qui devait renvoyer les prix de chacune des catégories)");
-        const json = await res.json();
-        return json.data;
-    }
-    }
+  /**
+   * Récupère la disponibilité des places et les prix pour un match
+   * Endpoint : GET /matches/{id}/availability
+   */
+  static async getAvailability(id: number): Promise<MatchAvailability> {
+    return apiFetch<MatchAvailability>(`/matches/${id}/availability`);
+  }
+}
