@@ -2,7 +2,7 @@ import type { Ticket } from "../types/Ticket";
 import { apiFetch } from "./Api";
 
 export class TicketService {
-  // Ajouter un ticket au panier
+  // Ajouter des tickets au panier
   static async addTicket(matchId: number, category: string, quantity: number): Promise<Ticket[]> {
     return apiFetch<Ticket[]>("/tickets", {
       method: "POST",
@@ -10,7 +10,7 @@ export class TicketService {
     });
   }
 
-  // Récupérer les tickets du panier (non payés)
+  // Voir le contenu du panier (tickets en attente)
   static async getPendingTickets(): Promise<Ticket[]> {
     return apiFetch<Ticket[]>("/tickets/pending");
   }
