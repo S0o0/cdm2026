@@ -11,7 +11,7 @@ const MatchesCarousel: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`${API_URL}matches`)
+        fetch(`${API_URL}/matches`)
             .then(res => res.json())
             .then(data => {
                 setMatches(data.data);

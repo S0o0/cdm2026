@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import StadiumPreview from './StadiumPreview';
 import type { Stadium } from '../types/Stadium';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const StadiumsMaster: React.FC = () => {
   const [stadiums, setStadiums] = useState<Stadium[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://worldcup2026.shrp.dev/stadiums')
+    fetch(`${API_URL}/stadiums`)
       .then(res => res.json())
       .then(data => {
         setStadiums(data.data);

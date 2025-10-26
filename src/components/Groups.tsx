@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import type { Group } from "../types/Group";
 import { countryImages } from "./CountryImages";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Groups() {
   const [groups, setGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +12,7 @@ function Groups() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://worldcup2026.shrp.dev/groups")
+    fetch(`${API_URL}/groups`)
       .then((res) => res.json())
       .then((data) => {
         setGroups(data.data);

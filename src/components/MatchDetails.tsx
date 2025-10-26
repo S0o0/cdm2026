@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import type { Match } from '../types/Match';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const MatchDetails: React.FC = () => {
     const { matchId } = useParams<{ matchId: string }>();
     const [match, setMatch] = useState<Match | null>(null);
@@ -10,7 +12,7 @@ const MatchDetails: React.FC = () => {
     useEffect(() => {
         if (!matchId) return;
 
-        fetch(`https://worldcup2026.shrp.dev/matches/${matchId}`)
+        fetch(`${API_URL}/matches/${matchId}`)
             .then(res => res.json())
             .then(json => setMatch(json.data))
             .catch(console.error)

@@ -1,6 +1,8 @@
 import React from 'react';
 import type { Match } from '../types/Match';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface MatchPreviewProps {
     match: Match;
     showDate?: boolean;
@@ -28,7 +30,7 @@ const MatchPreview: React.FC<MatchPreviewProps> = ({ match, showDate }) => {
             {/* Home Team + Code*/}
             <div className="mb-1 d-flex align-items-center justify-content-start gap-2">
                 <img
-                    src={`https://worldcup2026.shrp.dev${match.homeTeam.flagImagePath}`}
+                    src={`${API_URL}${match.homeTeam.flagImagePath}`}
                     alt={match.homeTeam.name}
                     style={{ width: '40px', height: 'auto' }}
                 />
@@ -38,7 +40,7 @@ const MatchPreview: React.FC<MatchPreviewProps> = ({ match, showDate }) => {
             {/* Away Team + Code */}
             <div className="mb-1 d-flex align-items-center justify-content-start gap-2">
                 <img
-                    src={`https://worldcup2026.shrp.dev${match.awayTeam.flagImagePath}`}
+                    src={`${API_URL}${match.awayTeam.flagImagePath}`}
                     alt={match.awayTeam.name}
                     style={{ width: '40px', height: 'auto' }}
                 />

@@ -3,12 +3,14 @@ import MatchPreview from './MatchPreview';
 import type { Match } from '../types/Match';
 import { Link } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const MatchesMaster: React.FC = () => {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://worldcup2026.shrp.dev/matches')
+    fetch(`${API_URL}/matches`)
       .then(res => res.json())
       .then(data => {
         setMatches(data.data);
