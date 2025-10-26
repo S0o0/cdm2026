@@ -1,7 +1,7 @@
 import type { Stadium } from '../types/Stadium';
 
 interface StadiumPreviewProps {
-    stadium: Stadium; // on reçoit directement l’objet
+    stadium: Stadium;
 }
 
 const StadiumPreview: React.FC<StadiumPreviewProps> = ({ stadium }) => {

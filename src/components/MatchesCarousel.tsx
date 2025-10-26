@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import MatchPreview from './MatchPreview';
 import type { Match } from '../types/Match';
+import { getMatches } from "../services/MatchesServices";
 import { Link } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -11,16 +12,12 @@ const MatchesCarousel: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`${API_URL}/matches`)
-            .then(res => res.json())
+        getMatches()
             .then(data => {
-                setMatches(data.data);
-                setLoading(false);
+                setMatches(data);
             })
-            .catch(err => {
-                console.error(err);
-                setLoading(false);
-            });
+            .catch(console.error)
+            .finally(() => setLoading(false));
     }, []);
 
     const next = () => setCurrentIndex(prev => (prev + 4 >= matches.length ? 0 : prev + 4));

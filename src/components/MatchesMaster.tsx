@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import MatchPreview from './MatchPreview';
 import type { Match } from '../types/Match';
+import { getMatches } from "../services/MatchesServices";
 import { Link } from 'react-router-dom';
-
-const API_URL = import.meta.env.VITE_API_URL;
 
 const MatchesMaster: React.FC = () => {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API_URL}/matches`)
-      .then(res => res.json())
-      .then(data => {
-        setMatches(data.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
+    getMatches()
+      .then(setMatches)
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <p>Chargement des matchs...</p>;

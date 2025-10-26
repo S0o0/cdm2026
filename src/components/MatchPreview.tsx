@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Match } from '../types/Match';
 
 const API_URL = import.meta.env.VITE_API_URL;
