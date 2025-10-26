@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import type { Match } from '../types/Match';
+import type { Match, MatchAvailability } from '../types/Match';
+import MatchService from '../services/MatchService';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -8,15 +9,31 @@ const MatchDetails: React.FC = () => {
     const { matchId } = useParams<{ matchId: string }>();
     const [match, setMatch] = useState<Match | null>(null);
     const [loading, setLoading] = useState(true);
+      const [error, setError] = useState<string | null>(null);
+
+    // Gestion ticket availability
+    const [availability, setAvailability] = useState<MatchAvailability | null>(null);
 
     useEffect(() => {
         if (!matchId) return;
 
-        fetch(`${API_URL}/matches/${matchId}`)
-            .then(res => res.json())
-            .then(json => setMatch(json.data))
-            .catch(console.error)
-            .finally(() => setLoading(false));
+
+        async function fetchData() {
+            try {
+                // Récupère les données du match et des catégories
+                const [matchData, availabilityData] = await Promise.all([
+                    MatchService.getMatch(Number(matchId)),
+                    MatchService.getAvailability(Number(matchId)),
+                ]);
+                setMatch(matchData);
+                setAvailability(availabilityData);
+            } catch (err : any) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
     }, [matchId]);
 
     if (loading) return <p>Chargement...</p>;
@@ -47,6 +64,20 @@ const MatchDetails: React.FC = () => {
                     <p><strong>Statut:</strong> {match.status}</p>
                     <p><strong>Places disponibles:</strong> {match.availableSeats}</p>
                     <p><strong>Multiplicateur de prix:</strong> {match.priceMultiplier}</p>
+                    {/* --- CHANGEMENTS LIMITES AUX TICKETS --- */}
+                    {availability && (
+                        <div className="mt-4">
+                        <h4>Catégories de places et tarifs</h4>
+                        <ul>
+                            {Object.entries(availability.categories).map(([catName, info]) => (
+                            <li key={catName}>
+                                <strong>{catName}</strong> — {info.price} € ({info.availableSeats} places restantes)
+                            </li>
+                            ))}
+                        </ul>
+                        </div>
+                    )}
+                    {/* --------------------------------------- */}
                     <Link to="/matches" className="btn btn-primary mt-3">Retour</Link>
                 </div>
             </div>
