@@ -4,8 +4,6 @@ import type { Match } from '../types/Match';
 import { getMatches } from "../services/MatchesServices";
 import { Link } from 'react-router-dom';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 const MatchesCarousel: React.FC = () => {
     const [matches, setMatches] = useState<Match[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,21 +27,36 @@ const MatchesCarousel: React.FC = () => {
     const visibleMatches = matches.slice(currentIndex, currentIndex + 4);
 
     return (
-        <div>
-            <div className="d-flex justify-content-between mb-3">
-                <button className="btn btn-dark" onClick={prev}>◀</button>
-                <button className="btn btn-dark" onClick={next}>▶</button>
-            </div>
-            <div className='overflow-auto'>
+        <div className="position-relative">
+            <button
+                className="btn btn-dark position-absolute top-50 start-0 translate-middle-y"
+                onClick={prev}
+                style={{ zIndex: 1 }}
+            >
+                ◀
+            </button>
+
+            <div className='overflow-auto ps-5'>
                 <ul className="list-group list-group-horizontal gap-2 flex-nowrap">
                     {visibleMatches.map(match => (
-                        <Link to={`/matches/${match.id}`}
-                            style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link
+                            key={match.id}
+                            to={`/matches/${match.id}`}
+                            style={{ textDecoration: 'none', color: 'inherit' }}
+                        >
                             <MatchPreview match={match} />
                         </Link>
                     ))}
                 </ul>
             </div>
+
+            <button
+                className="btn btn-dark position-absolute top-50 end-0 translate-middle-y"
+                onClick={next}
+                style={{ zIndex: 1 }}
+            >
+                ▶
+            </button>
         </div>
     );
 };
