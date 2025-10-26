@@ -2,7 +2,7 @@ import type { Team } from './Team';
 import type { Stadium } from './Stadium';
 export type MatchStatus = 'upcoming' | 'live' | 'finished';
 
-export type MatchStage = 'group_stage' | 'round_of_16' | 'quarter_final' | 'semi_final' | 'final';
+export type MatchStage = 'group' | 'round_of_16' | 'quarter_final' | 'semi_final' | 'final';
 
 export type Match = {
   id: number;

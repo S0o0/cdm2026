@@ -1,10 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, type JSX } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { TicketService } from "../services/TicketService";
-import type { Match, MatchAvailability } from '../types/Match';
+import type { Match, MatchAvailability, MatchStage } from '../types/Match';
 import { MatchService } from '../services/MatchService';
+import logo from '../assets/home/wc26logo-black.webp';
 
 const API_URL = import.meta.env.VITE_API_URL;
+
+const getStage = (stage: MatchStage): JSX.Element => {
+  let label = "";
+  switch (stage) {
+    case "group":
+      label = "Phase de groupe";
+      break;
+    case "round_of_16":
+      label = "Huitièmes de finale";
+      break;
+    case "quarter_final":
+      label = "Quarts de finale";
+      break;
+    case "semi_final":
+      label = "Demi-finale";
+      break;
+    case "final":
+      label = "Finale";
+      break;
+    default:
+      label = "Match";
+  }
+  return <span className="opacity-50">{label}</span>;
+};
 
 const MatchDetails: React.FC = () => {
     const { matchId } = useParams<{ matchId: string }>();
@@ -72,92 +97,113 @@ const MatchDetails: React.FC = () => {
     });
 
     return (
-        <div className="d-flex justify-content-center py-5">
-            <div className="card shadow-sm border-0">
-                <div className="card-body">
-                    <div className="d-flex align-items-center justify-content-center mb-3">
-                        {/* Équipe à domicile */}
-                        <div className="text-center mx-3">
+        <div className="vw-100 p-4">
+            <div className="d-flex justify-content-between align-items-start flex-wrap gap-4">
+
+                {/* --- Colonne gauche : Match --- */}
+                <div className="flex-grow-1 p-4 bg-white shadow rounded-4" style={{ maxWidth: '380px' }}>
+                    <h4 className="text-center mb-4">{getStage(match.stage)}</h4>
+
+                    {/* Drapeaux */}
+                    <div className="d-flex justify-content-center align-items-center mb-3">
+                        {/* Équipe domicile */}
+                        <div className="text-center mx-2">
                             <img
                                 src={`${API_URL}${match.homeTeam.flagImagePath}`}
                                 alt={match.homeTeam.name}
-                                style={{ width: '40px', height: 'auto' }}
+                                style={{ width: '120px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
                             />
-                            <div>{match.homeTeam.code}</div>
+                            <div className="mt-2 fw-semibold">{match.homeTeam.code}</div>
                         </div>
 
-                        <div className="mx-2" style={{ fontSize: '1.5rem' }}>VS</div>
+                        <div className="mx-3 fw-bold fs-4">VS</div>
 
-                        {/* Équipe visiteuse */}
-                        <div className="text-center mx-3">
+                        {/* Équipe extérieure */}
+                        <div className="text-center mx-2">
                             <img
                                 src={`${API_URL}${match.awayTeam.flagImagePath}`}
                                 alt={match.awayTeam.name}
-                                style={{ width: '40px', height: 'auto' }}
+                                style={{ width: '120px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
                             />
-                            <div>{match.awayTeam.code}</div>
+                            <div className="mt-2 fw-semibold">{match.awayTeam.code}</div>
                         </div>
                     </div>
-                    <p><strong>Stade:</strong> {match.stadium.name}</p>
-                    <p><strong>Ville:</strong> {match.stadium.city}</p>
-                    <p><strong>Heure:</strong> {formattedTime}</p>
-                    <p><strong>Date:</strong> {formattedDate}</p>
-                    <p><strong>Phase:</strong> {match.stage}</p>
-                    <p><strong>Statut:</strong> {match.status}</p>
-                    <p><strong>Places disponibles:</strong> {match.availableSeats}</p>
-                    <p><strong>Multiplicateur de prix:</strong> {match.priceMultiplier}</p>
 
-                    {/* --- Sélection de catégorie et quantité --- */}
-                    {availability && (
-                        <div className="mt-4">
-                            <h4>Catégories et tarifs</h4>
-                            <ul>
-                                {Object.entries(availability.categories).map(([catName, info]) => (
-                                    <li key={catName}>
-                                        <strong>{catName}</strong> — {info.price} € ({info.availableSeats} places restantes)
-                                    </li>
-                                ))}
-                            </ul>
+                    {/* Infos secondaires */}
+                    <div className="mt-4">
+                        <div><strong>Stade :</strong> {match.stadium.name}</div>
+                        <div><strong>Ville :</strong> {match.stadium.city}</div>
+                        <div><strong>Date :</strong> {formattedDate}</div>
+                        <div><strong>Heure :</strong> {formattedTime}</div>
+                        <div><strong>Statut :</strong> {match.status}</div>
+                    </div>
+                </div>
 
-                            {/* sélecteurs et bouton */}
-                            <div className="mt-3">
-                                <label>Catégorie :</label>
+                {/* --- Colonne centre : Logo Coupe du Monde --- */}
+                <div className="text-center flex-grow-1 p-4 bg-white">
+                    <img
+                        src={logo}
+                        alt="FIFA World Cup Logo"
+                        style={{ width: '400px', marginBottom: '1rem' }}
+                    />
+                </div>
+
+                {/* --- Colonne droite : Infos places --- */}
+                <div className="flex-grow-1 p-4 bg-white shadow rounded-4" style={{ maxWidth: '380px' }}>
+                    <h4 className="text-center fw-bold mb-4">RÉSERVEZ</h4>
+                    {availability ? (
+                        <>
+                            <div className="mb-3">
+                                <strong>Places disponibles :</strong> {match.availableSeats}
+                            </div>
+                            <div className="mb-3">
+                                <strong>Multiplicateur :</strong> {match.priceMultiplier}
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label fw-semibold">Catégorie :</label>
                                 <select
                                     value={category}
-                                    onChange={(e) => setCategory(e.target.value)} // ligne ajoutée
-                                    className="form-select w-auto d-inline ms-2"
+                                    onChange={(e) => setCategory(e.target.value)}
+                                    className="form-select"
                                 >
-                                    {Object.keys(availability.categories).map((catName) => (
-                                        <option key={catName} value={catName}>{catName}</option>
+                                    {(Object.entries(availability.categories) as [string, any][]
+                                    ).map(([catName, info]) => (
+                                        <option key={catName} value={catName}>
+                                            {catName} — {info.price} €
+                                        </option>
                                     ))}
                                 </select>
-
-                                <label className="ms-3">Quantité :</label>
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label fw-semibold">Quantité :</label>
                                 <select
                                     value={quantity}
-                                    onChange={(e) => setQuantity(Number(e.target.value))} // ligne ajoutée
-                                    className="form-select w-auto d-inline ms-2"
+                                    onChange={(e) => setQuantity(Number(e.target.value))}
+                                    className="form-select"
                                 >
                                     {[1, 2, 3, 4, 5, 6].map((n) => (
                                         <option key={n} value={n}>{n}</option>
                                     ))}
                                 </select>
-
-                                <button
-                                    onClick={handleAddToCart} // ligne ajoutée
-                                    className="btn btn-success ms-3"
-                                    disabled={adding}
-                                >
-                                    {adding ? "Ajout..." : "Ajouter au panier"}
-                                </button>
-
-                                {message && <p className="mt-3">{message}</p>} {/* ligne ajoutée */}
                             </div>
-                        </div>
+                            <button
+                                onClick={handleAddToCart}
+                                disabled={adding}
+                                className="btn btn-success w-100 mt-2"
+                            >
+                                {adding ? "Ajout..." : "Ajouter au panier"}
+                            </button>
+                            {message && <p className="mt-3 text-success text-center">{message}</p>}
+                        </>
+                    ) : (
+                        <p>Aucune donnée sur les disponibilités.</p>
                     )}
-
-                    <Link to="/matches" className="btn btn-primary mt-4">Retour</Link>
                 </div>
+            </div>
+
+            {/* --- Lien retour --- */}
+            <div className="text-center mt-4">
+                <Link to="/matches" className="btn btn-primary">Retour</Link>
             </div>
         </div>
     );
