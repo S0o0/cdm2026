@@ -19,7 +19,7 @@ export default class TicketService {
 
     // Voir le contenu du panier (les tickets en attente de paiement)
     static async getPendingTickets(): Promise<Ticket[]> {
-        const res = await fetch(`${API_BASE_URL}tickets/pending`);
+        const res = await fetch(`${API_BASE_URL}/tickets/pending`);
         if (!res.ok) throw new Error("Erreur lors de la récupération du panier");
         const json = await res.json();
         return json.data.tickets;
@@ -27,7 +27,7 @@ export default class TicketService {
 
     // Supprimer un ticket du panier
     static async deleteTicket(ticketId: string): Promise<void> {
-        const res = await fetch(`${API_BASE_URL}tickets/${ticketId}`, {
+        const res = await fetch(`${API_BASE_URL}/tickets/${ticketId}`, {
             method: "DELETE",
         });
         if (!res.ok) throw new Error("Erreur lors de la suppression du ticket");
@@ -35,7 +35,7 @@ export default class TicketService {
 
     // Payer tous les tickets du panier
     static async payPendingTickets(paymentMethodId: string): Promise<void> {
-        const res = await fetch(`${API_BASE_URL}tickets/pay-pending`, {
+        const res = await fetch(`${API_BASE_URL}/tickets/pay-pending`, {
             method: "POST"});
         if (!res.ok) throw new Error("Erreur lors du paiement des tickets");
         const json = await res.json();
