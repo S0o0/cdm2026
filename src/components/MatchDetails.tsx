@@ -107,20 +107,6 @@ const MatchDetails: React.FC = () => {
                     <p><strong>Places disponibles:</strong> {match.availableSeats}</p>
                     <p><strong>Multiplicateur de prix:</strong> {match.priceMultiplier}</p>
 
-                    {/* --- CHANGEMENTS LIMITES AUX TICKETS --- */}
-                    {availability && (
-                        <div className="mt-4">
-                            <h4>Catégories de places et tarifs</h4>
-                            <ul>
-                                {Object.entries(availability.categories).map(([catName, info]) => (
-                                    <li key={catName}>
-                                        <strong>{catName}</strong> — {info.price} € ({info.availableSeats} places restantes)
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                    {/* --------------------------------------- */}
                      {/* --- Sélection de catégorie et quantité --- */}
                     {availability && (
                         <div className="mt-4">
