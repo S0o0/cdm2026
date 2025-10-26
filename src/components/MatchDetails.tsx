@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { TicketService } from "../services/TicketService";
 import type { Match, MatchAvailability, MatchStage } from '../types/Match';
 import { MatchService } from '../services/MatchService';
-import logo from '../assets/home/wc26logo-black.webp';
+import logo_black from '../assets/home/wc26logo-black.webp';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -142,7 +142,7 @@ const MatchDetails: React.FC = () => {
                 {/* --- Colonne centre : Logo Coupe du Monde --- */}
                 <div className="text-center flex-grow-1 p-4 bg-white">
                     <img
-                        src={logo}
+                        src={logo_black}
                         alt="FIFA World Cup Logo"
                         style={{ width: '400px', marginBottom: '1rem' }}
                     />
