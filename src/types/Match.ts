@@ -18,3 +18,24 @@ export type Match = {
   awayTeam: Team;
   stadium: Stadium;
 };
+
+// Structure pour la disponibilité des tickets d’un match
+export type TicketCategoryName = "VIP" | "CATEGORY_1" | "CATEGORY_2" | "CATEGORY_3";
+
+export type TicketCategoryInfo = {
+  available: boolean;
+  totalSeats: number;
+  availableSeats: number;
+  soldSeats: number;
+  price: number;
+};
+
+export type MatchAvailability = {
+  matchId: number;
+  homeTeam: string;
+  awayTeam: string;
+  stadium: string;
+  matchDate: string;
+  totalAvailableSeats: number;
+  categories: Record<TicketCategoryName, TicketCategoryInfo>;
+};
