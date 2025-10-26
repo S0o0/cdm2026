@@ -40,7 +40,7 @@ const MatchDetails: React.FC = () => {
         }
         fetchData();
     }, [matchId]);
-    
+
     // fonction d'ajout au panier
     const handleAddToCart = async () => {
         if (!match) return;
@@ -107,7 +107,7 @@ const MatchDetails: React.FC = () => {
                     <p><strong>Places disponibles:</strong> {match.availableSeats}</p>
                     <p><strong>Multiplicateur de prix:</strong> {match.priceMultiplier}</p>
 
-                     {/* --- Sélection de catégorie et quantité --- */}
+                    {/* --- Sélection de catégorie et quantité --- */}
                     {availability && (
                         <div className="mt-4">
                             <h4>Catégories et tarifs</h4>
