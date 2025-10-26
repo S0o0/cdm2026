@@ -9,7 +9,7 @@ const MatchDetails: React.FC = () => {
     const { matchId } = useParams<{ matchId: string }>();
     const [match, setMatch] = useState<Match | null>(null);
     const [loading, setLoading] = useState(true);
-      const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     // Gestion ticket availability
     const [availability, setAvailability] = useState<MatchAvailability | null>(null);
@@ -27,7 +27,7 @@ const MatchDetails: React.FC = () => {
                 ]);
                 setMatch(matchData);
                 setAvailability(availabilityData);
-            } catch (err : any) {
+            } catch (err: any) {
                 setError(err.message);
             } finally {
                 setLoading(false);
@@ -50,7 +50,7 @@ const MatchDetails: React.FC = () => {
     });
 
     return (
-        <div className="container py-5">
+        <div className="d-flex justify-content-center py-5">
             <div className="card shadow-sm border-0">
                 <div className="card-body">
                     <h3 className="mb-3">
@@ -67,14 +67,14 @@ const MatchDetails: React.FC = () => {
                     {/* --- CHANGEMENTS LIMITES AUX TICKETS --- */}
                     {availability && (
                         <div className="mt-4">
-                        <h4>Catégories de places et tarifs</h4>
-                        <ul>
-                            {Object.entries(availability.categories).map(([catName, info]) => (
-                            <li key={catName}>
-                                <strong>{catName}</strong> — {info.price} € ({info.availableSeats} places restantes)
-                            </li>
-                            ))}
-                        </ul>
+                            <h4>Catégories de places et tarifs</h4>
+                            <ul>
+                                {Object.entries(availability.categories).map(([catName, info]) => (
+                                    <li key={catName}>
+                                        <strong>{catName}</strong> — {info.price} € ({info.availableSeats} places restantes)
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     )}
                     {/* --------------------------------------- */}

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import './App.css';
 
@@ -6,10 +5,8 @@ import './App.css';
 
 //import Stadiums from './components/Stadiums';
 //import Teams from './components/Teams';
-const API_URL: string = import.meta.env.VITE_API_URL;
 
 // Icons and Images
-import home from './assets/home/home.webp'; // Home Image
 import logo from './assets/home/wc26logo.avif'; // World Cup 2026 Logo
 import signin from './assets/home/usericon.png'; // Login Icon
 // Components
@@ -22,12 +19,10 @@ import Home from './components/Home';
 
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
 
     <BrowserRouter>
-      <header className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+      <header className="navbar navba r-expand-lg navbar-dark bg-dark shadow-sm fixed-top mb-5">
         <div className="container-fluid">
           <Link className="navbar-brand fw-bold d-flex align-items-center me-3 ps-3" to="/">
             <img src={logo} alt="CDM 2026 Logo" style={{ height: '80px' }} />
@@ -48,7 +43,7 @@ function App() {
       </header>
 
 
-      <main className="container mt-5 pt-5">
+      <main className="container pt-5 mt-4 justify-content-center">
         <Routes>
           <Route
             path="/"
