@@ -9,7 +9,7 @@ const MatchDetails: React.FC = () => {
     const { matchId } = useParams<{ matchId: string }>();
     const [match, setMatch] = useState<Match | null>(null);
     const [loading, setLoading] = useState(true);
-      const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     // Gestion ticket availability
     const [availability, setAvailability] = useState<MatchAvailability | null>(null);
@@ -27,7 +27,7 @@ const MatchDetails: React.FC = () => {
                 ]);
                 setMatch(matchData);
                 setAvailability(availabilityData);
-            } catch (err : any) {
+            } catch (err: any) {
                 setError(err.message);
             } finally {
                 setLoading(false);
@@ -50,12 +50,32 @@ const MatchDetails: React.FC = () => {
     });
 
     return (
-        <div className="container py-5">
+        <div className="d-flex justify-content-center py-5">
             <div className="card shadow-sm border-0">
                 <div className="card-body">
-                    <h3 className="mb-3">
-                        {match.homeTeam.name} ({match.homeTeam.code}) vs {match.awayTeam.name} ({match.awayTeam.code})
-                    </h3>
+                    <div className="d-flex align-items-center justify-content-center mb-3">
+                        {/* Équipe à domicile */}
+                        <div className="text-center mx-3">
+                            <img
+                                src={`${API_URL}${match.homeTeam.flagImagePath}`}
+                                alt={match.homeTeam.name}
+                                style={{ width: '40px', height: 'auto' }}
+                            />
+                            <div>{match.homeTeam.code}</div>
+                        </div>
+
+                        <div className="mx-2" style={{ fontSize: '1.5rem' }}>VS</div>
+
+                        {/* Équipe visiteuse */}
+                        <div className="text-center mx-3">
+                            <img
+                                src={`${API_URL}${match.awayTeam.flagImagePath}`}
+                                alt={match.awayTeam.name}
+                                style={{ width: '40px', height: 'auto' }}
+                            />
+                            <div>{match.awayTeam.code}</div>
+                        </div>
+                    </div>
                     <p><strong>Stade:</strong> {match.stadium.name}</p>
                     <p><strong>Ville:</strong> {match.stadium.city}</p>
                     <p><strong>Heure:</strong> {formattedTime}</p>
@@ -67,14 +87,14 @@ const MatchDetails: React.FC = () => {
                     {/* --- CHANGEMENTS LIMITES AUX TICKETS --- */}
                     {availability && (
                         <div className="mt-4">
-                        <h4>Catégories de places et tarifs</h4>
-                        <ul>
-                            {Object.entries(availability.categories).map(([catName, info]) => (
-                            <li key={catName}>
-                                <strong>{catName}</strong> — {info.price} € ({info.availableSeats} places restantes)
-                            </li>
-                            ))}
-                        </ul>
+                            <h4>Catégories de places et tarifs</h4>
+                            <ul>
+                                {Object.entries(availability.categories).map(([catName, info]) => (
+                                    <li key={catName}>
+                                        <strong>{catName}</strong> — {info.price} € ({info.availableSeats} places restantes)
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     )}
                     {/* --------------------------------------- */}
