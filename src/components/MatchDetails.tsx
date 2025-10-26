@@ -150,7 +150,7 @@ const MatchDetails: React.FC = () => {
 
                 {/* --- Colonne droite : Infos places --- */}
                 <div className="flex-grow-1 p-4 bg-white shadow rounded-4" style={{ maxWidth: '380px' }}>
-                    <h4 className="text-center fw-bold mb-4">RÉSERVEZ</h4>
+                    <h4 className="text-center fw-bold mb-4">RÉSERVATION</h4>
                     {availability ? (
                         <>
                             <div className="mb-3">
