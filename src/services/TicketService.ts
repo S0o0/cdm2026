@@ -10,7 +10,7 @@ export class TicketService {
     });
   }
 
-  // Voir le contenu du panier (tickets en attente)
+  // Récupère le contenu du panier (tickets en attente)
   static async getPendingTickets(): Promise<Ticket[]> {
     return apiFetch<Ticket[]>("/tickets/pending");
   }

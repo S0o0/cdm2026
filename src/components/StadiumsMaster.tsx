@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import StadiumPreview from './StadiumPreview';
 import type { Stadium } from '../types/Stadium';
-import { getStadiums } from "../services/StadiumService";
+import { StadiumService } from "../services/StadiumService";
 import { Link } from 'react-router-dom';
 
 const StadiumsMaster: React.FC = () => {
@@ -9,7 +9,7 @@ const StadiumsMaster: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getStadiums()
+        StadiumService.getStadiums()
             .then(setStadiums)
             .catch(console.error)
             .finally(() => setLoading(false));
