@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import { TicketService } from "../services/TicketService";
 import type { Match, MatchAvailability, MatchStage } from '../types/Match';
 import { MatchService } from '../services/MatchService';
-import logo_black from '../assets/home/wc26logo-black.webp';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -98,7 +97,7 @@ const MatchDetails: React.FC = () => {
 
     return (
         <div className="vw-100 p-4">
-            <div className="d-flex justify-content-between align-items-start flex-wrap gap-4">
+            <div className="d-flex justify-content-center align-items-start flex-wrap gap-5">
 
                 {/* --- Colonne gauche : Match --- */}
                 <div className="flex-grow-1 p-4 bg-white shadow rounded-4" style={{ maxWidth: '380px' }}>
@@ -137,15 +136,6 @@ const MatchDetails: React.FC = () => {
                         <div><strong>Heure :</strong> {formattedTime}</div>
                         <div><strong>Statut :</strong> {match.status}</div>
                     </div>
-                </div>
-
-                {/* --- Colonne centre : Logo Coupe du Monde --- */}
-                <div className="text-center flex-grow-1 p-4 bg-white">
-                    <img
-                        src={logo_black}
-                        alt="FIFA World Cup Logo"
-                        style={{ width: '400px', marginBottom: '1rem' }}
-                    />
                 </div>
 
                 {/* --- Colonne droite : Infos places --- */}
