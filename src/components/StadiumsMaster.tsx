@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import StadiumPreview from './StadiumPreview';
 import type { Stadium } from '../types/Stadium';
-import { getStadiums } from "../services/StadiumsService";
+import { getStadiums } from "../services/StadiumService";
 import { Link } from 'react-router-dom';
 
 const StadiumsMaster: React.FC = () => {

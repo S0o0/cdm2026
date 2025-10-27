@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import MatchPreview from './MatchPreview';
 import type { Match } from '../types/Match';
-import { getMatches } from "../services/MatchesServices";
+import { MatchService } from "../services/MatchService";
 import { Link } from 'react-router-dom';
 
 const MatchesCarousel: React.FC = () => {
@@ -10,7 +10,7 @@ const MatchesCarousel: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getMatches()
+        MatchService.getMatches()
             .then(data => {
                 setMatches(data);
             })

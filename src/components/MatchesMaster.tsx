@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MatchPreview from './MatchPreview';
 import type { Match } from '../types/Match';
-import { getMatches } from "../services/MatchesServices";
+import { MatchService } from "../services/MatchService";
 import { Link } from 'react-router-dom';
 
 const MatchesMaster: React.FC = () => {
@@ -9,7 +9,7 @@ const MatchesMaster: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getMatches()
+    MatchService.getMatches()
       .then(setMatches)
       .catch(console.error)
       .finally(() => setLoading(false));
