@@ -10,7 +10,8 @@ import './App.css';
 import logo from './assets/home/wc26logo.avif'; // World Cup 2026 Logo
 import signin from './assets/home/usericon.png'; // Login Icon
 // Components
-import Groups from './components/Groups';
+import Groups from './components/GroupsMaster';
+import GroupDetails from "./components/GroupDetails";
 import Matches from './components/MatchesMaster';
 import MatchesCarousel from './components/MatchesCarousel';
 import MatchDetails from './components/MatchDetails';
@@ -55,6 +56,7 @@ function App() {
             }
           />
           <Route path="/groups" element={<Groups />} />
+          <Route path="/groups/:groupId" element={<GroupDetails />} />
           <Route path="/matches" element={<Matches />} />
           <Route path="/matches/:matchId" element={<MatchDetails />} />
           <Route path="/stadiums" element={<Stades />} />
