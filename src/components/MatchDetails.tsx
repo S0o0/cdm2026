@@ -110,19 +110,19 @@ const MatchDetails: React.FC = () => {
                             <img
                                 src={`${API_URL}${match.homeTeam.flagImagePath}`}
                                 alt={match.homeTeam.name}
-                                style={{ width: '120px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
+                                style={{ width: '120px', height: '80px', objectFit: 'cover'}}
                             />
                             <div className="mt-2 fw-semibold">{match.homeTeam.code}</div>
                         </div>
 
-                        <div className="mx-3 fw-bold fs-4">VS</div>
+                        <div className="mx-3 fw-bold fs-4">-</div>
 
                         {/* Équipe extérieure */}
                         <div className="text-center mx-2">
                             <img
                                 src={`${API_URL}${match.awayTeam.flagImagePath}`}
                                 alt={match.awayTeam.name}
-                                style={{ width: '120px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
+                                style={{ width: '120px', height: '80px', objectFit: 'cover'}}
                             />
                             <div className="mt-2 fw-semibold">{match.awayTeam.code}</div>
                         </div>
