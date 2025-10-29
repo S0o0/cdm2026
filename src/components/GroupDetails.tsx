@@ -43,7 +43,7 @@ const GroupDetails: React.FC = () => {
             />
             {/* --- Nom du groupe --- */}
             <div
-                className="text-white fw-bold text-center rounded-3 px-4 py-2 mb-4"
+                className="text-white fw-bold text-center rounded-0 px-4 py-2 mb-4"
                 style={{
                     backgroundColor: "#D32F2F",
                     fontSize: "1.5rem",
@@ -66,7 +66,7 @@ const GroupDetails: React.FC = () => {
                 {group.teams.map((team) => (
                     <div
                         key={team.id}
-                        className="bg-white shadow rounded-4 d-flex flex-column align-items-center justify-content-center p-4"
+                        className="bg-white shadow rounded-0 d-flex flex-column align-items-center justify-content-center p-4"
                     >
                         <img
                             src={`${API_URL}${team.flagImagePath}`}
@@ -85,7 +85,7 @@ const GroupDetails: React.FC = () => {
 
             {/* --- Bouton retour --- */}
             <div className="text-center mt-5">
-                <Link to="/groups" className="btn btn-primary px-4 py-2">
+                <Link to="/groups" className="btn btn-dark px-4 py-2 rounded-0 shadow-sm border-0">
                     Retour aux groupes
                 </Link>
             </div>

@@ -154,7 +154,7 @@ const MatchDetails: React.FC = () => {
                                 <select
                                     value={category}
                                     onChange={(e) => setCategory(e.target.value)}
-                                    className="form-select"
+                                    className="form-select rounded-0"
                                 >
                                     {(Object.entries(availability.categories) as [string, any][]
                                     ).map(([catName, info]) => (
@@ -169,7 +169,7 @@ const MatchDetails: React.FC = () => {
                                 <select
                                     value={quantity}
                                     onChange={(e) => setQuantity(Number(e.target.value))}
-                                    className="form-select"
+                                    className="form-select rounded-0"
                                 >
                                     {[1, 2, 3, 4, 5, 6].map((n) => (
                                         <option key={n} value={n}>{n}</option>
@@ -179,7 +179,7 @@ const MatchDetails: React.FC = () => {
                             <button
                                 onClick={handleAddToCart}
                                 disabled={adding}
-                                className="btn btn-success w-100 mt-2"
+                                className="btn btn-success w-100 mt-2 rounded-0 shadow-sm border-0"
                             >
                                 {adding ? "Ajout..." : "Ajouter au panier"}
                             </button>
@@ -193,7 +193,7 @@ const MatchDetails: React.FC = () => {
 
             {/* --- Lien retour --- */}
             <div className="text-center mt-4">
-                <Link to="/matches" className="btn btn-primary rounded-0 shadow">Retour</Link>
+                <Link to="/matches" className="btn btn-dark px-4 py-2 rounded-0 shadow-sm border-0">Retour</Link>
             </div>
         </div>
     );

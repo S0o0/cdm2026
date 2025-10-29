@@ -30,7 +30,7 @@ const GroupPreview: React.FC<GroupPreviewProps> = ({ group }) => {
             <div className="text-end mt-2">
                 <Link
                     to={`/groups/${group.id}`}
-                    className="btn btn-sm btn-outline-primary"
+                    className="btn btn-sm btn-dark text-white rounded-0 px-3 py-1 shadow-sm border-0"
                 >
                     Voir le groupe
                 </Link>

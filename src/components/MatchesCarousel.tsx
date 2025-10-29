@@ -29,7 +29,7 @@ const MatchesCarousel: React.FC = () => {
     return (
         <div className="position-relative">
             <button
-                className="btn btn-dark position-absolute top-50 start-0 translate-middle-y"
+                className="btn btn-dark position-absolute top-50 start-0 translate-middle-y rounded-0 shadow-sm border-0"
                 onClick={prev}
                 style={{ zIndex: 1 }}
             >
@@ -51,7 +51,7 @@ const MatchesCarousel: React.FC = () => {
             </div>
 
             <button
-                className="btn btn-dark position-absolute top-50 end-0 translate-middle-y"
+                className="btn btn-dark position-absolute top-50 end-0 translate-middle-y rounded-0 shadow-sm border-0"
                 onClick={next}
                 style={{ zIndex: 1 }}
             >
