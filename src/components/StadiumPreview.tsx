@@ -7,12 +7,12 @@ interface StadiumPreviewProps {
 const StadiumPreview: React.FC<StadiumPreviewProps> = ({ stadium }) => {
     return (
         <div className="col-12 col-md-4 mb-4 pt-4 justify-content-center d-flex">
-            <div className="card text-white border-0 rounded">
+            <div className="card text-white border-0">
                 <div className="position-relative">
                     <img
                         src={`./stadiums/${stadium.id}.webp`}
                         alt={stadium.name}
-                        className="card-img rounded"
+                        className="card-img rounded-0 shadow"
                         style={{
                             width: '300px',
                             height: '200px',

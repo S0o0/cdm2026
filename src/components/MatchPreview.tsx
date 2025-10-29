@@ -19,7 +19,7 @@ const MatchPreview: React.FC<MatchPreviewProps> = ({ match, showDate }) => {
     });
 
     return (
-        <li className="list-group-item">
+        <li className="list-group-item rounded-0">
             {/* Stadium - Date */}
             <div className="d-flex justify-content-between mb-2 gap-2">
                 <span>{match.stadium.name} - {match.stadium.city}</span> 

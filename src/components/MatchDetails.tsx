@@ -100,7 +100,7 @@ const MatchDetails: React.FC = () => {
             <div className="d-flex justify-content-center align-items-start flex-wrap gap-5">
 
                 {/* --- Colonne gauche : Match --- */}
-                <div className="flex-grow-1 p-4 bg-white shadow rounded-4" style={{ maxWidth: '380px' }}>
+                <div className="flex-grow-1 p-4 bg-white shadow rounded-0" style={{ maxWidth: '380px' }}>
                     <h4 className="text-center mb-4">{getStage(match.stage)}</h4>
 
                     {/* Drapeaux */}
@@ -139,7 +139,7 @@ const MatchDetails: React.FC = () => {
                 </div>
 
                 {/* --- Colonne droite : Infos places --- */}
-                <div className="flex-grow-1 p-4 bg-white shadow rounded-4" style={{ maxWidth: '380px' }}>
+                <div className="flex-grow-1 p-4 bg-white shadow rounded-0" style={{ maxWidth: '380px' }}>
                     <h4 className="text-center fw-bold mb-4">RÉSERVATION</h4>
                     {availability ? (
                         <>
@@ -193,7 +193,7 @@ const MatchDetails: React.FC = () => {
 
             {/* --- Lien retour --- */}
             <div className="text-center mt-4">
-                <Link to="/matches" className="btn btn-primary">Retour</Link>
+                <Link to="/matches" className="btn btn-primary rounded-0 shadow">Retour</Link>
             </div>
         </div>
     );

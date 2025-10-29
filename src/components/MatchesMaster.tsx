@@ -41,7 +41,7 @@ const MatchesMaster: React.FC = () => {
           <div className="row g-4">
             {dayMatches.map(match => (
               <div key={match.id} className="col-12 col-md-6 col-lg-4">
-                <div className="card shadow-sm border-0 h-100 hover-shadow transition-all">
+                <div className="card shadow-sm border-0 h-100 hover-shadow transition-all rounded-0">
                   <div className="card-body text-center p-4">
                     <Link to={`/matches/${match.id}`}
                     style={{ textDecoration: 'none', color: 'inherit' }}>
