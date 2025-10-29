@@ -23,7 +23,7 @@ const GroupsMaster: React.FC = () => {
             <div className="row g-4">
                 {groups.map((group) => (
                     <div key={group.id} className="col-12 col-md-6 col-lg-4">
-                        <div className="card shadow-sm border-0 h-100 hover-shadow transition-all">
+                        <div className="card shadow-sm border-0 h-100 hover-shadow transition-all rounded-0">
                             <div className="card-body p-4">
                                 <GroupPreview group={group} />
                             </div>
