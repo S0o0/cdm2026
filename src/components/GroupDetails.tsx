@@ -67,10 +67,6 @@ const GroupDetails: React.FC = () => {
                     <div
                         key={team.id}
                         className="bg-white shadow rounded-4 d-flex flex-column align-items-center justify-content-center p-4"
-                        style={{
-                            transition: "transform 0.2s ease",
-                            cursor: "pointer",
-                        }}
                     >
                         <img
                             src={`${API_URL}${team.flagImagePath}`}
