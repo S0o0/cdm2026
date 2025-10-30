@@ -20,6 +20,8 @@ import Stades from './components/StadiumsMaster';
 import Home from './components/Home';
 import SignInForm from './components/SignInForm';
 import SignUpForm from './components/SignUpForm';
+import { SignInService } from "./services/SignInService";
+import type { User } from "./types/User";
 
 
 function App() {
@@ -32,6 +34,11 @@ function App() {
   const closeMenu = () => {
     setMenuOpen(false);
   };
+
+  const [currentUser, setCurrentUser] = useState<User | null>(() => {
+    const user = localStorage.getItem("currentUser");
+    return user ? JSON.parse(user) : null;
+  });
 
   return (
 
@@ -58,16 +65,37 @@ function App() {
             />
             {menuOpen && (
               <ul className="dropdown-menu dropdown-menu-end show" style={{ display: "block", position: "absolute", right: 0, marginTop: "0.5rem" }}>
-                <li>
-                  <Link className="dropdown-item" to="/auth/signin" onClick={closeMenu}>
-                    Se connecter
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/auth/signup" onClick={closeMenu}>
-                    S'inscrire
-                  </Link>
-                </li>
+                {currentUser ? (
+                  <>
+                    <li className="dropdown-item-text">Connecté en tant {currentUser.email}</li>
+                    <li>
+                      <button
+                        className="dropdown-item"
+                        onClick={() => {
+                          localStorage.removeItem("currentUser");
+                          SignInService.logout();
+                          setCurrentUser(null);
+                          closeMenu();
+                        }}
+                      >
+                        Déconnexion
+                      </button>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link className="dropdown-item" to="/auth/signin" onClick={closeMenu}>
+                        Se connecter
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/auth/signup" onClick={closeMenu}>
+                        S'inscrire
+                      </Link>
+                    </li>
+                  </>
+                )}
               </ul>
             )}
           </div>
@@ -91,7 +119,7 @@ function App() {
           <Route path="/matches" element={<Matches />} />
           <Route path="/matches/:matchId" element={<MatchDetails />} />
           <Route path="/stadiums" element={<Stades />} />
-          <Route path="/auth/signin" element={<SignInForm />} />
+          <Route path="/auth/signin" element={<SignInForm onSignIn={setCurrentUser} />} />
           <Route path="/auth/signup" element={<SignUpForm />} />
         </Routes>
       </main>

@@ -1,4 +1,3 @@
-// src/components/SignInForm.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SignInService } from "../services/SignInService";
@@ -23,10 +22,10 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSignIn }) => {
 
         try {
             const data = await SignInService.login({ email, password });
-            SignInService.saveTokens(data.accessToken, data.refreshToken);
-
+            // Stocker l'utilisateur pour affichage dans la navbar
+            localStorage.setItem("currentUser", JSON.stringify(data))
             if (onSignIn) {
-                onSignIn(data.user);
+                onSignIn(data);
             }
 
             // Redirection après connexion (vers l'accueil par exemple)
