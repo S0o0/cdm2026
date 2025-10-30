@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import './App.css';
+import { useState } from "react";
 
 
 
@@ -17,9 +18,21 @@ import MatchesCarousel from './components/MatchesCarousel';
 import MatchDetails from './components/MatchDetails';
 import Stades from './components/StadiumsMaster';
 import Home from './components/Home';
+import SignInForm from './components/SignInForm';
+import SignUpForm from './components/SignUpForm';
 
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
   return (
 
     <BrowserRouter>
@@ -35,10 +48,28 @@ function App() {
             <Link to="/stadiums" className="nav-link px-2 text-white">Stades</Link>
             <Link to="/teams" className="nav-link px-2 text-white">Équipes</Link>
           </div>
-          <div className="ms-auto">
-            <Link to="/auth" className="nav-link p-0 pe-3">
-              <img src={signin} alt="Sign in" style={{ height: '25px' }} />
-            </Link>
+          <div className="ms-auto position-relative">
+            <img
+              src={signin}
+              alt="User menu"
+              style={{ height: "25px", cursor: "pointer" }}
+              onClick={toggleMenu}
+              className="rounded-circle"
+            />
+            {menuOpen && (
+              <ul className="dropdown-menu dropdown-menu-end show" style={{ display: "block", position: "absolute", right: 0, marginTop: "0.5rem" }}>
+                <li>
+                  <Link className="dropdown-item" to="/auth/signin" onClick={closeMenu}>
+                    Se connecter
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/auth/signup" onClick={closeMenu}>
+                    S'inscrire
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </header>
@@ -60,6 +91,8 @@ function App() {
           <Route path="/matches" element={<Matches />} />
           <Route path="/matches/:matchId" element={<MatchDetails />} />
           <Route path="/stadiums" element={<Stades />} />
+          <Route path="/auth/signin" element={<SignInForm />} />
+          <Route path="/auth/signup" element={<SignUpForm />} />
         </Routes>
       </main>
     </BrowserRouter>
