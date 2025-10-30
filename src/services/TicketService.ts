@@ -2,7 +2,7 @@ import type { Ticket } from "../types/Ticket";
 import { apiFetch } from "./Api";
 
 export class TicketService {
-  // Ajouter des tickets au panier
+  // Ajouter un ticket
   static async addTicket(matchId: number, category: string, quantity: number): Promise<Ticket[]> {
     return apiFetch<Ticket[]>("/tickets", {
       method: "POST",
@@ -11,7 +11,15 @@ export class TicketService {
     });
   }
 
-  // Récupère le contenu du panier (tickets en attente)
+  // Récupère tous les tickets
+  static async getAllTickets(): Promise<Ticket[]> {
+    return apiFetch<Ticket[]>("/tickets", {
+      method: "GET",
+      credentials: "include",
+    });
+  }
+
+  // Récupère les tickets en attente
   static async getPendingTickets(): Promise<Ticket[]> {
     return apiFetch<Ticket[]>("/tickets/pending", {
       method: "GET",
@@ -19,7 +27,7 @@ export class TicketService {
     });
   }
 
-  // Supprimer un ticket du panier
+  // Supprimer un ticket
   static async deleteTicket(ticketId: string): Promise<void> {
     await apiFetch<void>(`/tickets/${ticketId}`, { 
       method: "DELETE",
@@ -27,9 +35,17 @@ export class TicketService {
     });
   }
 
-  // Payer tous les tickets du panier
+  // Payer les tickets en attente
   static async payPendingTickets(): Promise<Ticket[]> {
     return apiFetch<Ticket[]>("/tickets/pay-pending", { 
+      method: "POST",
+      credentials: "include",
+    });
+  }
+
+  // Valider un ticket
+  static async validateTicket(ticketId: string): Promise<Ticket> {
+    return apiFetch<Ticket>(`/tickets/validate/${ticketId}`, {
       method: "POST",
       credentials: "include",
     });
