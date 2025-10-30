@@ -7,27 +7,27 @@ import { MatchService } from '../services/MatchService';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const getStage = (stage: MatchStage): JSX.Element => {
-  let label = "";
-  switch (stage) {
-    case "group":
-      label = "Phase de groupe";
-      break;
-    case "round_of_16":
-      label = "Huitièmes de finale";
-      break;
-    case "quarter_final":
-      label = "Quarts de finale";
-      break;
-    case "semi_final":
-      label = "Demi-finale";
-      break;
-    case "final":
-      label = "Finale";
-      break;
-    default:
-      label = "Match";
-  }
-  return <span className="opacity-50">{label}</span>;
+    let label = "";
+    switch (stage) {
+        case "group":
+            label = "Phase de groupe";
+            break;
+        case "round_of_16":
+            label = "Huitièmes de finale";
+            break;
+        case "quarter_final":
+            label = "Quarts de finale";
+            break;
+        case "semi_final":
+            label = "Demi-finale";
+            break;
+        case "final":
+            label = "Finale";
+            break;
+        default:
+            label = "Match";
+    }
+    return <span className="opacity-50">{label}</span>;
 };
 
 const MatchDetails: React.FC = () => {
@@ -38,7 +38,7 @@ const MatchDetails: React.FC = () => {
 
     // Gestion ticket availability
     const [availability, setAvailability] = useState<MatchAvailability | null>(null);
-    const [category, setCategory] = useState<string>("Catégorie 1"); // Catégorie sélectionnée
+    const [category, setCategory] = useState<string>(""); // Catégorie sélectionnée
     const [quantity, setQuantity] = useState<number>(1); // Quantité sélectionnée
     const [message, setMessage] = useState<string>(""); // Message 
     const [adding, setAdding] = useState<boolean>(false); // Etat du bouton
@@ -56,6 +56,8 @@ const MatchDetails: React.FC = () => {
                 ]);
                 setMatch(matchData);
                 setAvailability(availabilityData);
+                const firstCategory = Object.keys(availabilityData.categories)[0];
+                if (firstCategory) setCategory(firstCategory);
             } catch (err: any) {
                 setError(err.message);
             } finally {
@@ -110,7 +112,7 @@ const MatchDetails: React.FC = () => {
                             <img
                                 src={`${API_URL}${match.homeTeam.flagImagePath}`}
                                 alt={match.homeTeam.name}
-                                style={{ width: '120px', height: '80px', objectFit: 'cover'}}
+                                style={{ width: '120px', height: '80px', objectFit: 'cover' }}
                             />
                             <div className="mt-2 fw-semibold">{match.homeTeam.code}</div>
                         </div>
@@ -122,7 +124,7 @@ const MatchDetails: React.FC = () => {
                             <img
                                 src={`${API_URL}${match.awayTeam.flagImagePath}`}
                                 alt={match.awayTeam.name}
-                                style={{ width: '120px', height: '80px', objectFit: 'cover'}}
+                                style={{ width: '120px', height: '80px', objectFit: 'cover' }}
                             />
                             <div className="mt-2 fw-semibold">{match.awayTeam.code}</div>
                         </div>
@@ -156,10 +158,9 @@ const MatchDetails: React.FC = () => {
                                     onChange={(e) => setCategory(e.target.value)}
                                     className="form-select rounded-0"
                                 >
-                                    {(Object.entries(availability.categories) as [string, any][]
-                                    ).map(([catName, info]) => (
+                                    {(Object.entries(availability.categories) as [string, any][]).map(([catName, info]) => (
                                         <option key={catName} value={catName}>
-                                            {catName} — {info.price} €
+                                            {catName.replace("_", " ")} — {info.price} €
                                         </option>
                                     ))}
                                 </select>
