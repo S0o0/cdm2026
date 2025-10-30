@@ -10,6 +10,7 @@ import { useState } from "react";
 // Icons and Images
 import logo from './assets/home/wc26logo.avif'; // World Cup 2026 Logo
 import signin from './assets/home/usericon.png'; // Login Icon
+import usericonlogged from './assets/home/usericonlogged.png'; // Logged-in User Icon
 // Components
 import Groups from './components/GroupsMaster';
 import GroupDetails from "./components/GroupDetails";
@@ -57,7 +58,7 @@ function App() {
           </div>
           <div className="ms-auto position-relative">
             <img
-              src={signin}
+              src={currentUser ? usericonlogged : signin}
               alt="User menu"
               style={{ height: "25px", cursor: "pointer" }}
               onClick={toggleMenu}
