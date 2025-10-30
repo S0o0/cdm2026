@@ -4,13 +4,10 @@ export async function apiFetch<T = any>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
-  // Récupération du token JWT si présent
-  const token = localStorage.getItem("token");
 
   // Construction des en-têtes HTTP
   const headers = new Headers(options.headers || {});
   headers.set("Content-Type", "application/json");
-  if (token) headers.set("Authorization", `Bearer ${token}`);
 
   // Exécution de la requête
   const response = await fetch(`${API_URL}${endpoint}`, {

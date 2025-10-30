@@ -14,6 +14,7 @@ export class SignUpService {
         return apiFetch<void>("/auth/signup", {
             method: "POST",
             body: JSON.stringify(data),
+            credentials: "include",
         });
     }
 }

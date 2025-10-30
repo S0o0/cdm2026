@@ -12,6 +12,7 @@ export class SignInService {
         const dataResponse = await apiFetch("/auth/signin", {
             method: "POST",
             body: JSON.stringify(data),
+            credentials: "include",
         });
         return dataResponse.user;
     }
@@ -20,6 +21,7 @@ export class SignInService {
     static async getCurrentUser(): Promise<User> {
         const dataResponse = await apiFetch("/auth/me", {
             method: "GET",
+            credentials: "include",
         });
         return dataResponse.user;
     }
