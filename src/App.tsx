@@ -109,9 +109,7 @@ function App() {
                       <button
                         className="dropdown-item"
                         onClick={() => {
-                          localStorage.removeItem("currentUser");
                           SignInService.logout();
-                          setCurrentUser(null);
                           closeMenu();
                         }}
                       >
