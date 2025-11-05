@@ -28,7 +28,13 @@ export class SignInService {
 
     /** Déconnexion (suppression des tokens du localStorage) */
     static logout(): void {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
+        try {
+            // Suppression des informations de l'utilisateur
+            localStorage.removeItem("currentUser");
+            // Redirection vers la page de connexion
+            window.location.href = "/auth/signin";
+        } catch (error) {
+            console.error("Erreur lors de la déconnexion :", error);
+        }
     }
 }
