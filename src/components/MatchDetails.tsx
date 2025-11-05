@@ -79,7 +79,7 @@ const MatchDetails: React.FC = () => {
             await TicketService.addTicket(Number(match.id), category, quantity);
             setMessage("Tickets ajoutés au panier !");
         } catch (err: any) {
-            setMessage(err.message || "Erreur lors de l'ajout au panier.");
+            setMessage(err.message);
         } finally {
             setAdding(false);
         }

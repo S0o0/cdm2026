@@ -47,12 +47,59 @@ const Cart: React.FC = () => {
         }
     };
 
+    // Regrouper les tickets ayant même match.id + catégorie
+    const groupedTickets = Object.values(
+        tickets.reduce((acc, ticket) => {
+            const key = `${ticket.match?.id || "unknown"}-${ticket.category}`;
+            if (!acc[key]) {
+                acc[key] = {
+                    ...ticket,
+                    quantity: 1, // AJOUT
+                    totalPrice: ticket.price, // AJOUT
+                };
+            } else {
+                acc[key].quantity += 1;
+                acc[key].totalPrice += ticket.price;
+            }
+            return acc;
+        }, {} as Record<string, Ticket & { quantity: number; totalPrice: number }>)
+    );
+
+    // Calcul du total à partir des groupes
     const calculateTotal = () =>
-        tickets.reduce((total, ticket) => total + ticket.price, 0);
+        groupedTickets.reduce((total, t) => total + t.totalPrice, 0);
+
+    // Gestion de la modification de quantité
+    const handleQuantityChange = (matchId: number, category: string, newQuantity: number) => {
+        if (newQuantity < 1 || newQuantity > 6) {
+            alert("La quantité doit être comprise entre 1 et 6 par match.");
+            return;
+        }
+
+        setTickets((prevTickets) => {
+            const filtered = prevTickets.filter(
+                (t) => !(t.match?.id === matchId && t.category === category)
+            );
+
+            const referenceTicket = prevTickets.find(
+                (t) => t.match?.id === matchId && t.category === category
+            );
+            if (!referenceTicket) return prevTickets;
+
+            const updatedGroup = Array(newQuantity).fill({ ...referenceTicket });
+
+            return [...filtered, ...updatedGroup];
+        });
+    };
 
     return (
         <div>
             <h2>Votre Panier</h2>
+
+            <p style={{ fontStyle: "italic", color: "#444"}}>
+                Vous pouvez acheter jusqu’à <strong>6 tickets par match</strong>, toutes catégories confondues.
+            </p>
+
             {tickets.length === 0 ? (
                 <p>Le panier est vide.</p>
             ) : (
@@ -68,22 +115,48 @@ const Cart: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {tickets.map((ticket) => (
-                            <tr key={ticket.id}>
-                                <td>
-                                    {ticket.match
-                                        ? `${ticket.match.homeTeam} vs ${ticket.match.awayTeam} - ${ticket.match.stadium}`
-                                        : "Match non disponible"}
-                                </td>
-                                <td>{ticket.category}</td>
-                                <td>1</td>
-                                <td>{ticket.price.toFixed(2)} €</td>
-                                <td>{ticket.price.toFixed(2)} €</td>
-                                <td>
-                                    <button onClick={() => handleRemove(ticket.id)}>Supprimer</button>
-                                </td>
-                            </tr>
-                        ))}
+                        {groupedTickets
+                            .sort((a, b) => (a.match?.id || 0) - (b.match?.id || 0))
+                            .map((ticket, index) => (
+                                <tr key={`${ticket.match?.id}-${ticket.category}-${index}`}>
+                                    <td>
+                                        {ticket.match
+                                            ? `${ticket.match.homeTeam} vs ${ticket.match.awayTeam} - ${ticket.match.stadium}`
+                                            : "Match non disponible"}
+                                    </td>
+                                    {/* affichage centré de la catégorie */}
+                                    <td style={{ width: "60px", textAlign: "center" }}>{ticket.category}</td>
+
+                                    <td>
+                                        <input
+                                            type="number"
+                                            min={1}
+                                            max={6}
+                                            value={ticket.quantity}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                const parsed = parseInt(value);
+
+                                                // On ne met à jour que si c’est un nombre valide
+                                                if (!isNaN(parsed)) {
+                                                    handleQuantityChange(
+                                                        ticket.match?.id!,
+                                                        ticket.category,
+                                                        parsed
+                                                    );
+                                                }
+                                            }}
+                                            style={{ width: "60px", textAlign: "center" }}
+                                        />
+                                    </td>
+
+                                    <td>{ticket.price.toFixed(2)} €</td>
+                                    <td>{(ticket.price * ticket.quantity).toFixed(2)} €</td>
+                                    <td >
+                                        <button onClick={() => handleRemove(ticket.id)}>Supprimer</button>
+                                    </td>
+                                </tr>
+                            ))}
                         <tr>
                             <td colSpan={4} style={{ textAlign: "right", fontWeight: "bold" }}>
                                 Total
