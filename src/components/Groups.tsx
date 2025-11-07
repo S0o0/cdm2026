@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Group } from "../types/Group";
-import { countryImages } from "./CountryImages";
+import { teamImages } from "./TeamImages";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -60,7 +60,7 @@ function Groups() {
             onClick={() => navigate(`/teams/${team.id}`)}
           >
             <img
-            src={countryImages[team.name] || team.flag} 
+            src={teamImages[team.name] || team.flag} 
             className="w-100 h-100"
             style={{ objectFit: "cover" }}
             />

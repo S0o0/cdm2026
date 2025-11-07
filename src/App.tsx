@@ -20,6 +20,7 @@ import Matches from './components/MatchesMaster';
 import MatchesCarousel from './components/MatchesCarousel';
 import MatchDetails from './components/MatchDetails';
 import Stades from './components/StadiumsMaster';
+import Teams from './components/TeamsMaster';
 import Home from './components/Home';
 import SignInForm from './components/SignInForm';
 import SignUpForm from './components/SignUpForm';
@@ -154,6 +155,7 @@ function App() {
           <Route path="/matches" element={<Matches />} />
           <Route path="/matches/:matchId" element={<MatchDetails />} />
           <Route path="/stadiums" element={<Stades />} />
+          <Route path="/teams" element={<Teams />} />
           <Route path="/auth/signin" element={<SignInForm onSignIn={setCurrentUser} />} />
           <Route path="/auth/signup" element={<SignUpForm />} />
           <Route path="/tickets/pending" element={<Cart />} />

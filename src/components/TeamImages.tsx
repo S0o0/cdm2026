@@ -47,7 +47,7 @@ import SouthAfricaIMG from "../assets/countryImages/afriquedusud.webp";
 import SwitzerlandIMG from "../assets/countryImages/suisse.jpg";
 import VietnamIMG from "../assets/countryImages/vietnam.jpg";
 
-export const countryImages: Record<string, string> = {
+export const teamImages: Record<string, string> = {
   France: FranceImg,
   Morocco: MarocIMG,
   'South Korea': KoreaIMG,
