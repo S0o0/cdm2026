@@ -21,8 +21,7 @@ export async function apiFetch<T = any>(
 
   // Gestion des erreurs HTTP
   if (!response.ok) {
-    const message = data?.message || `Erreur ${response.status}`;
-    throw new Error(message);
+    throw new Error(`Erreur ${response.status}`);
   }
 
   // Certaines réponses sont encapsulées dans un objet { data: ... }
