@@ -104,6 +104,11 @@ const Cart: React.FC = () => {
         groupedTickets.reduce((total, t) => total + t.totalPrice, 0);
 
     const handleQuantityChange = (matchId: number, category: string, newQuantity: number) => {
+                // NEW 🚫 Empêche toute modification si la limite est atteinte
+        if (userTotalTickets >= MAX_TICKETS) {
+            alert("Vous avez atteint la limite de 6 tickets. Vous ne pouvez plus en acheter.");
+            return;
+        }
         if (newQuantity < 1 || newQuantity > 6) {
             alert("La quantité doit être comprise entre 1 et 6 par match.");
             return;
@@ -149,11 +154,20 @@ const Cart: React.FC = () => {
             {loadingTickets ? (
                 <p>Chargement du panier...</p>
             ) : (
-                <p style={{ fontStyle: "italic", color: "#444" }}>
-                    Vous pouvez acheter jusqu’à <strong>{MAX_TICKETS}</strong> tickets au total.<br />
-                    Vous avez déjà <strong>{userTotalTickets}</strong> ticket(s) confirmés ou utilisés,<br />
-                    il vous reste donc <strong>{remainingTickets}</strong> ticket(s) possible(s).
-                </p>
+                <>
+                    {/* Si l'utilisateur a atteint la limite de tickets par utilisateur on le lui indique */}
+                    {userTotalTickets >= MAX_TICKETS ? (
+                        <p style={{ color: "red", fontWeight: "bold" }}>
+                            Vous avez atteint la limite de 6 tickets par utilisateur, vous ne pouvez plus en acheter.
+                        </p>
+                    ) : (
+                        <p style={{ fontStyle: "italic", color: "#444" }}>
+                            Vous pouvez acheter jusqu’à <strong>{MAX_TICKETS}</strong> tickets au total.<br />
+                            Vous avez déjà <strong>{userTotalTickets}</strong> ticket(s) confirmés ou utilisés,<br />
+                            il vous reste donc <strong>{remainingTickets}</strong> ticket(s) possible(s).
+                        </p>
+                    )}
+                </>
             )}
 
             {tickets.length === 0 ? (
