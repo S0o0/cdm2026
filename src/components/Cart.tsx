@@ -151,6 +151,10 @@ const Cart: React.FC = () => {
     return (
         <div>
             <h2>Votre Panier</h2>
+                <p style={{ color: "#555", fontStyle: "italic" }}>
+                Les tickets ajoutés à votre panier expirent <strong>15 minutes</strong> après leur ajout.
+                Passé ce délai, ils seront automatiquement supprimés.
+            </p>
             {loadingTickets ? (
                 <p>Chargement du panier...</p>
             ) : (
