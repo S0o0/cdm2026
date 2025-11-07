@@ -12,6 +12,8 @@ const MatchesMaster: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortOption>('date');
   const [groupedMatches, setGroupedMatches] = useState<Record<string, Match[]>>({});
 
+
+  // Récupération des matchs
   useEffect(() => {
     MatchService.getMatches()
       .then(setMatches)
@@ -19,6 +21,7 @@ const MatchesMaster: React.FC = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  // Filtre des matchs par date
   useEffect(() => {
     if (!matches.length || sortBy !== 'date') return;
 
@@ -41,6 +44,7 @@ const MatchesMaster: React.FC = () => {
     setGroupedMatches(grouped);
   }, [matches, sortBy]);
 
+  // Filtre des matchs par équipe
   useEffect(() => {
     if (!matches.length || sortBy !== 'team') return;
 
@@ -60,6 +64,7 @@ const MatchesMaster: React.FC = () => {
     setGroupedMatches(grouped);
   }, [matches, sortBy]);
 
+  // Filtre des matchs par groupe
   useEffect(() => {
     if (!matches.length || sortBy !== 'group') return;
 
