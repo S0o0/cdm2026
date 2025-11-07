@@ -35,13 +35,11 @@ const GroupDetails: React.FC = () => {
 
     return (
         <div className="vw-100 p-4 d-flex flex-column align-items-center">
-            {/* --- Logo trophée --- */}
             <img
                 src={logo}
                 alt="FIFA Trophy"
                 style={{ width: "100px", marginBottom: "10px" }}
             />
-            {/* --- Nom du groupe --- */}
             <div
                 className="text-white fw-bold text-center rounded-0 px-4 py-2 mb-4"
                 style={{
@@ -53,7 +51,6 @@ const GroupDetails: React.FC = () => {
                 GROUP {group.name.toUpperCase()}
             </div>
 
-            {/* --- Grille d’équipes --- */}
             <div
                 className="d-grid"
                 style={{
@@ -64,26 +61,30 @@ const GroupDetails: React.FC = () => {
                 }}
             >
                 {group.teams.map((team) => (
-                    <div
-                        key={team.id}
-                        className="bg-white shadow rounded-0 d-flex flex-column align-items-center justify-content-center p-4"
+                    <Link 
+                        key={team.id} 
+                        to={`/teams/${team.id}`} 
+                        style={{ textDecoration: 'none', color: 'inherit' }}
                     >
-                        <img
-                            src={`${API_URL}${team.flagImagePath}`}
-                            alt={team.name}
-                            style={{
-                                width: "100px",
-                                height: "100px",
-                                objectFit: "contain",
-                                marginBottom: "10px",
-                            }}
-                        />
-                        <h6 className="fw-bold text-uppercase">{team.name}</h6>
-                    </div>
+                        <div
+                            className="bg-white shadow rounded-0 d-flex flex-column align-items-center justify-content-center p-4"
+                        >
+                            <img
+                                src={`${API_URL}${team.flagImagePath}`}
+                                alt={team.name}
+                                style={{
+                                    width: "100px",
+                                    height: "100px",
+                                    objectFit: "contain",
+                                    marginBottom: "10px",
+                                }}
+                            />
+                            <h6 className="fw-bold text-uppercase">{team.name}</h6>
+                        </div>
+                    </Link>
                 ))}
             </div>
 
-            {/* --- Bouton retour --- */}
             <div className="text-center mt-5">
                 <Link to="/groups" className="btn btn-dark px-4 py-2 rounded-0 shadow-sm border-0">
                     Retour aux groupes

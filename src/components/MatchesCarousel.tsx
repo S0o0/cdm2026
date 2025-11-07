@@ -4,27 +4,41 @@ import type { Match } from '../types/Match';
 import { MatchService } from "../services/MatchService";
 import { Link } from 'react-router-dom';
 
-const MatchesCarousel: React.FC = () => {
-    const [matches, setMatches] = useState<Match[]>([]);
+interface MatchesCarouselProps {
+    matches?: Match[];
+    teamName?: string;
+}
+
+const MatchesCarousel: React.FC<MatchesCarouselProps> = ({ matches: initialMatches, teamName }) => {
+    const [matches, setMatches] = useState<Match[]>(initialMatches || []);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(!initialMatches);
 
     useEffect(() => {
-        MatchService.getMatches()
-            .then(data => {
-                setMatches(data);
-            })
-            .catch(console.error)
-            .finally(() => setLoading(false));
-    }, []);
+        if (!initialMatches) {
+            MatchService.getMatches()
+                .then(data => setMatches(data))
+                .catch(console.error)
+                .finally(() => setLoading(false));
+        }
+    }, [initialMatches]);
 
-    const next = () => setCurrentIndex(prev => (prev + 4 >= matches.length ? 0 : prev + 4));
-    const prev = () => setCurrentIndex(prev => (prev - 4 < 0 ? Math.max(matches.length - 4, 0) : prev - 4));
+
+    const filteredMatches = teamName
+    ? matches.filter(match => 
+        match.homeTeam && match.awayTeam &&
+        match.homeTeam.name.toLowerCase().includes(teamName.toLowerCase()) ||
+        match.awayTeam.name.toLowerCase().includes(teamName.toLowerCase())
+        )
+    : matches;
+
+    const next = () => setCurrentIndex(prev => (prev + 4 >= filteredMatches.length ? 0 : prev + 4));
+    const prev = () => setCurrentIndex(prev => (prev - 4 < 0 ? Math.max(filteredMatches.length - 4, 0) : prev - 4));
 
     if (loading) return <p>Chargement des matchs...</p>;
-    if (matches.length === 0) return <p>Aucun match disponible</p>;
+    if (filteredMatches.length === 0) return <p>Aucun match disponible</p>;
 
-    const visibleMatches = matches.slice(currentIndex, currentIndex + 4);
+    const visibleMatches = filteredMatches.slice(currentIndex, currentIndex + 4);
 
     return (
         <div className="position-relative">

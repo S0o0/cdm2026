@@ -2,7 +2,6 @@ import type { Team } from '../types/Team';
 import { teamImages } from "../components/TeamImages";
 
 
-
 interface TeamPreviewProps {
     team: Team;
 }
@@ -20,7 +19,8 @@ const TeamPreview: React.FC<TeamPreviewProps> = ({ team }) => {
                             width: '300px',
                             height: '200px',
                             objectFit: 'cover',
-                            filter: 'brightness(50%)',
+                            filter: 'brightness(75%)',
+                            borderRadius: '8px' 
                         }}
                     />
                     <div className="card-img-overlay d-flex justify-content-start align-items-end p-2">
