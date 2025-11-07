@@ -22,3 +22,11 @@ export type Ticket = {
         matchDate: string;
     };
 };
+
+// Réponse du endpoint GET /tickets/pending
+export type PendingTicketsResponse = {
+    tickets: Ticket[];
+    count: number;
+    totalPrice: number;
+    expiresAt: string | null;
+};
