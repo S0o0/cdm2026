@@ -18,7 +18,33 @@ const Cart: React.FC = () => {
                 const usedCount = allTicketsResp?.counts?.used || 0;
                 const effectiveCount = confirmedCount + usedCount;
                 setUserTotalTickets(effectiveCount);
+
+                // On récupère les tickets en attente
                 const fetched = await TicketService.getPendingTickets();
+                const now = new Date();
+                const validTickets: Ticket[] = [];
+                const expiredTickets: Ticket[] = [];
+
+                // On ne garde que les tickets qui n'ont pas expirés
+                for (const ticket of fetched.tickets) {
+                    if (!ticket.expiresAt || new Date(ticket.expiresAt) > now) {
+                        validTickets.push(ticket);
+                    } else {
+                        expiredTickets.push(ticket);
+                    }
+                }
+
+                // Les tickets expirés sont supprimés du panier
+                for (const ticket of expiredTickets) {
+                    try {
+                        await TicketService.deleteTicket(ticket.id);
+                        console.info('Ticket expiré supprimé du panier :', ticket.id);
+                    } catch (error) {
+                        console.warn('Erreur lors de la suppression du ticket expiré :', ticket.id, error);
+                    }
+                }
+
+                // Le panier ne contient que les tickets valides
                 setTickets(fetched.tickets);
 
             } catch (error) {
@@ -78,6 +104,11 @@ const Cart: React.FC = () => {
         groupedTickets.reduce((total, t) => total + t.totalPrice, 0);
 
     const handleQuantityChange = (matchId: number, category: string, newQuantity: number) => {
+                // NEW 🚫 Empêche toute modification si la limite est atteinte
+        if (userTotalTickets >= MAX_TICKETS) {
+            alert("Vous avez atteint la limite de 6 tickets. Vous ne pouvez plus en acheter.");
+            return;
+        }
         if (newQuantity < 1 || newQuantity > 6) {
             alert("La quantité doit être comprise entre 1 et 6 par match.");
             return;
@@ -120,14 +151,27 @@ const Cart: React.FC = () => {
     return (
         <div>
             <h2>Votre Panier</h2>
+                <p style={{ color: "#555", fontStyle: "italic" }}>
+                Les tickets ajoutés à votre panier expirent <strong>15 minutes</strong> après leur ajout.
+                Passé ce délai, ils seront automatiquement supprimés.
+            </p>
             {loadingTickets ? (
                 <p>Chargement du panier...</p>
             ) : (
-                <p style={{ fontStyle: "italic", color: "#444" }}>
-                    Vous pouvez acheter jusqu’à <strong>{MAX_TICKETS}</strong> tickets au total.<br />
-                    Vous avez déjà <strong>{userTotalTickets}</strong> ticket(s) confirmés ou utilisés,<br />
-                    il vous reste donc <strong>{remainingTickets}</strong> ticket(s) possible(s).
-                </p>
+                <>
+                    {/* Si l'utilisateur a atteint la limite de tickets par utilisateur on le lui indique */}
+                    {userTotalTickets >= MAX_TICKETS ? (
+                        <p style={{ color: "red", fontWeight: "bold" }}>
+                            Vous avez atteint la limite de 6 tickets par utilisateur, vous ne pouvez plus en acheter.
+                        </p>
+                    ) : (
+                        <p style={{ fontStyle: "italic", color: "#444" }}>
+                            Vous pouvez acheter jusqu’à <strong>{MAX_TICKETS}</strong> tickets au total.<br />
+                            Vous avez déjà <strong>{userTotalTickets}</strong> ticket(s) confirmés ou utilisés,<br />
+                            il vous reste donc <strong>{remainingTickets}</strong> ticket(s) possible(s).
+                        </p>
+                    )}
+                </>
             )}
 
             {tickets.length === 0 ? (
