@@ -16,7 +16,7 @@ const Home: React.FC = () => {
                 <img
                     src={home}
                     alt="CDM 2026"
-                    className="img-fluid rounded shadow-lg"
+                    className="img-fluid shadow-lg"
                     style={{ width: '1200px', height: 'auto' }}
                 />
             </div>
