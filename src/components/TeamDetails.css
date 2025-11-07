@@ -1,0 +1,87 @@
+.team-details-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.team-info {
+  flex: 1 1 300px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.team-name {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.team-flag {
+  width: 140px;
+  height: 90px;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.team-confederation,
+.team-continent {
+  font-size: 1.1rem;
+  margin: 6px 0;
+}
+
+.team-image-section {
+  flex: 2 1 600px;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.15);
+}
+
+.loading,
+.not-found {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 40px;
+}
+
+
+@media (max-width: 100%) {
+  .team-details-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .team-info,
+  .team-image-section {
+    flex: 1 1 100%;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .team-flag {
+    width: 120px;
+    height: 80px;
+  }
+  .team-image {
+    max-width: 100%;
+  }
+}

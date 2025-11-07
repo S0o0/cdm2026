@@ -20,6 +20,7 @@ const TeamPreview: React.FC<TeamPreviewProps> = ({ team }) => {
                             height: '200px',
                             objectFit: 'cover',
                             filter: 'brightness(75%)',
+                            borderRadius: '8px' 
                         }}
                     />
                     <div className="card-img-overlay d-flex justify-content-start align-items-end p-2">
