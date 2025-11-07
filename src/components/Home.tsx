@@ -19,7 +19,7 @@ const Home: React.FC = () => {
                     src={home}
                     alt="CDM 2026"
                     className="img-fluid rounded shadow-lg"
-                    style={{ maxWidth: '600px' }}
+                    style={{ width: '1200px', height: 'auto' }}
                 />
             </div>
         </div>
