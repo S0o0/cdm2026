@@ -18,7 +18,33 @@ const Cart: React.FC = () => {
                 const usedCount = allTicketsResp?.counts?.used || 0;
                 const effectiveCount = confirmedCount + usedCount;
                 setUserTotalTickets(effectiveCount);
+
+                // On récupère les tickets en attente
                 const fetched = await TicketService.getPendingTickets();
+                const now = new Date();
+                const validTickets: Ticket[] = [];
+                const expiredTickets: Ticket[] = [];
+
+                // On ne garde que les tickets qui n'ont pas expirés
+                for (const ticket of fetched.tickets) {
+                    if (!ticket.expiresAt || new Date(ticket.expiresAt) > now) {
+                        validTickets.push(ticket);
+                    } else {
+                        expiredTickets.push(ticket);
+                    }
+                }
+
+                // Les tickets expirés sont supprimés du panier
+                for (const ticket of expiredTickets) {
+                    try {
+                        await TicketService.deleteTicket(ticket.id);
+                        console.info('Ticket expiré supprimé du panier :', ticket.id);
+                    } catch (error) {
+                        console.warn('Erreur lors de la suppression du ticket expiré :', ticket.id, error);
+                    }
+                }
+
+                // Le panier ne contient que les tickets valides
                 setTickets(fetched.tickets);
 
             } catch (error) {
