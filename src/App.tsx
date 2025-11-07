@@ -28,6 +28,7 @@ import SignUpForm from './components/SignUpForm';
 import { SignInService } from "./services/SignInService";
 import type { User } from "./types/User";
 import Cart from "./components/Cart";
+import StadiumDetails from "./components/StadiumDetails";
 
 
 function App() {
@@ -156,6 +157,7 @@ function App() {
           <Route path="/matches" element={<Matches />} />
           <Route path="/matches/:matchId" element={<MatchDetails />} />
           <Route path="/stadiums" element={<Stades />} />
+          <Route path="/stadiums/:stadiumId" element={<StadiumDetails />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/teams/:id" element={<TeamDetails />} />
           <Route path="/auth/signin" element={<SignInForm onSignIn={setCurrentUser} />} />
