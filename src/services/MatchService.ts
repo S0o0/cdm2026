@@ -18,4 +18,8 @@ export class MatchService {
   static async getAvailability(id: number): Promise<MatchAvailability> {
     return apiFetch<MatchAvailability>(`/matches/${id}/availability`);
   }
+  // Récupère les matchs d’une date précise
+  static async getMatchesByDate(date: string): Promise<Match[]> {
+    return apiFetch<Match[]>(`/matches?date=${encodeURIComponent(date)}`);
+  }
 }
