@@ -1,4 +1,4 @@
-import type { Ticket } from "../types/Ticket";
+import type { Ticket, PendingTicketsResponse } from "../types/Ticket";
 import { apiFetch } from "./Api";
 
 export class TicketService {
@@ -20,8 +20,8 @@ export class TicketService {
   }
 
   // Récupère les tickets en attente
-  static async getPendingTickets(): Promise<Ticket[]> {
-    return apiFetch<Ticket[]>("/tickets/pending", {
+  static async getPendingTickets(): Promise<PendingTicketsResponse> {
+    return apiFetch<PendingTicketsResponse>("/tickets/pending", {
       method: "GET",
       credentials: "include",
     });

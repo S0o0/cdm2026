@@ -4,24 +4,30 @@ import { TicketService } from "../services/TicketService";
 
 const Cart: React.FC = () => {
     const [tickets, setTickets] = useState<Ticket[]>([]);
+    const [userTotalTickets, setUserTotalTickets] = useState<number>(0);
+    const [loadingTickets, setLoadingTickets] = useState<boolean>(true);
+    const MAX_TICKETS = 6;
 
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                // On indique à TypeScript que fetchedTickets peut être un tableau de Ticket ou un objet avec tickets
-                const fetchedTickets: Ticket[] | { tickets: Ticket[] } = await TicketService.getPendingTickets();
+                setLoadingTickets(true);
+                // On récupère tous les tickets puis on compte ceux payés ou utilisés
+                const allTicketsResp: any = await TicketService.getAllTickets();
+                const confirmedCount = allTicketsResp?.counts?.confirmed || 0;
+                const usedCount = allTicketsResp?.counts?.used || 0;
+                const effectiveCount = confirmedCount + usedCount;
+                setUserTotalTickets(effectiveCount);
+                const fetched = await TicketService.getPendingTickets();
+                setTickets(fetched.tickets);
 
-                // Vérifie si c'est un tableau, sinon essaye fetchedTickets.tickets, sinon tableau vide
-                const ticketsArray = Array.isArray(fetchedTickets)
-                    ? fetchedTickets
-                    : Array.isArray((fetchedTickets as { tickets: Ticket[] }).tickets)
-                        ? (fetchedTickets as { tickets: Ticket[] }).tickets
-                        : [];
-
-                setTickets(ticketsArray);
             } catch (error) {
                 console.error("Erreur lors du chargement des tickets :", error);
                 setTickets([]);
+                setUserTotalTickets(0);
+            }
+            finally {
+                setLoadingTickets(false);
             }
         };
         fetchTickets();
@@ -54,8 +60,8 @@ const Cart: React.FC = () => {
             if (!acc[key]) {
                 acc[key] = {
                     ...ticket,
-                    quantity: 1, // AJOUT
-                    totalPrice: ticket.price, // AJOUT
+                    quantity: 1,
+                    totalPrice: ticket.price,
                 };
             } else {
                 acc[key].quantity += 1;
@@ -65,17 +71,36 @@ const Cart: React.FC = () => {
         }, {} as Record<string, Ticket & { quantity: number; totalPrice: number }>)
     );
 
-    // Calcul du total à partir des groupes
+    // Calcule le nombre maximum restant à acheter
+    const remainingTickets = Math.max(0, MAX_TICKETS - (userTotalTickets || 0));
+
     const calculateTotal = () =>
         groupedTickets.reduce((total, t) => total + t.totalPrice, 0);
 
-    // Gestion de la modification de quantité
     const handleQuantityChange = (matchId: number, category: string, newQuantity: number) => {
         if (newQuantity < 1 || newQuantity > 6) {
             alert("La quantité doit être comprise entre 1 et 6 par match.");
             return;
         }
+        // Calcule le total actuel du panier
+        const totalPanierActuel = groupedTickets.reduce(
+            (sum, g) => sum + g.quantity,
+            0
+        );
+        const currentGroupQuantity =
+            groupedTickets.find(
+                (g) => g.match?.id === matchId && g.category === category
+            )?.quantity || 0;
+        const totalAvecChangement =
+            totalPanierActuel - currentGroupQuantity + newQuantity;
 
+        // Vérifie qu'on ne dépasse pas la limite de 6 tickets par utilisateur
+        if (totalAvecChangement > remainingTickets) {
+            alert(
+                `Vous ne pouvez pas dépasser ${MAX_TICKETS} tickets au total (vous avez déjà ${userTotalTickets} ticket(s) confirmés ou utilisés).`
+            );
+            return;
+        }
         setTickets((prevTickets) => {
             const filtered = prevTickets.filter(
                 (t) => !(t.match?.id === matchId && t.category === category)
@@ -95,10 +120,15 @@ const Cart: React.FC = () => {
     return (
         <div>
             <h2>Votre Panier</h2>
-
-            <p style={{ fontStyle: "italic", color: "#444"}}>
-                Vous pouvez acheter jusqu’à <strong>6 tickets par match</strong>, toutes catégories confondues.
-            </p>
+            {loadingTickets ? (
+                <p>Chargement du panier...</p>
+            ) : (
+                <p style={{ fontStyle: "italic", color: "#444" }}>
+                    Vous pouvez acheter jusqu’à <strong>{MAX_TICKETS}</strong> tickets au total.<br />
+                    Vous avez déjà <strong>{userTotalTickets}</strong> ticket(s) confirmés ou utilisés,<br />
+                    il vous reste donc <strong>{remainingTickets}</strong> ticket(s) possible(s).
+                </p>
+            )}
 
             {tickets.length === 0 ? (
                 <p>Le panier est vide.</p>
