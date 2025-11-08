@@ -42,7 +42,7 @@ export default function StadiumDetails() {
     if (!stadium) return <p>Aucun stade trouvé.</p>;
 
     return (
-      <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 py-5">
+      <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 mt-5 py-5">
         <div className="text-center mb-4">
           <h1 className="fw-bold">{stadium.name}</h1>
           <p className="mb-1">Ville : <strong>{stadium.city}</strong></p>
