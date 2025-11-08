@@ -5,7 +5,6 @@ import { TeamService } from "../services/TeamService";
 import { teamImages } from "./TeamImages";
 import type { Match } from "../types/Match";
 import { MatchService } from "../services/MatchService";
-import MatchesCarousel from './MatchesCarousel';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -32,9 +31,17 @@ const TeamDetails: React.FC = () => {
   if (loading) return <p className="text-center mt-5">Chargement...</p>;
   if (!team) return <p className="text-center mt-5">Team introuvable</p>;
 
+  const opponents = matches
+    .filter(m => m.homeTeam.name === team.name || m.awayTeam.name === team.name)
+    .map(m => m.homeTeam.name === team.name ? m.awayTeam : m.homeTeam);
+
+  const uniqueOpponents = opponents.filter(
+    (opp, index, self) => index === self.findIndex(o => o.id === opp.id)
+  );
+
+
   return (
   <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 py-5">
-    {/* Nom et drapeau */}
     <div className="text-center mb-4">
       <h1 className="fw-bold">{team.name}</h1>
       <img
@@ -47,7 +54,6 @@ const TeamDetails: React.FC = () => {
       <p className="mb-0"><strong>Continent :</strong> {team.continent}</p>
     </div>
 
-    {/* Image et carousel */}
     <div className="row justify-content-center align-items-center w-100 gap-4">
       <div className="col-auto">
         <img
@@ -57,12 +63,22 @@ const TeamDetails: React.FC = () => {
           style={{ maxHeight: "250px" }}
         />
       </div>
-      <div className="col-md-6">
-        <MatchesCarousel matches={matches} teamName={team.name} />
+      <div className="text-center mt-4">
+        <h4>Prochains adversaires :</h4>
+        <div className="d-flex align-items-center flex-wrap justify-content-center gap-2">
+          {uniqueOpponents.map((opponent) => (
+            <img
+              key={opponent.id}
+              src={`${API_URL}${opponent.flagImagePath}`}
+              alt={opponent.name}
+              style={{ maxHeight: "60px", borderRadius: "5px" }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   </div>
-);
+  );
 };
 
 export default TeamDetails;

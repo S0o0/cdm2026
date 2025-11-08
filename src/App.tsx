@@ -193,7 +193,6 @@ function App() {
           <Route path="/teams/:id" element={<TeamDetails />} />
           <Route path="/auth/signin" element={<SignInForm onSignIn={setCurrentUser} />} />
           <Route path="/auth/signup" element={<SignUpForm onSignUp={setCurrentUser} />} />
-          {/* Si l'utilisateur n'est on pas connecté, on affiche le formulaire de connexion */}
           <Route path="/tickets/pending" element={currentUser ? (<Cart />) : (<SignInForm onSignIn={setCurrentUser} />)}/>
         </Routes>
       </main>

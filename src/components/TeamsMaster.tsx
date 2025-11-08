@@ -4,7 +4,6 @@ import type { Team } from '../types/Team';
 import { TeamService } from '../services/TeamService';
 import { Link } from 'react-router-dom';
 
-type SortOption = 'continent';
 
 const TeamsMaster: React.FC = () => {
     const [teams, setTeams] = useState<Team[]>([]);
