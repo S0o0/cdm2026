@@ -3,6 +3,8 @@ import MatchPreview from './MatchPreview';
 import type { Match } from '../types/Match';
 import { MatchService } from "../services/MatchService";
 import { Link } from 'react-router-dom';
+import { GroupService } from "../services/GroupService";
+import type { Group } from "../types/Group";
 
 type SortOption = 'date' | 'team' | 'group';
 
@@ -11,7 +13,18 @@ const MatchesMaster: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState<SortOption>('date');
   const [groupedMatches, setGroupedMatches] = useState<Record<string, Match[]>>({});
+  const [groupNames, setGroupNames] = useState<Record<number, string>>({});
 
+  // Récupération des groupes pour les noms
+  useEffect(() => {
+    GroupService.getGroups()
+      .then((groups: Group[]) => {
+        const mapping: Record<number, string> = {};
+        groups.forEach(g => (mapping[g.id] = g.name));
+        setGroupNames(mapping);
+      })
+      .catch(err => console.error("❌ Erreur chargement groupes :", err));
+  }, []);
 
   // Récupération des matchs
   useEffect(() => {
@@ -72,13 +85,13 @@ const MatchesMaster: React.FC = () => {
 
     const grouped: Record<string, Match[]> = {};
     sorted.forEach(match => {
-      const key = String(match.homeTeam.groupId);
+      const key = groupNames[match.homeTeam.groupId] || `Groupe ${match.homeTeam.groupId}`;
       if (!grouped[key]) grouped[key] = [];
       grouped[key].push(match);
     });
 
     setGroupedMatches(grouped);
-  }, [matches, sortBy]);
+  }, [matches, sortBy, groupNames]);
 
   if (loading) return <p>Chargement des matchs...</p>;
   if (matches.length === 0) return <p>Aucun match disponible</p>;
@@ -101,7 +114,7 @@ const MatchesMaster: React.FC = () => {
               ? groupLabel
               : sortBy === 'team'
                 ? `${groupLabel}`
-                : `Groupe ${groupLabel}`}
+                : `Groupe ${groupLabel}`/* ?????????????????????????????????????????????????????? */} 
           </h4>
 
           <div className="row g-4">

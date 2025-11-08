@@ -42,7 +42,10 @@ const MatchDetails: React.FC = () => {
     const [quantity, setQuantity] = useState<number>(1); // Quantité sélectionnée
     const [message, setMessage] = useState<string>(""); // Message 
     const [adding, setAdding] = useState<boolean>(false); // Etat du bouton
-
+    const [currentUser, setCurrentUser] = useState(() => {
+    const user = localStorage.getItem("currentUser");
+    return user ? JSON.parse(user) : null;
+    });
     useEffect(() => {
         if (!matchId) return;
 
@@ -70,6 +73,13 @@ const MatchDetails: React.FC = () => {
     // fonction d'ajout au panier
     const handleAddToCart = async () => {
         if (!match) return;
+        
+        // Vérifie si l'utilisateur est connecté
+        if (!currentUser) {
+            setMessage("Vous devez être connecté pour ajouter des tickets au panier.");
+            return;
+        }
+
         if (quantity < 1 || quantity > 6) {
             setMessage("La quantité doit être comprise entre 1 et 6.");
             return;

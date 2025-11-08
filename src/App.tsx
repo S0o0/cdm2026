@@ -44,20 +44,44 @@ function App() {
   };
 
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
-    const user = localStorage.getItem("currentUser");
-    return user ? JSON.parse(user) : null;
+    try {
+      const stored = localStorage.getItem("currentUser");
+      if (!stored || stored === "undefined" || stored === "null") {
+        localStorage.removeItem("currentUser");
+        return null;
+      }
+      return JSON.parse(stored);
+    } catch {
+      localStorage.removeItem("currentUser");
+      return null;
+    }
   });
 
+
   useEffect(() => {
-    async function fetchPendingTickets() {
-      try {
-        const tickets = await TicketService.getPendingTickets();
-        setCartCount(tickets.length);
-      } catch (error) {
-        setCartCount(0);
+    // Fermer le menu si clic en dehors du cadre
+    const handleClickOutside = (event: MouseEvent) => {
+      const menu = document.querySelector(".dropdown-menu.show");
+      const icon = document.querySelector("img[alt='User menu']");
+      if (menu && !menu.contains(event.target as Node) && !icon?.contains(event.target as Node)) {
+        closeMenu();
       }
-    }
-    fetchPendingTickets();
+    };
+
+    // Fermer le menu si l'utilisateur appuie sur echap
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
   }, []);
 
   return (
@@ -105,14 +129,21 @@ function App() {
             />
             {menuOpen && (
               <ul className="dropdown-menu dropdown-menu-end show" style={{ display: "block", position: "absolute", right: 0, marginTop: "0.5rem" }}>
+                    {/* 🔹 Petite croix simple en haut à droite */}
+    <button
+      type="button"
+      onClick={closeMenu}
+      className="btn btn-sm btn-light"
+      style={{ position: "absolute", top: "5px", right: "5px", border: "none", background: "transparent", fontSize: "1rem", cursor: "pointer",}}>×</button>
                 {currentUser ? (
                   <>
-                    <li className="dropdown-item-text">Connecté en tant {currentUser.email}</li>
+                    <li className="dropdown-item-text">Connecté en tant que {currentUser.email}</li>
                     <li>
                       <button
                         className="dropdown-item"
                         onClick={() => {
                           SignInService.logout();
+                          setCurrentUser(null);
                           closeMenu();
                         }}
                       >
@@ -161,8 +192,9 @@ function App() {
           <Route path="/teams" element={<Teams />} />
           <Route path="/teams/:id" element={<TeamDetails />} />
           <Route path="/auth/signin" element={<SignInForm onSignIn={setCurrentUser} />} />
-          <Route path="/auth/signup" element={<SignUpForm />} />
-          <Route path="/tickets/pending" element={<Cart />} />
+          <Route path="/auth/signup" element={<SignUpForm onSignUp={setCurrentUser} />} />
+          {/* Si l'utilisateur n'est on pas connecté, on affiche le formulaire de connexion */}
+          <Route path="/tickets/pending" element={currentUser ? (<Cart />) : (<SignInForm onSignIn={setCurrentUser} />)}/>
         </Routes>
       </main>
     </BrowserRouter>
