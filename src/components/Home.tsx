@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-//import home from '../assets/home/home.webp';
 import video from '../assets/home/video.mp4';
 import soundDisabledIcon from '../assets/home/soundDisabled.png';
 import soundEnabledIcon from '../assets/home/soundEnabled.png';
