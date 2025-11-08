@@ -31,7 +31,7 @@ export default function StadiumDetails() {
     if (!stadium) return <p>Aucun stade trouvé.</p>;
 
     return (
-        <div className="container py-5">
+        <div className="container py-5 mt-5">
             <div className="position-relative mb-4">
                 <img
                     src={`/stadiums/${stadium.id}.webp`}    

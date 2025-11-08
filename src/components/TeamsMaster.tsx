@@ -33,7 +33,7 @@ const TeamsMaster: React.FC = () => {
     const continents = Array.from(new Set(teams.map(t => t.continent)));
 
     return (
-        <div className="container py-5">
+        <div className="container py-5 mt-5">
             <div className="mb-4">
                 <label className="me-2 fw-bold">Filtrer par continent :</label>
                 <select value={selectedContinent} onChange={e => setSelectedContinent(e.target.value)}>
