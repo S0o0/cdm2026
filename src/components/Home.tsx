@@ -29,16 +29,6 @@ const Home: React.FC = () => {
             </div>
 
             <div className="hero-image pe-5">
-                <button
-                    onClick={toggleSound}
-                    className="btn btn-light mb-3"
-                >
-                    <img
-                        src={soundEnabled ? soundEnabledIcon : soundDisabledIcon}
-                        alt={soundEnabled ? 'Sound On' : 'Sound Off'}
-                        style={{ width: 30, height: 30 }}
-                    />
-                </button>
                 <video
                     ref={videoRef}
                     src={video}
@@ -48,6 +38,16 @@ const Home: React.FC = () => {
                     autoPlay
                     loop
                 />
+                <button
+                    onClick={toggleSound}
+                    className="btn btn-light mb-3"
+                >
+                    <img
+                        src={soundEnabled ? soundEnabledIcon : soundDisabledIcon}
+                        alt={soundEnabled ? 'Sound On' : 'Sound Off'}
+                        style={{ width: 20, height: 20 }}
+                    />
+                </button>
             </div>
         </div>
     );
