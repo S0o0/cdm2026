@@ -27,7 +27,7 @@ const StadiumsMaster: React.FC = () => {
         }
     }, [stadiums, selectedCountry]);
 
-    if (loading) return <p>Chargement des équipes...</p>;
+    if (loading) return <p>Chargement des stades...</p>;
     if (stadiums.length === 0) return <p>Aucune équipe disponible</p>;
 
     const countrys = Array.from(new Set(stadiums.map(t => t.country)));

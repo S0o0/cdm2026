@@ -6,7 +6,6 @@ import { teamImages } from "./TeamImages";
 import type { Match } from "../types/Match";
 import { MatchService } from "../services/MatchService";
 import MatchesCarousel from './MatchesCarousel';
-import './TeamDetails.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -30,36 +29,40 @@ const TeamDetails: React.FC = () => {
       .catch(console.error);
   }, []);
 
-  if (loading) return <p className="loading">Loading...</p>;
-  if (!team) return <p className="not-found">Team not found</p>;
+  if (loading) return <p className="text-center mt-5">Chargement...</p>;
+  if (!team) return <p className="text-center mt-5">Team introuvable</p>;
 
   return (
-    <div className="team-details-container justify-content-center">
-      <div className="team-info">
-        <h1 className="team-name">{team.name}</h1>
-        <img
-          src={`${API_URL}${team.flagImagePath}`}
-          alt={`${team.name} flag`}
-          className="team-flag"
-        />
-        <p className="team-confederation">
-          Confédération : <strong>{team.confederation}</strong>
-        </p>
-        <p className="team-continent">
-          Continent : <strong>{team.continent}</strong>
-        </p>
-      </div>
+  <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 py-5">
+    {/* Nom et drapeau */}
+    <div className="text-center mb-4">
+      <h1 className="fw-bold">{team.name}</h1>
+      <img
+        src={`${API_URL}${team.flagImagePath}`}
+        alt={`${team.name} flag`}
+        className="img-fluid mb-3"
+        style={{ maxHeight: "150px" }}
+      />
+      <p className="mb-1"><strong>Confédération :</strong> {team.confederation}</p>
+      <p className="mb-0"><strong>Continent :</strong> {team.continent}</p>
+    </div>
 
-      <div className="team-image-section">
+    {/* Image et carousel */}
+    <div className="row justify-content-center align-items-center w-100 gap-4">
+      <div className="col-auto">
         <img
           src={teamImages[team.name]}
           alt={team.name}
-          className="team-image"
+          className="img-fluid"
+          style={{ maxHeight: "250px" }}
         />
+      </div>
+      <div className="col-md-6">
         <MatchesCarousel matches={matches} teamName={team.name} />
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default TeamDetails;
