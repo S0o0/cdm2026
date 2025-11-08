@@ -32,34 +32,32 @@ const StadiumsMaster: React.FC = () => {
 
     const countrys = Array.from(new Set(stadiums.map(t => t.country)));
     return (
-
-        <div className="row py-5">
-            <div className="container py-5 mt-5">
-                <div className="ml-4">
-                    <label className=" fw-bold">Filtrer par pays :</label>
-                    <select
-                        value={selectedCountry}
-                        onChange={(e) => setSelectedCountry(e.target.value)}
-                    >
-                        <option value="Tous">Tous</option>
-                        {countrys.map((country) => (
-                            <option key={country} value={country}>
-                                {country}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+        <div className="container py-5 mt-5">
+            <div className="mb-4">
+                <label className="me-2 fw-bold">Filtrer par continent :</label>
+                <select
+                    value={selectedCountry}
+                    onChange={(e) => setSelectedCountry(e.target.value)}
+                >
+                    <option value="Tous">Tous</option>
+                    {countrys.map((country) => (
+                        <option key={country} value={country}>
+                            {country}
+                        </option>
+                    ))}
+                </select>
             </div>
-            {filteredStadiums.map(stadium => (
-                <div key={stadium.id} className="col-md-4 mb-3 justify-content-center d-flex">
-                    <Link
-                        to={`/stadiums/${stadium.id}`}
-                        style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
-                        <StadiumPreview stadium={stadium} />
-                    </Link>
-                </div>
-            ))}
+            <div className="row">
+                {filteredStadiums.map(stadium => (
+                    <div key={stadium.id} className="col-md-4 mb-3 d-flex justify-content-center">
+                        <Link
+                            to={`/stadiums/${stadium.id}`}
+                        >
+                            <StadiumPreview stadium={stadium} />
+                        </Link>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
