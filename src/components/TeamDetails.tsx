@@ -50,8 +50,8 @@ const TeamDetails: React.FC = () => {
         className="img-fluid mb-3"
         style={{ maxHeight: "150px" }}
       />
-      <p className="mb-1">Confédération : <strong>{team.confederation}</strong></p>
-      <p className="mb-0">Continent : <strong>{team.continent}</strong></p>
+      <p className="mb-1"><strong>Confédération :</strong> {team.confederation}</p>
+      <p className="mb-0"><strong>Continent :</strong> {team.continent}</p>
     </div>
 
     <div className="row justify-content-center align-items-center w-100 gap-4">
