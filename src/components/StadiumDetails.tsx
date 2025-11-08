@@ -34,7 +34,7 @@ export default function StadiumDetails() {
         <div className="container py-5">
             <div className="position-relative mb-4">
                 <img
-                    src={`./stadiums/${stadium.id}.webp`}
+                    src={`/stadiums/${stadium.id}.webp`}
                     alt={stadium.name}
                     className="img-fluid rounded shadow"
                     style={{
