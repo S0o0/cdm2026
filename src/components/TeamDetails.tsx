@@ -43,7 +43,7 @@ const TeamDetails: React.FC = () => {
   return (
   <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 py-5">
     <div className="text-center mb-4">
-      <h1 className="fw-bold">{team.name}</h1>
+      <h1 className="fw-bold mt-5">{team.name}</h1>
       <img
         src={`${API_URL}${team.flagImagePath}`}
         alt={`${team.name} flag`}

@@ -4,8 +4,6 @@ import type { Stadium } from '../types/Stadium';
 import { StadiumService } from "../services/StadiumService";
 import { Link } from 'react-router-dom';
 
-type SortOption = 'pays';
-
 const StadiumsMaster: React.FC = () => {
     const [stadiums, setStadiums] = useState<Stadium[]>([]);
     const [loading, setLoading] = useState(true);
