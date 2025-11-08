@@ -19,6 +19,22 @@ export async function apiFetch<T = any>(
   // Lecture du corps JSON
   const data = await response.json().catch(() => null);
 
+  // Gestion globale du cas "401 Unauthorized"
+  if (response.status === 401) {
+    console.warn("Session expirée ou utilisateur non authentifié.");
+
+    // Supprime l'utilisateur du localStorage
+    localStorage.removeItem("currentUser");
+
+    // Affiche une alerte à l'utilisateur
+    alert("Votre session a expiré. Veuillez vous reconnecter.");
+
+    // Redirige vers la page de connexion
+    window.location.href = "/auth/signin";
+
+    throw new Error("Session expirée. Redirection vers la connexion...");
+  }
+
   // Gestion des erreurs HTTP
   if (!response.ok) {
     const message = data?.message || `Erreur ${response.status}`;

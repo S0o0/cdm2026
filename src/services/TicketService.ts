@@ -4,11 +4,14 @@ import { apiFetch } from "./Api";
 export class TicketService {
   // Ajouter un ticket
   static async addTicket(matchId: number, category: string, quantity: number): Promise<Ticket[]> {
-    return apiFetch<Ticket[]>("/tickets", {
+    const response = await apiFetch<{ tickets: Ticket[] }>("/tickets", {
       method: "POST",
       body: JSON.stringify({ matchId, category, quantity }),
       credentials: "include",
     });
+
+    // On ne retourne que les tickets, pas toute la réponse
+    return response.tickets;
   }
 
   // Récupère tous les tickets
