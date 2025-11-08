@@ -18,7 +18,7 @@ const GroupsMaster: React.FC = () => {
     if (groups.length === 0) return <p>Aucun groupe disponible</p>;
 
     return (
-        <div className="container py-5">
+        <div className="container py-5 mt-5">
             <h2 className="fw-bold mb-4 border-bottom pb-2">Groupes</h2>
             <div className="row g-4">
                 {groups.map((group) => (

@@ -172,7 +172,7 @@ function App() {
       </header>
 
 
-      <main className="container pt-5 mt-4 justify-content-center">
+      <main>
         <Routes>
           <Route
             path="/"

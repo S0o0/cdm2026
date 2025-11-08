@@ -42,7 +42,7 @@ type SignUpFormProps = {
         };
 
         return (
-            <div className="signup-form-container" style={{ maxWidth: "400px", margin: "2rem auto" }}>
+            <div className="signup-form-container ms-5" style={{ maxWidth: "400px", margin: "2rem auto" }}>
                 <h2>S'inscrire</h2>
                 {error && <p style={{ color: "red" }}>{error}</p>}
                 <form onSubmit={handleSubmit}>

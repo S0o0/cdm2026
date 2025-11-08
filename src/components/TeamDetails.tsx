@@ -34,7 +34,7 @@ const TeamDetails: React.FC = () => {
   if (!team) return <p className="not-found">Team not found</p>;
 
   return (
-    <div className="team-details-container">
+    <div className="team-details-container justify-content-center">
       <div className="team-info">
         <h1 className="team-name">{team.name}</h1>
         <img

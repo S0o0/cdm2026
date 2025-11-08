@@ -38,7 +38,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSignIn }) => {
     };
 
     return (
-        <div className="login-form-container" style={{ maxWidth: "400px", margin: "2rem auto" }}>
+        <div className="login-form-container ms-5" style={{ maxWidth: "400px", margin: "2rem auto" }}>
             <h2>Se connecter</h2>
             {error && <p style={{ color: "red" }}>{error}</p>}
             <form onSubmit={handleSubmit}>
