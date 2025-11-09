@@ -107,14 +107,14 @@ const MatchesMaster: React.FC = () => {
         </select>
       </div>
 
-            {Object.entries(groupedMatches).map(([groupLabel, dayMatches]) => (
+      {Object.entries(groupedMatches).map(([groupLabel, dayMatches]) => (
         <div key={groupLabel} className="mb-5">
           <h4 className="fw-bold text-capitalize mb-4 border-bottom pb-2">
             {sortBy === 'date'
               ? groupLabel
               : sortBy === 'team'
                 ? `${groupLabel}`
-                : `Groupe ${groupLabel}`/* ?????????????????????????????????????????????????????? */} 
+                : `Groupe ${groupLabel}`/* ?????????????????????????????????????????????????????? */}
           </h4>
 
           <div className="row g-4">
@@ -123,7 +123,11 @@ const MatchesMaster: React.FC = () => {
                 <div className="card shadow-sm border-0 h-100 hover-shadow transition-all rounded-0">
                   <div className="card-body text-center p-4">
                     <Link to={`/matches/${match.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                      <MatchPreview match={match} />
+                      <MatchPreview
+                        match={match}
+                        showDate={true}
+                        groupNames={sortBy === 'group' ? undefined : groupNames}
+                      />
                     </Link>
                   </div>
                 </div>

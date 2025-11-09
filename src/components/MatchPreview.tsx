@@ -4,51 +4,51 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 interface MatchPreviewProps {
     match: Match;
-    showDate?: boolean;
+    groupNames?: Record<number, string>;
+    showDate?: boolean; // réintégration de la prop showDate
 }
 
-const MatchPreview: React.FC<MatchPreviewProps> = ({ match, showDate }) => {
+const MatchPreview: React.FC<MatchPreviewProps> = ({ match, groupNames, showDate }) => {
     const matchDate = new Date(match.date);
-    // Format date as DD/MM
+    const formattedTime = matchDate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
     const formattedDate = `${String(matchDate.getDate()).padStart(2, '0')}/${String(matchDate.getMonth() + 1).padStart(2, '0')}`;
 
-    // Format time as HH:MM
-    const formattedTime = matchDate.toLocaleTimeString('fr-FR', {
-        hour: '2-digit',
-        minute: '2-digit',
-    });
+    const groupId = match.homeTeam.groupId || match.awayTeam.groupId;
+    const groupName = groupId ? groupNames?.[groupId] : null;
 
     return (
-        <li className="list-group-item rounded-0">
-            {/* Stadium - Date */}
-            <div className="d-flex justify-content-between mb-2 gap-2">
-                <span>{match.stadium.name} - {match.stadium.city}</span> 
-                {showDate && <span>{formattedDate}</span>}
+        <li className="list-group-item rounded-0 d-flex flex-column align-items-center text-center">
+            {/* Date */}
+            {showDate && <div className="mb-2 fw-bold">{formattedDate}</div>}
+
+            {/* Flags with time in between */}
+            <div className="d-flex align-items-center justify-content-center gap-4 mb-3">
+                <div className="d-flex flex-column align-items-center">
+                    <img
+                        src={`${API_URL}${match.homeTeam.flagImagePath}`}
+                        alt={match.homeTeam.name}
+                        style={{ width: '60px', height: 'auto' }}
+                    />
+                    <span className="mt-1">{match.homeTeam.code}</span>
+                </div>
+
+                {/* Time */}
+                <div className="fw-bold fs-5">{formattedTime}</div>
+
+                <div className="d-flex flex-column align-items-center">
+                    <img
+                        src={`${API_URL}${match.awayTeam.flagImagePath}`}
+                        alt={match.awayTeam.name}
+                        style={{ width: '60px', height: 'auto' }}
+                    />
+                    <span className="mt-1">{match.awayTeam.code}</span>
+                </div>
             </div>
 
-            {/* Home Team + Code*/}
-            <div className="mb-1 d-flex align-items-center justify-content-start gap-2">
-                <img
-                    src={`${API_URL}${match.homeTeam.flagImagePath}`}
-                    alt={match.homeTeam.name}
-                    style={{ width: '40px', height: 'auto' }}
-                />
-                <span>{match.homeTeam.code}</span>
-            </div>
-
-            {/* Away Team + Code */}
-            <div className="mb-1 d-flex align-items-center justify-content-start gap-2">
-                <img
-                    src={`${API_URL}${match.awayTeam.flagImagePath}`}
-                    alt={match.awayTeam.name}
-                    style={{ width: '40px', height: 'auto' }}
-                />
-                <span>{match.awayTeam.code}</span>
-            </div>
-
-            {/* Hour */}
-            <div className="text-end">
-                {formattedTime}
+            {/* Group & Stadium */}
+            <div className="text-muted">
+                {groupName ? `Groupe ${groupName} · ` : ''}
+                {match.stadium.name} - {match.stadium.city}
             </div>
         </li>
     );
