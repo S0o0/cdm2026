@@ -7,8 +7,8 @@ import { GroupService } from "../services/GroupService";
 import type { Group } from "../types/Group";
 
 type SortOption = 'date' | 'team' | 'group';
-type SortOptionGroupe = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L';
-type SortOptionEquipe = 'Algeria' | 'Argentina' | 'Australia' | 'Belgium' | 'Brazil' | 'Cameroon' | 'Canada' | 'Chile' | 'Costa Rica' | 'Croatia' | 'Denmark' | 'Ecuador' | 'England' | 'France' | 'Germany' | 'Ghana' | 'India' | 'Iran' | 'Italy' | 'Japan' | 'Jordan' | 'Mexico' | 'Morocco' | 'Netherlands' | 'Norway' | 'Peru' | 'Poland' | 'Portugal' | 'Qatar' | 'Saudi Arabia' | 'Senegal' | 'Serbia' | 'South Korea' | 'Spain' | 'Switzerland' | 'Thailand' | 'Tunisia' | 'Uruguay' | 'USA' | 'Uzbekistan' | 'Venezuela' | 'Vietnam';
+type SortOptionGroupe = string;
+type SortOptionEquipe = string;
 
 const MatchesMaster: React.FC = () => {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -111,6 +111,10 @@ const MatchesMaster: React.FC = () => {
     setGroupedMatches(grouped);
   }, [matches, sortBy, groupNames, selectedGroup]);
 
+  const allTeams = Array.from(
+    new Set(matches.flatMap(m => [m.homeTeam.name, m.awayTeam.name]))
+  ).sort((a, b) => a.localeCompare(b));
+
   if (loading) return <p>Chargement des matchs...</p>;
   if (matches.length === 0) return <p>Aucun match disponible</p>;
 
@@ -142,12 +146,7 @@ const MatchesMaster: React.FC = () => {
             onChange={e => setSelectedTeam(e.target.value as SortOptionEquipe)}
           >
             <option value="">Toutes les équipes</option>
-            {[
-              'Algeria','Argentina','Australia','Belgium','Brazil','Cameroon','Canada','Chile','Costa Rica','Croatia',
-              'Denmark','Ecuador','England','France','Germany','Ghana','India','Iran','Italy','Japan','Jordan',
-              'Mexico','Morocco','Netherlands','Norway','Peru','Poland','Portugal','Qatar','Saudi Arabia','Senegal',
-              'Serbia','South Korea','Spain','Switzerland','Thailand','Tunisia','Uruguay','USA','Uzbekistan','Venezuela','Vietnam'
-            ].map(team => (
+            {allTeams.map(team => (
               <option key={team} value={team}>{team}</option>
             ))}
           </select>
