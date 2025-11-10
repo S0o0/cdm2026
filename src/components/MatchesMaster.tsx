@@ -7,6 +7,8 @@ import { GroupService } from "../services/GroupService";
 import type { Group } from "../types/Group";
 
 type SortOption = 'date' | 'team' | 'group';
+type SortOptionGroupe = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L';
+type SortOptionEquipe = 'Algeria' | 'Argentina' | 'Australia' | 'Belgium' | 'Brazil' | 'Cameroon' | 'Canada' | 'Chile' | 'Costa Rica' | 'Croatia' | 'Denmark' | 'Ecuador' | 'England' | 'France' | 'Germany' | 'Ghana' | 'India' | 'Iran' | 'Italy' | 'Japan' | 'Jordan' | 'Mexico' | 'Morocco' | 'Netherlands' | 'Norway' | 'Peru' | 'Poland' | 'Portugal' | 'Qatar' | 'Saudi Arabia' | 'Senegal' | 'Serbia' | 'South Korea' | 'Spain' | 'Switzerland' | 'Thailand' | 'Tunisia' | 'Uruguay' | 'USA' | 'Uzbekistan' | 'Venezuela' | 'Vietnam';
 
 const MatchesMaster: React.FC = () => {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -14,6 +16,8 @@ const MatchesMaster: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortOption>('date');
   const [groupedMatches, setGroupedMatches] = useState<Record<string, Match[]>>({});
   const [groupNames, setGroupNames] = useState<Record<number, string>>({});
+  const [selectedGroup, setSelectedGroup] = useState<SortOptionGroupe | ''>('');
+  const [selectedTeam, setSelectedTeam] = useState<SortOptionEquipe | ''>('');
 
   // Récupération des groupes pour les noms
   useEffect(() => {
@@ -61,27 +65,41 @@ const MatchesMaster: React.FC = () => {
   useEffect(() => {
     if (!matches.length || sortBy !== 'team') return;
 
-    const sorted = [...matches].sort((a, b) =>
-      a.homeTeam.name.localeCompare(b.homeTeam.name)
-    );
+    if (selectedTeam) {
+      const filtered = matches.filter(
+        m => m.homeTeam.name === selectedTeam || m.awayTeam.name === selectedTeam
+      );
+      const grouped: Record<string, Match[]> = {
+        [selectedTeam]: filtered
+      };
+      setGroupedMatches(grouped);
+    } else {
+      const sorted = [...matches].sort((a, b) =>
+        a.homeTeam.name.localeCompare(b.homeTeam.name)
+      );
 
-    const grouped: Record<string, Match[]> = {};
-    sorted.forEach(match => {
-      if (!grouped[match.homeTeam.name]) grouped[match.homeTeam.name] = [];
-      grouped[match.homeTeam.name].push(match);
+      const grouped: Record<string, Match[]> = {};
+      sorted.forEach(match => {
+        if (!grouped[match.homeTeam.name]) grouped[match.homeTeam.name] = [];
+        grouped[match.homeTeam.name].push(match);
 
-      if (!grouped[match.awayTeam.name]) grouped[match.awayTeam.name] = [];
-      grouped[match.awayTeam.name].push(match);
-    });
+        if (!grouped[match.awayTeam.name]) grouped[match.awayTeam.name] = [];
+        grouped[match.awayTeam.name].push(match);
+      });
 
-    setGroupedMatches(grouped);
-  }, [matches, sortBy]);
+      setGroupedMatches(grouped);
+    }
+  }, [matches, sortBy, selectedTeam]);
 
   // Filtre des matchs par groupe
   useEffect(() => {
     if (!matches.length || sortBy !== 'group') return;
 
-    const sorted = [...matches].sort((a, b) => a.homeTeam.groupId - b.homeTeam.groupId);
+    const filtered = selectedGroup
+      ? matches.filter(m => groupNames[m.homeTeam.groupId] === selectedGroup)
+    : matches;
+    
+    const sorted = [...filtered].sort((a, b) => a.homeTeam.groupId - b.homeTeam.groupId);
 
     const grouped: Record<string, Match[]> = {};
     sorted.forEach(match => {
@@ -91,7 +109,7 @@ const MatchesMaster: React.FC = () => {
     });
 
     setGroupedMatches(grouped);
-  }, [matches, sortBy, groupNames]);
+  }, [matches, sortBy, groupNames, selectedGroup]);
 
   if (loading) return <p>Chargement des matchs...</p>;
   if (matches.length === 0) return <p>Aucun match disponible</p>;
@@ -100,11 +118,40 @@ const MatchesMaster: React.FC = () => {
     <div className="container py-5 mt-5">
       <div className="mb-4">
         <label className="me-2 fw-bold">Trier par :</label>
-        <select value={sortBy} onChange={e => setSortBy(e.target.value as SortOption)}>
+        <select value={sortBy} onChange={e => { setSortBy(e.target.value as SortOption); setSelectedGroup(''); setSelectedTeam(''); }}>
           <option value="date">Date</option>
           <option value="team">Équipe</option>
           <option value="group">Groupe</option>
         </select>
+        {sortBy === 'group' && (
+          <select
+            className="ms-3"
+            value={selectedGroup}
+            onChange={e => setSelectedGroup(e.target.value as SortOptionGroupe)}
+          >
+            <option value="">Tous les groupes</option>
+            {['A','B','C','D','E','F','G','H','I','J','K','L'].map(g => (
+              <option key={g} value={g}>Groupe {g}</option>
+            ))}
+          </select>
+        )}
+        {sortBy === 'team' && (
+          <select
+            className="ms-3"
+            value={selectedTeam}
+            onChange={e => setSelectedTeam(e.target.value as SortOptionEquipe)}
+          >
+            <option value="">Toutes les équipes</option>
+            {[
+              'Algeria','Argentina','Australia','Belgium','Brazil','Cameroon','Canada','Chile','Costa Rica','Croatia',
+              'Denmark','Ecuador','England','France','Germany','Ghana','India','Iran','Italy','Japan','Jordan',
+              'Mexico','Morocco','Netherlands','Norway','Peru','Poland','Portugal','Qatar','Saudi Arabia','Senegal',
+              'Serbia','South Korea','Spain','Switzerland','Thailand','Tunisia','Uruguay','USA','Uzbekistan','Venezuela','Vietnam'
+            ].map(team => (
+              <option key={team} value={team}>{team}</option>
+            ))}
+          </select>
+        )}
       </div>
 
       {Object.entries(groupedMatches).map(([groupLabel, dayMatches]) => (
