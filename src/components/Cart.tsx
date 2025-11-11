@@ -44,11 +44,8 @@ const Cart: React.FC = () => {
                     }
                 }
 
-                // On combine les tickets payés/utilisés et les tickets valides (en attente)
-                const paidAndUsedTickets = allTicketsResp?.tickets || [];
-                const combinedTickets = [...validTickets, ...paidAndUsedTickets];
-
-                setTickets(combinedTickets);
+                // Le panier ne contient que les tickets valides
+                setTickets(fetched.tickets);
 
             } catch (error) {
                 console.error("Erreur lors du chargement des tickets :", error);
@@ -67,7 +64,7 @@ const Cart: React.FC = () => {
         try {
             // Trouver tous les tickets concernés
             const toDelete = tickets.filter(
-                (t) => t.matchId === matchId && t.category === category && t.status === "pending_payment"
+                (t) => t.matchId === matchId && t.category === category
             );
 
             // Les supprimer un par un via l’API
@@ -82,7 +79,7 @@ const Cart: React.FC = () => {
             // Mettre à jour le state local
             setTickets((prev) =>
                 prev.filter(
-                    (t) => !(t.matchId === matchId && t.category === category && t.status === "pending_payment")
+                    (t) => !(t.matchId === matchId && t.category === category)
                 )
             );
 
@@ -97,7 +94,7 @@ const Cart: React.FC = () => {
     const handleCheckout = async () => {
         try {
             await TicketService.payPendingTickets();
-            setTickets((prev) => prev.filter(t => t.status !== "pending_payment"));
+            setTickets([]);
             alert("Paiement effectué avec succès !");
         } catch (error) {
             console.error("Erreur lors du paiement :", error);
@@ -105,10 +102,10 @@ const Cart: React.FC = () => {
         }
     };
 
-    // Regrouper les tickets ayant même match.id + catégorie + status
+    // Regrouper les tickets ayant même match.id + catégorie
     const groupedTickets = Object.values(
         tickets.reduce((acc, ticket) => {
-            const key = `${ticket.match?.id || "unknown"}-${ticket.category}-${ticket.status || "pending_payment"}`;
+            const key = `${ticket.match?.id || "unknown"}-${ticket.category}`;
             if (!acc[key]) {
                 acc[key] = {
                     ...ticket,
@@ -127,9 +124,7 @@ const Cart: React.FC = () => {
     const remainingTickets = Math.max(0, MAX_TICKETS - (userTotalTickets || 0));
 
     const calculateTotal = () =>
-        groupedTickets
-            .filter(t => t.status === "pending_payment")
-            .reduce((total, t) => total + t.totalPrice, 0);
+        groupedTickets.reduce((total, t) => total + t.totalPrice, 0);
 
 const handleQuantityChange = async (matchId: number, category: string, newQuantity: number) => {
     if (newQuantity < 1 || newQuantity > 6) {
@@ -138,7 +133,7 @@ const handleQuantityChange = async (matchId: number, category: string, newQuanti
     }
 
     const group = groupedTickets.find(
-        (g) => g.match?.id === matchId && g.category === category && g.status === "pending_payment"
+        (g) => g.match?.id === matchId && g.category === category
     );
     if (!group) return;
 
@@ -157,10 +152,9 @@ const handleQuantityChange = async (matchId: number, category: string, newQuanti
                 (t) => t.matchId === matchId && t.category === category && t.match
             );
 
-            const completedAdded: Ticket[] = added.map((t) => ({
+            const completedAdded = added.map((t) => ({
                 ...t,
-                match: refTicket?.match || t.match,
-                status: "pending_payment",
+                match: refTicket?.match || t.match || undefined,
             }));
 
             setTickets((prev) => [...prev, ...completedAdded]);
@@ -169,7 +163,7 @@ const handleQuantityChange = async (matchId: number, category: string, newQuanti
         } else {
             // ➖ SUPPRESSION : on retire |diff| tickets existants du panier
             const toRemove = tickets.filter(
-                (t) => t.matchId === matchId && t.category === category && t.status === "pending_payment"
+                (t) => t.matchId === matchId && t.category === category
             ).slice(0, Math.abs(diff));
 
             for (const ticket of toRemove) {
@@ -183,7 +177,7 @@ const handleQuantityChange = async (matchId: number, category: string, newQuanti
             setTickets((prev) =>
                 prev.filter(
                     (t) =>
-                        !(t.matchId === matchId && t.category === category && t.status === "pending_payment" && toRemove.some((r) => r.id === t.id))
+                        !(t.matchId === matchId && t.category === category && toRemove.some((r) => r.id === t.id))
                 )
             );
             console.info(`${Math.abs(diff)} ticket(s) supprimé(s) pour match ${matchId} (${category})`);
@@ -240,7 +234,6 @@ const handleQuantityChange = async (matchId: number, category: string, newQuanti
                             <th>Quantité</th>
                             <th>Prix unitaire</th>
                             <th>Total</th>
-                            <th>Statut</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -249,20 +242,10 @@ const handleQuantityChange = async (matchId: number, category: string, newQuanti
                             .sort((a, b) => {
                                 const matchDiff = (a.match?.id || 0) - (b.match?.id || 0);
                                 if (matchDiff !== 0) return matchDiff;
-                                const statusOrder = (status: string) => {
-                                    if (status === "pending_payment") return 0;
-                                    if (status === "confirmed") return 1;
-                                    if (status === "used") return 2;
-                                    return 3;
-                                };
-                                const statusDiff = statusOrder(a.status || "pending_payment") - statusOrder(b.status || "pending_payment");
-                                if (statusDiff !== 0) return statusDiff;
                                 return a.category.localeCompare(b.category);
                             })
-                            .map((ticket) => {
-                                const isPending = ticket.status === "pending_payment";
-                                return (
-                                <tr key={`${ticket.match?.id}-${ticket.category}-${ticket.status}`}>
+                            .map((ticket) => (
+                                <tr key={`${ticket.match?.id}-${ticket.category}`}>
                                     <td>
                                         {ticket.match
                                             ? `${ticket.match.homeTeam} vs ${ticket.match.awayTeam} - ${ticket.match.stadium}`
@@ -281,8 +264,8 @@ const handleQuantityChange = async (matchId: number, category: string, newQuanti
                                                 const value = e.target.value;
                                                 const parsed = parseInt(value);
 
-                                                // On ne met à jour que si c’est un nombre valide et ticket est pending
-                                                if (!isNaN(parsed) && isPending) {
+                                                // On ne met à jour que si c’est un nombre valide
+                                                if (!isNaN(parsed)) {
                                                     handleQuantityChange(
                                                         ticket.match?.id!,
                                                         ticket.category,
@@ -291,37 +274,28 @@ const handleQuantityChange = async (matchId: number, category: string, newQuanti
                                                 }
                                             }}
                                             style={{ width: "60px", textAlign: "center" }}
-                                            disabled={!isPending}
                                         />
                                     </td>
 
                                     <td>{ticket.price.toFixed(2)} €</td>
                                     <td>{(ticket.price * ticket.quantity).toFixed(2)} €</td>
-                                    <td style={{ textTransform: "capitalize" }}>
-                                        {ticket.status || "pending_payment"}
-                                    </td>
                                     <td >
-                                        <button 
-                                            onClick={() => handleRemove(ticket.matchId, ticket.category)} 
-                                            disabled={!isPending}
-                                        >
-                                            Supprimer
-                                        </button>
+                                        <button onClick={() => handleRemove(ticket.matchId, ticket.category)}>Supprimer</button>
                                     </td>
                                 </tr>
-                            )})}
+                            ))}
                         <tr>
                             <td colSpan={4} style={{ textAlign: "right", fontWeight: "bold" }}>
                                 Total
                             </td>
-                            <td colSpan={3} style={{ fontWeight: "bold" }}>
+                            <td colSpan={2} style={{ fontWeight: "bold" }}>
                                 {calculateTotal().toFixed(2)} €
                             </td>
                         </tr>
                     </tbody>
                 </table>
             )}
-            {tickets.some(t => t.status === "pending_payment") && (
+            {tickets.length > 0 && (
                 <button onClick={handleCheckout}>Payer</button>
             )}
         </div>
