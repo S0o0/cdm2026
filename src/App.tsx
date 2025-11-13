@@ -29,6 +29,7 @@ import { SignInService } from "./services/SignInService";
 import type { User } from "./types/User";
 import Cart from "./components/Cart";
 import StadiumDetails from "./components/StadiumDetails";
+import OrdersHistory from "./components/OrdersHistory";
 
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
             <Link to="/groups" className="nav-link px-2 text-white">Groupes</Link>
             <Link to="/stadiums" className="nav-link px-2 text-white">Stades</Link>
             <Link to="/teams" className="nav-link px-2 text-white">Équipes</Link>
+            <Link to="/tickets/history" className="nav-link px-2 text-white">Commandes</Link>
           </div>
           <div className="ms-auto position-relative d-flex align-items-center">
             <Link to="/tickets/pending" style={{ position: 'relative', marginRight: '15px', cursor: 'pointer' }}>
@@ -194,6 +196,7 @@ function App() {
           <Route path="/auth/signin" element={<SignInForm onSignIn={setCurrentUser} />} />
           <Route path="/auth/signup" element={<SignUpForm onSignUp={setCurrentUser} />} />
           <Route path="/tickets/pending" element={currentUser ? (<Cart />) : (<SignInForm onSignIn={setCurrentUser} />)}/>
+          <Route path="/tickets/history" element={currentUser ? (<OrdersHistory />) : (<SignInForm onSignIn={setCurrentUser} />)} />
         </Routes>
       </main>
     </BrowserRouter>

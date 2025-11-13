@@ -15,12 +15,15 @@ export class TicketService {
   }
 
   // Récupère tous les tickets
-  static async getAllTickets(): Promise<Ticket[]> {
-    return apiFetch<Ticket[]>("/tickets", {
+static async getAllTickets(): Promise<Ticket[]> {
+    const result = await apiFetch<{ tickets: Ticket[] }>("/tickets", {
       method: "GET",
       credentials: "include",
     });
-  }
+
+    return result.tickets;
+}
+
 
   // Récupère les tickets en attente
   static async getPendingTickets(): Promise<PendingTicketsResponse> {

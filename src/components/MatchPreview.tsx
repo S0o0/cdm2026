@@ -1,4 +1,5 @@
 import type { Match } from '../types/Match';
+import { translate } from "../utils/translate";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -29,7 +30,7 @@ const MatchPreview: React.FC<MatchPreviewProps> = ({ match, groupNames, showDate
                         alt={match.homeTeam.name}
                         style={{ width: '60px', height: 'auto' }}
                     />
-                    <span className="mt-1">{match.homeTeam.code}</span>
+                    <span className="mt-1">{translate(match.homeTeam.code)}</span>
                 </div>
 
                 {/* Time */}
@@ -41,7 +42,7 @@ const MatchPreview: React.FC<MatchPreviewProps> = ({ match, groupNames, showDate
                         alt={match.awayTeam.name}
                         style={{ width: '60px', height: 'auto' }}
                     />
-                    <span className="mt-1">{match.awayTeam.code}</span>
+                    <span className="mt-1">{translate(match.awayTeam.code)}</span>
                 </div>
             </div>
 

@@ -27,7 +27,7 @@ const MatchesMaster: React.FC = () => {
         groups.forEach(g => (mapping[g.id] = g.name));
         setGroupNames(mapping);
       })
-      .catch(err => console.error("❌ Erreur chargement groupes :", err));
+      .catch(err => console.error("Erreur chargement groupes :", err));
   }, []);
 
   // Récupération des matchs

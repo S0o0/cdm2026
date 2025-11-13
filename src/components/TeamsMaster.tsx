@@ -3,6 +3,7 @@ import TeamPreview from './TeamPreview';
 import type { Team } from '../types/Team';
 import { TeamService } from '../services/TeamService';
 import { Link } from 'react-router-dom';
+import { translate } from "../utils/translate";
 
 
 const TeamsMaster: React.FC = () => {
@@ -22,14 +23,18 @@ const TeamsMaster: React.FC = () => {
         if (selectedContinent === 'Tous') {
             setFilteredTeams(teams);
         } else {
-            setFilteredTeams(teams.filter(team => team.continent === selectedContinent));
+            setFilteredTeams(teams.filter(team => translate(team.continent) === selectedContinent));
         }
     }, [teams, selectedContinent]);
 
     if (loading) return <p>Chargement des équipes...</p>;
     if (teams.length === 0) return <p>Aucune équipe disponible</p>;
 
-    const continents = Array.from(new Set(teams.map(t => t.continent)));
+    const continents = Array.from(new Set(teams.map(t => t.continent)))
+        .map(en => ({
+            en,
+            fr: translate(en)
+        }));
 
     return (
         <div className="container py-5 mt-5">
@@ -37,8 +42,9 @@ const TeamsMaster: React.FC = () => {
                 <label className="me-2 fw-bold">Filtrer par continent :</label>
                 <select value={selectedContinent} onChange={e => setSelectedContinent(e.target.value)}>
                     <option value="Tous">Tous</option>
-                    {continents.map(continent => (
-                        <option key={continent} value={continent}>{continent}</option>
+                    {continents.map(cont => (
+                    <option key={cont.en} value={cont.fr}>{cont.fr}
+                    </option>
                     ))}
                 </select>
             </div>
