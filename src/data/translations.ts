@@ -64,6 +64,7 @@ export const translations: Record<string, string> = {
     SWE: "SUE",
     DEN: "DAN",
     RSA: "AFS",
+    KSA :" ARA",
 
     //  Continents 
     "Europe": "Europe",
