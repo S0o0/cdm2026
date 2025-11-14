@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SignInService } from "../services/SignInService";
 import type { User } from "../types/User";
-import bckgrndAccount from "../assets/account/bckgrndAccount.webp";
+import home from "../assets/home/home.webp";
 
 interface SignInFormProps {
     onSignIn?: (user: User) => void; // Callback après connexion réussie
@@ -47,8 +47,8 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSignIn }) => {
             <div className="row justify-content-center align-items-center">
                 {/* Image à gauche */}
                 <div className="col-md-6 d-flex justify-content-center mb-3 mb-md-0">
-                    <img src={bckgrndAccount} alt="Login illustration" className="img-fluid shadow-lg"
-                        style={{ width: "800px", objectFit: "cover" }} />
+                    <img src={home} alt="Login illustration" className="img-fluid shadow-lg"
+                        style={{ width: "800px", height: "500px", objectFit: "cover" }} />
                 </div>
 
                 {/* Formulaire à droite */}

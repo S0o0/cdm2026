@@ -40,7 +40,6 @@ const MatchDetails: React.FC = () => {
     const [availability, setAvailability] = useState<MatchAvailability | null>(null);
     const [category, setCategory] = useState<string>(""); // Catégorie sélectionnée
     const [quantity, setQuantity] = useState<number>(1); // Quantité sélectionnée
-    const [message, setMessage] = useState<string>(""); // Message 
     const [adding, setAdding] = useState<boolean>(false); // Etat du bouton
     const [currentUser, setCurrentUser] = useState(() => {
         const user = localStorage.getItem("currentUser");
@@ -76,21 +75,22 @@ const MatchDetails: React.FC = () => {
 
         // Vérifie si l'utilisateur est connecté
         if (!currentUser) {
-            setMessage("Vous devez être connecté pour ajouter des tickets au panier.");
+            alert("Vous devez être connecté pour ajouter des tickets au panier.");
             return;
         }
 
         if (quantity < 1 || quantity > 6) {
-            setMessage("La quantité doit être comprise entre 1 et 6.");
+            alert("La quantité doit être comprise entre 1 et 6.");
             return;
         }
+
         try {
             setAdding(true);
             await TicketService.addTicket(Number(match.id), category, quantity);
-            setMessage("Tickets ajoutés au panier !");
+            alert("Tickets ajoutés au panier !");
         } catch (err: any) {
-            if (err.response.status === 400) {
-                setMessage("Erreur : requête invalide, veuillez vérifier les informations.");
+            if (err.message?.includes("400")) {
+                alert("Quantité de tickets demandée non disponible.");
             }
         } finally {
             setAdding(false);
@@ -196,7 +196,6 @@ const MatchDetails: React.FC = () => {
                             >
                                 {adding ? "Ajout..." : "Ajouter au panier"}
                             </button>
-                            {message && <p className="mt-3 text-success text-center">{message}</p>}
                         </>
                     ) : (
                         <p>Aucune donnée sur les disponibilités.</p>
