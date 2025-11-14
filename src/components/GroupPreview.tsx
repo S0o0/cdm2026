@@ -1,5 +1,6 @@
 import type { Group } from '../types/Group';
 import { Link } from 'react-router-dom';
+import { translate } from '../utils/translate';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -22,7 +23,7 @@ const GroupPreview: React.FC<GroupPreviewProps> = ({ group }) => {
                             alt={team.name}
                             style={{ width: '30px', height: 'auto' }}
                         />
-                        <span>{team.name}</span>
+                        <span>{translate(team.name)}</span>
                     </li>
                 ))}
             </ul>
