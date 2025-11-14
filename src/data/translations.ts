@@ -57,6 +57,9 @@ export const translations: Record<string, string> = {
     KOR: "COR",
     QAT: "QAT",
     SAU: "ASA",
+    SWE: "SUE",
+    DEN: "DAN",
+    RSA: "AFS",
 
     //  Continents 
     "Europe": "Europe",
