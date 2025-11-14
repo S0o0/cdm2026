@@ -13,9 +13,11 @@ const Cart: React.FC = () => {
             try {
                 setLoadingTickets(true);
                 // On récupère tous les tickets puis on compte ceux payés ou utilisés
-                const allTicketsResp: any = await TicketService.getAllTickets();
-                const confirmedCount = allTicketsResp?.counts?.confirmed || 0;
-                const usedCount = allTicketsResp?.counts?.used || 0;
+                const allTickets = await TicketService.getAllTickets();
+
+                const confirmedCount = allTickets.counts.confirmed;
+                const usedCount = allTickets.counts.used;
+
                 const effectiveCount = confirmedCount + usedCount;
                 setUserTotalTickets(effectiveCount);
 
@@ -58,7 +60,7 @@ const Cart: React.FC = () => {
         };
         fetchTickets();
     }, []);
-    
+
     // Tous les tickets qui ont pour match et catégorie ceux passés en paramètre sont supprimés
     const handleRemove = async (matchId: number, category: string) => {
         try {
@@ -126,81 +128,81 @@ const Cart: React.FC = () => {
     const calculateTotal = () =>
         groupedTickets.reduce((total, t) => total + t.totalPrice, 0);
 
-const handleQuantityChange = async (matchId: number, category: string, newQuantity: number) => {
-    if (newQuantity < 1 || newQuantity > 6) {
-        alert("La quantité doit être comprise entre 1 et 6 par match.");
-        return;
-    }
-
-    const group = groupedTickets.find(
-        (g) => g.match?.id === matchId && g.category === category
-    );
-    if (!group) return;
-
-    const currentQuantity = group.quantity;
-    const diff = newQuantity - currentQuantity;
-
-    if (diff === 0) return; // rien à faire
-
-    try {
-        if (diff > 0) {
-            // ➕ AJOUT : on ajoute diff tickets à l’utilisateur
-            const added = await TicketService.addTicket(matchId, category, diff);
-
-            // NEW : on récupère un ticket de référence pour réinjecter le champ `match`
-            const refTicket = tickets.find(
-                (t) => t.matchId === matchId && t.category === category && t.match
-            );
-
-            const completedAdded = added.map((t) => ({
-                ...t,
-                match: refTicket?.match || t.match || undefined,
-            }));
-
-            setTickets((prev) => [...prev, ...completedAdded]);
-
-            console.info(`+${diff} ticket(s) ajouté(s) pour match ${matchId} (${category})`);
-        } else {
-            // ➖ SUPPRESSION : on retire |diff| tickets existants du panier
-            const toRemove = tickets.filter(
-                (t) => t.matchId === matchId && t.category === category
-            ).slice(0, Math.abs(diff));
-
-            for (const ticket of toRemove) {
-                try {
-                    await TicketService.deleteTicket(ticket.id);
-                } catch (err) {
-                    console.warn("Erreur suppression ticket :", ticket.id, err);
-                }
-            }
-
-            setTickets((prev) =>
-                prev.filter(
-                    (t) =>
-                        !(t.matchId === matchId && t.category === category && toRemove.some((r) => r.id === t.id))
-                )
-            );
-            console.info(`${Math.abs(diff)} ticket(s) supprimé(s) pour match ${matchId} (${category})`);
+    const handleQuantityChange = async (matchId: number, category: string, newQuantity: number) => {
+        if (newQuantity < 1 || newQuantity > 6) {
+            alert("La quantité doit être comprise entre 1 et 6 par match.");
+            return;
         }
-    } catch (error: any) {
-    // Je sais pas encore si on garde le message d'erreur dans la console
-    console.error("Erreur lors de la mise à jour de la quantité :", error);
 
-    // On affiche le message de l'API
-    const apiMessage =
-        (error instanceof Error && error.message) ||
-        error?.message ||
-        "Une erreur est survenue lors de la mise à jour de la quantité.";
+        const group = groupedTickets.find(
+            (g) => g.match?.id === matchId && g.category === category
+        );
+        if (!group) return;
 
-    alert(apiMessage);
-}
-};
+        const currentQuantity = group.quantity;
+        const diff = newQuantity - currentQuantity;
+
+        if (diff === 0) return; // rien à faire
+
+        try {
+            if (diff > 0) {
+                // ➕ AJOUT : on ajoute diff tickets à l’utilisateur
+                const added = await TicketService.addTicket(matchId, category, diff);
+
+                // NEW : on récupère un ticket de référence pour réinjecter le champ `match`
+                const refTicket = tickets.find(
+                    (t) => t.matchId === matchId && t.category === category && t.match
+                );
+
+                const completedAdded = added.map((t) => ({
+                    ...t,
+                    match: refTicket?.match || t.match || undefined,
+                }));
+
+                setTickets((prev) => [...prev, ...completedAdded]);
+
+                console.info(`+${diff} ticket(s) ajouté(s) pour match ${matchId} (${category})`);
+            } else {
+                // ➖ SUPPRESSION : on retire |diff| tickets existants du panier
+                const toRemove = tickets.filter(
+                    (t) => t.matchId === matchId && t.category === category
+                ).slice(0, Math.abs(diff));
+
+                for (const ticket of toRemove) {
+                    try {
+                        await TicketService.deleteTicket(ticket.id);
+                    } catch (err) {
+                        console.warn("Erreur suppression ticket :", ticket.id, err);
+                    }
+                }
+
+                setTickets((prev) =>
+                    prev.filter(
+                        (t) =>
+                            !(t.matchId === matchId && t.category === category && toRemove.some((r) => r.id === t.id))
+                    )
+                );
+                console.info(`${Math.abs(diff)} ticket(s) supprimé(s) pour match ${matchId} (${category})`);
+            }
+        } catch (error: any) {
+            // Je sais pas encore si on garde le message d'erreur dans la console
+            console.error("Erreur lors de la mise à jour de la quantité :", error);
+
+            // On affiche le message de l'API
+            const apiMessage =
+                (error instanceof Error && error.message) ||
+                error?.message ||
+                "Une erreur est survenue lors de la mise à jour de la quantité.";
+
+            alert(apiMessage);
+        }
+    };
 
 
     return (
         <div>
             <h2>Votre Panier</h2>
-                <p style={{ color: "#555", fontStyle: "italic" }}>
+            <p style={{ color: "#555", fontStyle: "italic" }}>
                 Les tickets ajoutés à votre panier expirent <strong>15 minutes</strong> après leur ajout.
                 Passé ce délai, ils seront automatiquement supprimés.
             </p>

@@ -12,9 +12,8 @@ const OrdersHistory: React.FC = () => {
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                const result = await TicketService.getAllTickets();
-
-                const filtered = result.filter(
+                const allTicketsResponse = await TicketService.getAllTickets();
+                const filtered = allTicketsResponse.tickets.filter(
                     (t) => t.status === "confirmed" || t.status === "used"
                 );
 
@@ -59,7 +58,7 @@ const OrdersHistory: React.FC = () => {
                         </h5>
 
                         <div className="d-flex flex-wrap align-items-center">
-                            
+
                             {/* Bloc QR Code */}
                             <div className="me-4 mb-3">
                                 {t.qrCode ? (

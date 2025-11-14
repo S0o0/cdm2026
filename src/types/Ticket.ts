@@ -14,13 +14,32 @@ export type Ticket = {
     expiresAt: string | null;
     paymentDate: string | null;
     validatedAt: string | null;
-    match?:{
+    match?: {
         id: number;
         homeTeam: string;
         awayTeam: string;
         stadium: string;
         matchDate: string;
     };
+};
+
+export type TicketCounts = {
+    total: number;
+    pending: number;
+    confirmed: number;
+    used: number;
+};
+
+export type GroupedTickets = {
+    pending: Ticket[];
+    confirmed: Ticket[];
+    used: Ticket[];
+};
+
+export type AllTicketsResponse = {
+    tickets: Ticket[];
+    grouped: GroupedTickets;
+    counts: TicketCounts;
 };
 
 // Réponse du endpoint GET /tickets/pending
