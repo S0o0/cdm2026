@@ -1,4 +1,4 @@
-import type { Ticket, PendingTicketsResponse } from "../types/Ticket";
+import type { Ticket, PendingTicketsResponse, AllTicketsResponse } from "../types/Ticket";
 import { apiFetch } from "./Api";
 
 export class TicketService {
@@ -14,13 +14,13 @@ export class TicketService {
     return response.tickets;
   }
 
-  // Récupère tous les tickets
-  static async getAllTickets(): Promise<Ticket[]> {
-    return apiFetch<Ticket[]>("/tickets", {
+  static async getAllTickets(): Promise<AllTicketsResponse> {
+    return apiFetch<AllTicketsResponse>("/tickets", {
       method: "GET",
       credentials: "include",
     });
   }
+
 
   // Récupère les tickets en attente
   static async getPendingTickets(): Promise<PendingTicketsResponse> {
@@ -32,7 +32,7 @@ export class TicketService {
 
   // Supprimer un ticket
   static async deleteTicket(ticketId: string): Promise<void> {
-    await apiFetch<void>(`/tickets/${ticketId}`, { 
+    await apiFetch<void>(`/tickets/${ticketId}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -40,7 +40,7 @@ export class TicketService {
 
   // Payer les tickets en attente
   static async payPendingTickets(): Promise<Ticket[]> {
-    return apiFetch<Ticket[]>("/tickets/pay-pending", { 
+    return apiFetch<Ticket[]>("/tickets/pay-pending", {
       method: "POST",
       credentials: "include",
     });
