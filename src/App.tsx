@@ -12,7 +12,6 @@ import logo from './assets/home/wc26logo.avif'; // World Cup 2026 Logo
 import signin from './assets/home/usericon.png'; // Login Icon
 import usericonlogged from './assets/home/usericonlogged.png'; // Logged-in User Icon
 import cartIcon from './assets/home/carticon.png'; // Cart Icon (user to manage)
-import { TicketService } from './services/TicketService';
 // Components
 import Groups from './components/GroupsMaster';
 import GroupDetails from "./components/GroupDetails";
@@ -35,6 +34,22 @@ import OrdersHistory from "./components/OrdersHistory";
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const updateCartCount = () => {
+      try {
+        const tickets = JSON.parse(localStorage.getItem("pendingTickets") || "[]");
+        setCartCount(Array.isArray(tickets) ? tickets.length : 0);
+      } catch {
+        setCartCount(0);
+      }
+    };
+
+    updateCartCount();
+
+    window.addEventListener("storage", updateCartCount);
+    return () => window.removeEventListener("storage", updateCartCount);
+  }, []);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -102,7 +117,7 @@ function App() {
             <Link to="/tickets/history" className="nav-link px-2 text-white">Commandes</Link>
           </div>
           <div className="ms-auto position-relative d-flex align-items-center">
-            <Link to="/tickets/pending" style={{ position: 'relative', marginRight: '15px', cursor: 'pointer' }}>
+            <Link to="/tickets/pending" style={{ display: 'flex', alignItems: 'center', marginRight: '15px', cursor: 'pointer', gap: '5px' }}>
               <img
                 src={cartIcon}
                 alt="Cart"
@@ -110,13 +125,14 @@ function App() {
               />
               {cartCount > 0 && (
                 <span style={{
-                  position: 'absolute',
-                  top: '-5px',
-                  right: '-10px',
+                  display: 'inline-block',
+                  minWidth: '18px',
+                  height: '18px',
                   background: 'red',
                   color: 'white',
                   borderRadius: '50%',
-                  padding: '2px 6px',
+                  textAlign: 'center',
+                  lineHeight: '18px',
                   fontSize: '12px',
                   fontWeight: 'bold'
                 }}>{cartCount}</span>

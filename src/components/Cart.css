@@ -1,0 +1,92 @@
+.cart-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.cart-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.cart-info {
+    color: #555;
+    font-style: italic;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.cart-table {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.cart-table thead th {
+    background: #f8f9fa;
+    font-weight: 600;
+    text-align: center;
+}
+
+.cart-table td {
+    vertical-align: middle !important;
+    text-align: center;
+}
+
+.cart-quantity-input {
+    width: 70px;
+    text-align: center;
+}
+
+.cart-total-row td {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.cart-bottom {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.cart-limit-warning {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+.btn-delete {
+    padding: 4px 10px;
+}
+
+
+.ticket-stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.ticket-stat-box {
+    text-align: center;
+    padding: 15px 25px;
+    border-radius: 10px;
+    min-width: 140px;
+}
+
+.ticket-stat-number {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #222;
+}
+
+.ticket-stat-label {
+    font-size: 1rem;
+    color: #555;
+}
