@@ -99,7 +99,8 @@ function App() {
             <Link to="/groups" className="nav-link px-2 text-white">Groupes</Link>
             <Link to="/stadiums" className="nav-link px-2 text-white">Stades</Link>
             <Link to="/teams" className="nav-link px-2 text-white">Équipes</Link>
-            <Link to="/tickets/history" className="nav-link px-2 text-white">Commandes</Link>
+            {/* Le bouton d'accès à l'historique des commandes n'apparaît que si l'utilisateur est connecté */}
+            {currentUser && (<Link to="/tickets/history" className="nav-link px-2 text-white">Commandes</Link>)}
           </div>
           <div className="ms-auto position-relative d-flex align-items-center">
             <Link to="/tickets/pending" style={{ position: 'relative', marginRight: '15px', cursor: 'pointer' }}>
