@@ -43,8 +43,8 @@ const MatchDetails: React.FC = () => {
     const [message, setMessage] = useState<string>(""); // Message 
     const [adding, setAdding] = useState<boolean>(false); // Etat du bouton
     const [currentUser, setCurrentUser] = useState(() => {
-    const user = localStorage.getItem("currentUser");
-    return user ? JSON.parse(user) : null;
+        const user = localStorage.getItem("currentUser");
+        return user ? JSON.parse(user) : null;
     });
     useEffect(() => {
         if (!matchId) return;
@@ -73,7 +73,7 @@ const MatchDetails: React.FC = () => {
     // fonction d'ajout au panier
     const handleAddToCart = async () => {
         if (!match) return;
-        
+
         // Vérifie si l'utilisateur est connecté
         if (!currentUser) {
             setMessage("Vous devez être connecté pour ajouter des tickets au panier.");
@@ -89,7 +89,9 @@ const MatchDetails: React.FC = () => {
             await TicketService.addTicket(Number(match.id), category, quantity);
             setMessage("Tickets ajoutés au panier !");
         } catch (err: any) {
-            setMessage(err.message);
+            if (err.response.status === 400) {
+                setMessage("Erreur : requête invalide, veuillez vérifier les informations.");
+            }
         } finally {
             setAdding(false);
         }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SignInService } from "../services/SignInService";
 import type { User } from "../types/User";
+import bckgrndAccount from "../assets/account/bckgrndAccount.webp";
 
 interface SignInFormProps {
     onSignIn?: (user: User) => void; // Callback après connexion réussie
@@ -12,7 +13,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSignIn }) => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -31,41 +32,62 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSignIn }) => {
             // Redirection après connexion (vers l'accueil par exemple)
             navigate("/");
         } catch (err: any) {
-            setError(err.message || "Erreur lors de la connexion");
+            if (err.message?.includes("401")) {
+                setError("Email ou mot de passe incorrect");
+            } else {
+                setError(err.message || "Erreur lors de la connexion");
+            }
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="login-form-container ms-5" style={{ maxWidth: "400px", margin: "2rem auto" }}>
-            <h2>Se connecter</h2>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label>Email :</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
+        <div className="container mt-5">
+            <div className="row justify-content-center align-items-center">
+                {/* Image à gauche */}
+                <div className="col-md-6 d-flex justify-content-center mb-3 mb-md-0">
+                    <img src={bckgrndAccount} alt="Login illustration" className="img-fluid shadow-lg"
+                        style={{ width: "800px", objectFit: "cover" }} />
                 </div>
-                <div className="mb-3">
-                    <label>Mot de passe :</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+
+                {/* Formulaire à droite */}
+                <div className="col-md-6">
+                    <div className="card p-4" style={{ width: "400px", height: "auto" }}>
+                        <h2 className="mb-3">Se connecter</h2>
+                        {error &&
+                            <p
+                                style={{ backgroundColor: "red", fontWeight: "bold", textAlign: "center", color: "white", padding: "10px" }}
+                            >{error}
+                            </p>}
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3">
+                                <label>Email :</label>
+                                <input
+                                    type="email"
+                                    className="form-control"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label>Mot de passe :</label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                                {loading ? "Connexion..." : "Se connecter"}
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                <button type="submit" className="btn btn-primary" disabled={loading}>
-                    {loading ? "Connexion..." : "Se connecter"}
-                </button>
-            </form>
+            </div>
         </div>
     );
 };
