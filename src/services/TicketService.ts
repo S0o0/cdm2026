@@ -1,6 +1,10 @@
 import type { Ticket, PendingTicketsResponse, AllTicketsResponse } from "../types/Ticket";
 import { apiFetch } from "./Api";
+let onCartUpdate: (() => void) | null = null;
 
+export function setCartUpdateCallback(fn: () => void) {
+  onCartUpdate = fn;
+}
 export class TicketService {
   // Ajouter un ticket
   static async addTicket(matchId: number, category: string, quantity: number): Promise<Ticket[]> {
@@ -9,6 +13,7 @@ export class TicketService {
       body: JSON.stringify({ matchId, category, quantity }),
       credentials: "include",
     });
+    if (onCartUpdate) onCartUpdate();
 
     // On ne retourne que les tickets, pas toute la réponse
     return response.tickets;
@@ -36,15 +41,19 @@ export class TicketService {
       method: "DELETE",
       credentials: "include",
     });
+    if (onCartUpdate) onCartUpdate();
+
   }
 
   // Payer les tickets en attente
-  static async payPendingTickets(): Promise<Ticket[]> {
-    return apiFetch<Ticket[]>("/tickets/pay-pending", {
-      method: "POST",
-      credentials: "include",
-    });
-  }
+static async payPendingTickets(): Promise<Ticket[]> {
+  const response = await apiFetch<Ticket[]>("/tickets/pay-pending", {
+    method: "POST",
+    credentials: "include",
+  });
+  if (onCartUpdate) onCartUpdate();
+  return response;
+}
 
   // Valider un ticket
   static async validateTicket(ticketId: string): Promise<Ticket> {

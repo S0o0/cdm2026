@@ -27,7 +27,7 @@ const MatchPreview: React.FC<MatchPreviewProps> = ({ match, groupNames, showDate
                 <div className="d-flex flex-column align-items-center">
                     <img
                         src={`${API_URL}${match.homeTeam.flagImagePath}`}
-                        alt={match.homeTeam.name}
+                        alt={translate(match.homeTeam.name)}
                         style={{ width: '60px', height: 'auto' }}
                     />
                     <span className="mt-1">{translate(match.homeTeam.code)}</span>
@@ -39,7 +39,7 @@ const MatchPreview: React.FC<MatchPreviewProps> = ({ match, groupNames, showDate
                 <div className="d-flex flex-column align-items-center">
                     <img
                         src={`${API_URL}${match.awayTeam.flagImagePath}`}
-                        alt={match.awayTeam.name}
+                        alt={translate(match.awayTeam.name)}
                         style={{ width: '60px', height: 'auto' }}
                     />
                     <span className="mt-1">{translate(match.awayTeam.code)}</span>
