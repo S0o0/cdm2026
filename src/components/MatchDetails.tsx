@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { TicketService } from "../services/TicketService";
 import type { Match, MatchAvailability, MatchStage } from '../types/Match';
 import { MatchService } from '../services/MatchService';
+import { translate } from '../utils/translate';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -123,10 +124,10 @@ const MatchDetails: React.FC = () => {
                         <div className="text-center mx-2">
                             <img
                                 src={`${API_URL}${match.homeTeam.flagImagePath}`}
-                                alt={match.homeTeam.name}
+                                alt={translate(match.homeTeam.name)}
                                 style={{ width: '120px', height: '80px', objectFit: 'cover' }}
                             />
-                            <div className="mt-2 fw-semibold">{match.homeTeam.code}</div>
+                            <div className="mt-2 fw-semibold">{translate(match.homeTeam.code, "code")}</div>
                         </div>
 
                         <div className="mx-3 fw-bold fs-4">-</div>
@@ -135,10 +136,10 @@ const MatchDetails: React.FC = () => {
                         <div className="text-center mx-2">
                             <img
                                 src={`${API_URL}${match.awayTeam.flagImagePath}`}
-                                alt={match.awayTeam.name}
+                                alt={translate(match.awayTeam.name)}
                                 style={{ width: '120px', height: '80px', objectFit: 'cover' }}
                             />
-                            <div className="mt-2 fw-semibold">{match.awayTeam.code}</div>
+                            <div className="mt-2 fw-semibold">{translate(match.awayTeam.code, "code")}</div>
                         </div>
                     </div>
 

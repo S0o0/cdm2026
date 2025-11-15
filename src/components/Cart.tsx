@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { Ticket } from "../types/Ticket";
 import { TicketService } from "../services/TicketService";
 import "./Cart.css";
+import { translate } from "../utils/translate";
 
 const Cart: React.FC = () => {
     const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -277,7 +278,7 @@ const Cart: React.FC = () => {
                                     <tr key={`${ticket.match?.id}-${ticket.category}`}>
                                         <td>
                                             {ticket.match
-                                                ? `${ticket.match.homeTeam} vs ${ticket.match.awayTeam} - ${ticket.match.stadium}`
+                                                ? `${translate(ticket.match.homeTeam)} vs ${translate(ticket.match.awayTeam)} - ${ticket.match.stadium}`
                                                 : "Match non disponible"}
                                         </td>
                                         {/* affichage centré de la catégorie */}

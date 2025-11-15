@@ -30,7 +30,7 @@ const MatchPreview: React.FC<MatchPreviewProps> = ({ match, groupNames, showDate
                         alt={translate(match.homeTeam.name)}
                         style={{ width: '60px', height: 'auto' }}
                     />
-                    <span className="mt-1">{translate(match.homeTeam.code)}</span>
+                    <span className="mt-1">{translate(match.homeTeam.code, "code")}</span>
                 </div>
 
                 {/* Time */}
@@ -42,7 +42,7 @@ const MatchPreview: React.FC<MatchPreviewProps> = ({ match, groupNames, showDate
                         alt={translate(match.awayTeam.name)}
                         style={{ width: '60px', height: 'auto' }}
                     />
-                    <span className="mt-1">{translate(match.awayTeam.code)}</span>
+                    <span className="mt-1">{translate(match.awayTeam.code, "code")}</span>
                 </div>
             </div>
 

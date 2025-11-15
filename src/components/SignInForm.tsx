@@ -84,6 +84,13 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSignIn }) => {
                             <button type="submit" className="btn btn-primary w-100" disabled={loading}>
                                 {loading ? "Connexion..." : "Se connecter"}
                             </button>
+                            <button
+                            type="button"
+                            className="btn btn-secondary w-100 mt-2"
+                            onClick={() => navigate("/auth/signup")}
+                            >
+                            Pas de compte ? Inscription
+                            </button>
                         </form>
                     </div>
                 </div>

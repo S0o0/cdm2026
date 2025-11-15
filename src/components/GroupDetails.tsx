@@ -6,6 +6,7 @@ import { GroupService } from "../services/GroupService";
 import { MatchService } from "../services/MatchService";
 import MatchPreview from "./MatchPreview";
 import logo from '../assets/home/wc26logo-black.webp';
+import { translate } from "../utils/translate";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -90,7 +91,7 @@ const GroupDetails: React.FC = () => {
                                     marginBottom: "10px",
                                 }}
                             />
-                            <h6 className="fw-bold text-uppercase">{team.name}</h6>
+                            <h6 className="fw-bold text-uppercase">{translate(team.name)}</h6>
                         </div>
                     </Link>
                 ))}

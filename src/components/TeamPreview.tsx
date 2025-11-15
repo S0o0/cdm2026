@@ -1,5 +1,6 @@
 import type { Team } from '../types/Team';
 import { teamImages } from "../components/TeamImages";
+import { translate } from '../utils/translate';
 
 
 interface TeamPreviewProps {
@@ -24,7 +25,7 @@ const TeamPreview: React.FC<TeamPreviewProps> = ({ team }) => {
                         }}
                     />
                     <div className="card-img-overlay d-flex justify-content-start align-items-end p-2">
-                        <h5 className="card-title rounded px-3 fw-bold">{team.name}</h5>
+                        <h5 className="card-title rounded px-3 fw-bold">{translate(team.name)}</h5>
                     </div>
                 </div>
             </div>

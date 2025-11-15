@@ -66,7 +66,7 @@ export const translations: Record<string, string> = {
     DEN: "DAN",
     RSA: "AFS",
     KSA: "ARA",
-
+    CMR:"CAM",
     //  Continents 
     Europe: "Europe",
     "South America": "Amerique du Sud",
