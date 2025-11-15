@@ -55,37 +55,54 @@ const MatchesCarousel: React.FC<MatchesCarouselProps> = ({ matches: initialMatch
     const visibleMatches = filteredMatches.slice(currentIndex, currentIndex + 4);
 
     return (
-        <div className="position-relative">
-            <button
-                className="btn btn-dark position-absolute top-50 start-0 translate-middle-y rounded-0 shadow-sm border-0"
-                onClick={prev}
-                style={{ zIndex: 1}}
-            >
-                ◀
-            </button>
+        <>  {/*Animation de fondu*/}
+            <style>
+                {`
+                .fade-carousel {
+                    animation: fadeIn 0.4s ease;
+                }
 
-            <div className='overflow-auto ps-5 pe-5'>
-                <ul className="list-group list-group-horizontal gap-2 flex-nowrap">
-                    {visibleMatches.map(match => (
-                        <Link
-                            key={match.id}
-                            to={`/matches/${match.id}`}
-                            style={{ textDecoration: 'none', color: 'inherit' }}
-                        >
-                            <MatchPreview match={match} groupNames={groupNames} showDate />
-                        </Link>
-                    ))}
-                </ul>
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+            `}
+            </style>
+            <div className="position-relative">
+                <button
+                    className="btn btn-dark position-absolute top-50 start-0 translate-middle-y rounded-0 shadow-sm border-0"
+                    onClick={prev}
+                    style={{ zIndex: 1 }}
+                >
+                    ◀
+                </button>
+
+                <div className='overflow-auto ps-5 pe-5'>
+                    <ul
+                        key={currentIndex}
+                        className="list-group list-group-horizontal gap-2 flex-nowrap fade-carousel"
+                    >
+                        {visibleMatches.map(match => (
+                            <Link
+                                key={match.id}
+                                to={`/matches/${match.id}`}
+                                style={{ textDecoration: 'none', color: 'inherit' }}
+                            >
+                                <MatchPreview match={match} groupNames={groupNames} showDate />
+                            </Link>
+                        ))}
+                    </ul>
+                </div>
+
+                <button
+                    className="btn btn-dark position-absolute top-50 end-0 translate-middle-y rounded-0 shadow-sm border-0"
+                    onClick={next}
+                    style={{ zIndex: 1 }}
+                >
+                    ▶
+                </button>
             </div>
-
-            <button
-                className="btn btn-dark position-absolute top-50 end-0 translate-middle-y rounded-0 shadow-sm border-0"
-                onClick={next}
-                style={{ zIndex: 1}}
-            >
-                ▶
-            </button>
-        </div>
+        </>
     );
 };
 
