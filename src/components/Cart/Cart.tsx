@@ -99,6 +99,17 @@ const Cart: React.FC = () => {
         try {
             await TicketService.payPendingTickets();
             setTickets([]);
+            // Après paiement, on met à jour le nombre total de tickets confirmés
+            try {
+                const allTickets = await TicketService.getAllTickets();
+                const confirmedCount = allTickets.counts.confirmed;
+                const usedCount = allTickets.counts.used;
+                const effectiveCount = confirmedCount + usedCount;
+                setUserTotalTickets(effectiveCount);
+            } catch (error) {
+                // En cas d'erreur, on ne fait rien mais on peut afficher un message si besoin
+                console.warn("Erreur lors de la mise à jour du nombre total de tickets :", error);
+            }
             alert("Paiement effectué avec succès !");
         } catch (error) {
             console.error("Erreur lors du paiement :", error);

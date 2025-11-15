@@ -1,5 +1,6 @@
 import type { Team } from './Team';
 import type { Stadium } from './Stadium';
+import type {TicketCategoryName} from './Ticket'
 export type MatchStatus = 'upcoming' | 'live' | 'finished';
 
 export type MatchStage = 'group' | 'round_of_16' | 'quarter_final' | 'semi_final' | 'final';
@@ -18,9 +19,6 @@ export type Match = {
   awayTeam: Team;
   stadium: Stadium;
 };
-
-// Structure pour la disponibilité des tickets d’un match
-export type TicketCategoryName = "VIP" | "CATEGORY_1" | "CATEGORY_2" | "CATEGORY_3";
 
 export type TicketCategoryInfo = {
   available: boolean;
