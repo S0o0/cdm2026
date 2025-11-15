@@ -41,43 +41,43 @@ const TeamDetails: React.FC = () => {
 
 
   return (
-  <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 py-5">
-    <div className="text-center mb-4">
-      <h1 className="fw-bold mt-5">{team.name}</h1>
-      <img
-        src={`${API_URL}${team.flagImagePath}`}
-        alt={`${team.name} flag`}
-        className="img-fluid mb-3"
-        style={{ maxHeight: "150px" }}
-      />
-      <p className="mb-1"><strong>Confédération :</strong> {team.confederation}</p>
-      <p className="mb-0"><strong>Continent :</strong> {team.continent}</p>
-    </div>
-
-    <div className="row justify-content-center align-items-center w-100 gap-4">
-      <div className="col-auto">
+    <div>
+      <div className="text-center mb-4">
+        <h1 className="fw-bold mt-5">{team.name}</h1>
         <img
-          src={teamImages[team.name]}
-          alt={team.name}
-          className="img-fluid"
-          style={{ maxHeight: "250px" }}
+          src={`${API_URL}${team.flagImagePath}`}
+          alt={`${team.name} flag`}
+          className="img-fluid mb-3"
+          style={{ maxHeight: "150px" }}
         />
+        <p className="mb-1"><strong>Confédération :</strong> {team.confederation}</p>
+        <p className="mb-0"><strong>Continent :</strong> {team.continent}</p>
       </div>
-      <div className="text-center mt-4">
-        <h4>Prochains adversaires :</h4>
-        <div className="d-flex align-items-center flex-wrap justify-content-center gap-2">
-          {uniqueOpponents.map((opponent) => (
-            <img
-              key={opponent.id}
-              src={`${API_URL}${opponent.flagImagePath}`}
-              alt={opponent.name}
-              style={{ maxHeight: "60px", borderRadius: "5px" }}
-            />
-          ))}
+
+      <div className="row justify-content-center align-items-center w-100 gap-4">
+        <div className="col-auto">
+          <img
+            src={teamImages[team.name]}
+            alt={team.name}
+            className="img-fluid"
+            style={{ maxHeight: "250px" }}
+          />
+        </div>
+        <div className="text-center mt-4">
+          <h4>Prochains adversaires :</h4>
+          <div className="d-flex align-items-center flex-wrap justify-content-center gap-2">
+            {uniqueOpponents.map((opponent) => (
+              <img
+                key={opponent.id}
+                src={`${API_URL}${opponent.flagImagePath}`}
+                alt={opponent.name}
+                style={{ maxHeight: "60px", borderRadius: "5px" }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
-  </div>
   );
 };
 

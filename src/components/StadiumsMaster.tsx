@@ -37,7 +37,7 @@ const StadiumsMaster: React.FC = () => {
     const countrys = Array.from(new Set(stadiums.map(s => s.country)))
         .map(en => ({ en, fr: translate(en) }));
     return (
-        <div className="container py-5 mt-5">
+        <div className="container mt-5">
             <div className="mb-4">
                 <label className="me-2 fw-bold">Filtrer par pays :</label>
                 <select

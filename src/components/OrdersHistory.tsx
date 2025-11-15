@@ -42,7 +42,7 @@ const OrdersHistory: React.FC = () => {
     }
 
     return (
-        <div className="container mt-5 pt-5">
+        <div className="container pt-5">
             <h2 className="mb-4">Historique des commandes</h2>
 
             {tickets.length === 0 && (

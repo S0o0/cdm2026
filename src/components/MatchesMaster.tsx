@@ -127,7 +127,7 @@ const MatchesMaster: React.FC = () => {
   if (matches.length === 0) return <p>Aucun match disponible</p>;
 
   return (
-    <div className="container py-5 mt-5">
+    <div className="container mt-5">
       <div className="mb-4">
         <label className="me-2 fw-bold">Trier par :</label>
         <select value={sortBy} onChange={e => { setSortBy(e.target.value as SortOption); setSelectedGroup(''); setSelectedTeam(''); }}>
