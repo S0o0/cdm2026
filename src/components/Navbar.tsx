@@ -61,6 +61,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, setCurrentUser }) => {
 
     // Mettre à jour le compteur à chaque changement de route
     const location = useLocation();
+    const isActive = (path: string) => {
+        return location.pathname === path || location.pathname.startsWith(path + "/");
+    };
     useEffect(() => {
         if (!currentUser) {
             setCartCount(0);
@@ -78,12 +81,44 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, setCurrentUser }) => {
                     <img src={logo} alt="CDM 2026 Logo" style={{ height: '80px' }} />
                 </Link>
                 <div className="d-flex align-items-center">
-                    <Link to="/" className="nav-link px-2 text-white">Accueil</Link>
-                    <Link to="/matches" className="nav-link px-2 text-white">Matches</Link>
-                    <Link to="/groups" className="nav-link px-2 text-white">Groupes</Link>
-                    <Link to="/stadiums" className="nav-link px-2 text-white">Stades</Link>
-                    <Link to="/teams" className="nav-link px-2 text-white">Équipes</Link>
-                    {currentUser && (<Link to="/tickets/history" className="nav-link px-2 text-white">Commandes</Link>)}
+                    <Link
+                        to="/"
+                        className={`nav-link px-2 ${isActive("/") ? "bg-white text-dark fw-bold rounded px-2" : "text-white"}`}
+                    >
+                        Accueil
+                    </Link>
+                    <Link
+                        to="/matches"
+                        className={`nav-link px-2 ${isActive("/matches") ? "bg-white text-dark fw-bold rounded px-2" : "text-white"}`}
+                    >
+                        Matches
+                    </Link>
+                    <Link
+                        to="/groups"
+                        className={`nav-link px-2 ${isActive("/groups") ? "bg-white text-dark fw-bold rounded px-2" : "text-white"}`}
+                    >
+                        Groupes
+                    </Link>
+                    <Link
+                        to="/stadiums"
+                        className={`nav-link px-2 ${isActive("/stadiums") ? "bg-white text-dark fw-bold rounded px-2" : "text-white"}`}
+                    >
+                        Stades
+                    </Link>
+                    <Link
+                        to="/teams"
+                        className={`nav-link px-2 ${isActive("/teams") ? "bg-white text-dark fw-bold rounded px-2" : "text-white"}`}
+                    >
+                        Équipes
+                    </Link>
+                    {currentUser && (
+                        <Link
+                            to="/tickets/history"
+                            className={`nav-link px-2 ${isActive("/tickets/history") ? "bg-white text-dark fw-bold rounded px-2" : "text-white"}`}
+                        >
+                            Commandes
+                        </Link>
+                    )}
                 </div>
                 <div className="ms-auto position-relative d-flex align-items-center">
                     <Link to="/tickets/pending" style={{ display: 'flex', alignItems: 'center', marginRight: '15px', cursor: 'pointer', gap: '5px' }}>
