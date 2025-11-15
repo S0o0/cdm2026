@@ -82,6 +82,11 @@ const TeamDetails: React.FC = () => {
           </div>
         </div>
       </div>
+      <div className="text-center mt-5">
+        <Link to="/teams" className="btn btn-dark px-4 py-2 rounded-0 shadow-sm border-0">
+          Retour aux équipes
+        </Link>
+      </div>
     </div>
   );
 };

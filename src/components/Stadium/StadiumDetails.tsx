@@ -114,37 +114,11 @@ export default function StadiumDetails() {
             </div>
           </>
         )}
-        {/* {matches.length === 0 ? (
-          <p className="text-muted mt-3">Aucun match prévu dans ce stade.</p>
-        ) : (
-          <div className="d-flex flex-wrap justify-content-center gap-3 mt-3">
-            {matches.map((match) => (
-              <Link
-                key={match.id}
-                to={`/matches/${match.id}`}
-                className="btn btn-outline-light border rounded p-3 text-dark"
-                style={{ minWidth: "220px", textDecoration: "none" }}
-              >
-                <div className="d-flex justify-content-between align-items-center">
-                  <img
-                    src={`${API_URL}${match.homeTeam.flagImagePath}`}
-                    alt={match.homeTeam.name}
-                    style={{ width: "40px", borderRadius: "4px" }}
-                  />
-                  <span className="mx-2 fw-bold">vs</span>
-                  <img
-                    src={`${API_URL}${match.awayTeam.flagImagePath}`}
-                    alt={match.awayTeam.name}
-                    style={{ width: "40px", borderRadius: "4px" }}
-                  />
-                </div>
-                <p className="mt-2 mb-0 small text-dark">
-                  {new Date(match.date).toLocaleString()}
-                </p>
-              </Link>
-            ))}
-          </div>
-        )} */}
+      </div>
+      <div className="text-center mt-5">
+        <Link to="/stadiums" className="btn btn-dark px-4 py-2 rounded-0 shadow-sm border-0">
+          Retour aux stades
+        </Link>
       </div>
     </div>
   );
