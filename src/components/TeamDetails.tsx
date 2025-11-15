@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import type { Team } from "../types/Team";
 import { TeamService } from "../services/TeamService";
 import { teamImages } from "./TeamImages";
@@ -67,12 +67,17 @@ const TeamDetails: React.FC = () => {
           <h4>Prochains adversaires :</h4>
           <div className="d-flex align-items-center flex-wrap justify-content-center gap-2">
             {uniqueOpponents.map((opponent) => (
-              <img
+              <Link
                 key={opponent.id}
-                src={`${API_URL}${opponent.flagImagePath}`}
-                alt={opponent.name}
-                style={{ maxHeight: "60px", borderRadius: "5px" }}
-              />
+                to={`/teams/${opponent.id}`}
+              >
+                <img
+                  key={opponent.id}
+                  src={`${API_URL}${opponent.flagImagePath}`}
+                  alt={opponent.name}
+                  style={{ maxHeight: "60px", borderRadius: "5px" }}
+                />
+              </Link>
             ))}
           </div>
         </div>
