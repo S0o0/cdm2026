@@ -1,6 +1,6 @@
-import type { Group } from '../types/Group';
+import type { Group } from '../../types/Group';
 import { Link } from 'react-router-dom';
-import { translate } from '../utils/translate';
+import { translate } from '../../utils/translate';
 
 const API_URL = import.meta.env.VITE_API_URL;
 

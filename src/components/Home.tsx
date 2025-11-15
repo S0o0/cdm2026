@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import video from '../assets/home/video.mp4';
-import soundDisabledIcon from '../assets/home/soundDisabled.png';
-import soundEnabledIcon from '../assets/home/soundEnabled.png';
+import video from '../assets/img/home/video.mp4';
+import soundDisabledIcon from '../assets/img/home/soundDisabled.png';
+import soundEnabledIcon from '../assets/img/home/soundEnabled.png';
 
 const Home: React.FC = () => {
     const [soundEnabled, setSoundEnabled] = useState(false);

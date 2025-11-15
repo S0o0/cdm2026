@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import type { Team } from "../types/Team";
-import { TeamService } from "../services/TeamService";
+import type { Team } from "../../types/Team";
+import { TeamService } from "../../services/TeamService";
 import { teamImages } from "./TeamImages";
-import type { Match } from "../types/Match";
-import { MatchService } from "../services/MatchService";
+import type { Match } from "../../types/Match";
+import { MatchService } from "../../services/MatchService";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

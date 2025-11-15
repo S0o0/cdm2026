@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import MatchPreview from './MatchPreview';
-import type { Match } from '../types/Match';
-import { MatchService } from "../services/MatchService";
+import type { Match } from '../../types/Match';
+import { MatchService } from "../../services/MatchService";
 import { Link } from 'react-router-dom';
-import { GroupService } from "../services/GroupService";
-import type { Group } from "../types/Group";
-import { translate } from "../utils/translate";
+import { GroupService } from "../../services/GroupService";
+import type { Group } from "../../types/Group";
+import { translate } from "../../utils/translate";
 
 type SortOption = 'date' | 'team' | 'group';
 type SortOptionGroupe = string;

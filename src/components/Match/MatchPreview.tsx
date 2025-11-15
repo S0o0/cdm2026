@@ -1,5 +1,5 @@
-import type { Match } from '../types/Match';
-import { translate } from "../utils/translate";
+import type { Match } from '../../types/Match';
+import { translate } from "../../utils/translate";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

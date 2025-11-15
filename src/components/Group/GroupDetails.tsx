@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import type { Group } from "../types/Group";
-import type { Match } from "../types/Match";
-import { GroupService } from "../services/GroupService";
-import { MatchService } from "../services/MatchService";
-import MatchPreview from "./MatchPreview";
-import logo from '../assets/home/wc26logo-black.webp';
-import { translate } from "../utils/translate";
+import type { Group } from "../../types/Group";
+import type { Match } from "../../types/Match";
+import { GroupService } from "../../services/GroupService";
+import { MatchService } from "../../services/MatchService";
+import MatchPreview from "../Match/MatchPreview";
+import logo from '../../assets/img/home/wc26logo-black.webp';
+import { translate } from "../../utils/translate";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import GroupPreview from './GroupPreview';
-import type { Group } from '../types/Group';
-import { GroupService } from "../services/GroupService";
+import type { Group } from '../../types/Group';
+import { GroupService } from "../../services/GroupService";
 
 const GroupsMaster: React.FC = () => {
     const [groups, setGroups] = useState<Group[]>([]);

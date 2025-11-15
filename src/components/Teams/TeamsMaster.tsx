@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import TeamPreview from './TeamPreview';
-import type { Team } from '../types/Team';
-import { TeamService } from '../services/TeamService';
+import type { Team } from '../../types/Team';
+import { TeamService } from '../../services/TeamService';
 import { Link } from 'react-router-dom';
-import { translate } from "../utils/translate";
+import { translate } from "../../utils/translate";
 
 
 const TeamsMaster: React.FC = () => {

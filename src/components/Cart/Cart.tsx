@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import type { Ticket } from "../types/Ticket";
-import { TicketService } from "../services/TicketService";
-import "./Cart.css";
-import { translate } from "../utils/translate";
+import type { Ticket } from "../../types/Ticket";
+import { TicketService } from "../../services/TicketService";
+import "../../assets/style/Cart.css";
+import { translate } from "../../utils/translate";
 
 const Cart: React.FC = () => {
     const [tickets, setTickets] = useState<Ticket[]>([]);

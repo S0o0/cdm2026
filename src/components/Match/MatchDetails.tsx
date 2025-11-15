@@ -1,9 +1,9 @@
 import React, { useEffect, useState, type JSX } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { TicketService } from "../services/TicketService";
-import type { Match, MatchAvailability, MatchStage } from '../types/Match';
-import { MatchService } from '../services/MatchService';
-import { translate } from '../utils/translate';
+import { TicketService } from "../../services/TicketService";
+import type { Match, MatchAvailability, MatchStage } from '../../types/Match';
+import { MatchService } from '../../services/MatchService';
+import { translate } from '../../utils/translate';
 
 const API_URL = import.meta.env.VITE_API_URL;
 

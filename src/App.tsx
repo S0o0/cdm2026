@@ -4,18 +4,18 @@ import { useState } from "react";
 
 // Components
 import Home from './components/Home';
-import MatchesCarousel from './components/MatchesCarousel';
-import Groups from './components/GroupsMaster';
-import GroupDetails from "./components/GroupDetails";
-import Matches from './components/MatchesMaster';
-import MatchDetails from './components/MatchDetails';
-import Stades from './components/StadiumsMaster';
-import Teams from './components/TeamsMaster';
-import TeamDetails from './components/TeamDetails';
-import SignInForm from './components/SignInForm';
-import SignUpForm from './components/SignUpForm';
-import Cart from "./components/Cart";
-import StadiumDetails from "./components/StadiumDetails";
+import MatchesCarousel from './components/Match/MatchesCarousel';
+import Groups from './components/Group/GroupsMaster';
+import GroupDetails from "./components/Group/GroupDetails";
+import Matches from './components/Match/MatchesMaster';
+import MatchDetails from './components/Match/MatchDetails';
+import Stades from './components/Stadium/StadiumsMaster';
+import Teams from './components/Teams/TeamsMaster';
+import TeamDetails from './components/Teams/TeamDetails';
+import SignInForm from './components/Account/SignInForm';
+import SignUpForm from './components/Account/SignUpForm';
+import Cart from "./components/Cart/Cart";
+import StadiumDetails from "./components/Stadium/StadiumDetails";
 import OrdersHistory from "./components/OrdersHistory";
 import Navbar from './components/Navbar';
 

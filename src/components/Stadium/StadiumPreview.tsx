@@ -1,4 +1,4 @@
-import type { Stadium } from '../types/Stadium';
+import type { Stadium } from '../../types/Stadium';
 
 interface StadiumPreviewProps {
     stadium: Stadium;

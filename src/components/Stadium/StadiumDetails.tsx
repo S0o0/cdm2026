@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { StadiumService } from "../services/StadiumService";
-import { MatchService } from "../services/MatchService";
-import type { Stadium } from "../types/Stadium";
-import type { Match } from "../types/Match";
-import MatchPreview from "./MatchPreview";
-import { GroupService } from "../services/GroupService";
-import type { Group } from "../types/Group";
+import { StadiumService } from "../../services/StadiumService";
+import { MatchService } from "../../services/MatchService";
+import type { Stadium } from "../../types/Stadium";
+import type { Match } from "../../types/Match";
+import MatchPreview from "../Match/MatchPreview";
+import { GroupService } from "../../services/GroupService";
+import type { Group } from "../../types/Group";
 
 export default function StadiumDetails() {
   const { stadiumId } = useParams<{ stadiumId: string }>();

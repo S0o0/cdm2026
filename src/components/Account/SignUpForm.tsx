@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SignUpService } from "../services/SignUpService";
-import type { User } from "../types/User";
-import { SignInService } from "../services/SignInService";
+import { SignUpService } from "../../services/SignUpService";
+import type { User } from "../../types/User";
+import { SignInService } from "../../services/SignInService";
 
 type SignUpFormProps = {
     onSignUp?: (user: User) => void;

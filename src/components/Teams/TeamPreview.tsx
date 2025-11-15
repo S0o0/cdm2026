@@ -1,6 +1,6 @@
-import type { Team } from '../types/Team';
-import { teamImages } from "../components/TeamImages";
-import { translate } from '../utils/translate';
+import type { Team } from '../../types/Team';
+import { teamImages } from "./TeamImages";
+import { translate } from '../../utils/translate';
 
 
 interface TeamPreviewProps {

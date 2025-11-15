@@ -1,9 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import logo from '../assets/home/wc26logo.avif';
-import signin from '../assets/home/usericon.png';
-import usericonlogged from '../assets/home/usericonlogged.png';
-import cartIcon from '../assets/home/carticon.png';
+import logo from '../assets/img/home/wc26logo.avif';
+import signin from '../assets/img/home/usericon.png';
+import usericonlogged from '../assets/img/home/usericonlogged.png';
+import cartIcon from '../assets/img/home/carticon.png';
 import { TicketService, setCartUpdateCallback } from "../services/TicketService";
 import { SignInService } from "../services/SignInService";
 import type { User } from "../types/User";

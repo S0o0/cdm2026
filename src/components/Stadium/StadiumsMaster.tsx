@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import StadiumPreview from './StadiumPreview';
-import type { Stadium } from '../types/Stadium';
-import { StadiumService } from "../services/StadiumService";
+import type { Stadium } from '../../types/Stadium';
+import { StadiumService } from "../../services/StadiumService";
 import { Link } from 'react-router-dom';
-import { translate } from "../utils/translate";
+import { translate } from "../../utils/translate";
 
 const StadiumsMaster: React.FC = () => {
     const [stadiums, setStadiums] = useState<Stadium[]>([]);

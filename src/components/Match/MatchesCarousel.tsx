@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import MatchPreview from './MatchPreview';
-import type { Match } from '../types/Match';
-import { MatchService } from "../services/MatchService";
+import type { Match } from '../../types/Match';
+import { MatchService } from "../../services/MatchService";
 import { Link } from 'react-router-dom';
-import { GroupService } from '../services/GroupService';
-import type { Group } from '../types/Group';
+import { GroupService } from '../../services/GroupService';
+import type { Group } from '../../types/Group';
 
 interface MatchesCarouselProps {
     matches?: Match[];
