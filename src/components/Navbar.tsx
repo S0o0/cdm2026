@@ -75,7 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, setCurrentUser }) => {
     }, [location, currentUser]);
 
     return (
-        <header className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top mb-5">
+        <header className="navbar navbar-expand-lg navbar-dark bg-black shadow-sm fixed-top mb-5">
             <div className="container-fluid">
                 <Link className="navbar-brand fw-bold d-flex align-items-center me-3 ps-3" to="/">
                     <img src={logo} alt="CDM 2026 Logo" style={{ height: '80px' }} />

@@ -16,7 +16,7 @@ const Home: React.FC = () => {
 
     return (
         <div
-            className="hero-section d-flex align-items-center justify-content-between pt-5 pb-5 bg-dark"
+            className="hero-section d-flex align-items-center justify-content-between pt-5 pb-5 bg-black"
             style={{ color: 'white' }}
         >
             <div className="hero-text text-white ps-5 pe-3">
