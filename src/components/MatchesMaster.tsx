@@ -5,6 +5,7 @@ import { MatchService } from "../services/MatchService";
 import { Link } from 'react-router-dom';
 import { GroupService } from "../services/GroupService";
 import type { Group } from "../types/Group";
+import { translate } from "../utils/translate";
 
 type SortOption = 'date' | 'team' | 'group';
 type SortOptionGroupe = string;
@@ -67,7 +68,8 @@ const MatchesMaster: React.FC = () => {
 
     if (selectedTeam) {
       const filtered = matches.filter(
-        m => m.homeTeam.name === selectedTeam || m.awayTeam.name === selectedTeam
+        m =>
+        translate(m.homeTeam.name) === selectedTeam || translate(m.awayTeam.name) === selectedTeam
       );
       const grouped: Record<string, Match[]> = {
         [selectedTeam]: filtered
@@ -80,11 +82,14 @@ const MatchesMaster: React.FC = () => {
 
       const grouped: Record<string, Match[]> = {};
       sorted.forEach(match => {
-        if (!grouped[match.homeTeam.name]) grouped[match.homeTeam.name] = [];
-        grouped[match.homeTeam.name].push(match);
+          const home = translate(match.homeTeam.name);
+          const away = translate(match.awayTeam.name);
 
-        if (!grouped[match.awayTeam.name]) grouped[match.awayTeam.name] = [];
-        grouped[match.awayTeam.name].push(match);
+          if (!grouped[home]) grouped[home] = [];
+          grouped[home].push(match);
+
+          if (!grouped[away]) grouped[away] = [];
+          grouped[away].push(match);
       });
 
       setGroupedMatches(grouped);
@@ -111,9 +116,12 @@ const MatchesMaster: React.FC = () => {
     setGroupedMatches(grouped);
   }, [matches, sortBy, groupNames, selectedGroup]);
 
-  const allTeams = Array.from(
-    new Set(matches.flatMap(m => [m.homeTeam.name, m.awayTeam.name]))
-  ).sort((a, b) => a.localeCompare(b));
+    const allTeams = Array.from(new Set(matches.flatMap(m => [m.homeTeam.name, m.awayTeam.name]))).map
+    (en => ({
+            en,
+            fr: translate(en)
+        }))
+    .sort((a, b) => a.fr.localeCompare(b.fr));
 
   if (loading) return <p>Chargement des matchs...</p>;
   if (matches.length === 0) return <p>Aucun match disponible</p>;
@@ -147,7 +155,7 @@ const MatchesMaster: React.FC = () => {
           >
             <option value="">Toutes les équipes</option>
             {allTeams.map(team => (
-              <option key={team} value={team}>{team}</option>
+            <option key={team.en} value={team.fr}>{team.fr}</option>
             ))}
           </select>
         )}
