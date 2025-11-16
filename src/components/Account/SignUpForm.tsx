@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { SignUpService } from "../../services/SignUpService";
 import type { User } from "../../types/User";
 import { SignInService } from "../../services/SignInService";
+import home from "../../assets/img/home/home.webp";
 
 // Définition des propriétés reçues par le formulaire d'inscription
 type SignUpFormProps = {
@@ -54,69 +55,80 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onSignUp }) => {
 
     // Structure du formulaire d'inscription
     return (
-        <div className="signup-form-container ms-5" style={{ maxWidth: "400px", margin: "2rem auto" }}>
-            <h2>S'inscrire</h2>
-            <form onSubmit={handleSubmit}>
-                {/* Champ pour saisir le prénom */}
-                <div className="mb-3">
-                    <label>Prénom :</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        value={firstname}
-                        onChange={(e) => setFirstname(e.target.value)}
-                        required
-                    />
+        <div className="container mt-5">
+            <div className="row justify-content-center align-items-center">
+                <div className="col-md-6 d-flex justify-content-center mb-3 mb-md-0">
+                    <img src={home} alt="Login illustration" className="img-fluid shadow-lg"
+                        style={{ width: "800px", height: "500px", objectFit: "cover" }} />
                 </div>
-                {/* Champ pour saisir le nom */}
-                <div className="mb-3">
-                    <label>Nom :</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        value={lastname}
-                        onChange={(e) => setLastname(e.target.value)}
-                        required
-                    />
+                {/* Carte contenant le formulaire d'inscription */}
+                <div className="col-md-6">
+                    <div className="card p-4" style={{ width: "400px", height: "auto" }}>
+                        <h2>S'inscrire</h2>
+                        <form onSubmit={handleSubmit}>
+                            {/* Champ pour saisir le prénom */}
+                            <div className="mb-3">
+                                <label>Prénom :</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={firstname}
+                                    onChange={(e) => setFirstname(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            {/* Champ pour saisir le nom */}
+                            <div className="mb-3">
+                                <label>Nom :</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={lastname}
+                                    onChange={(e) => setLastname(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            {/* Champ pour saisir l'adresse email */}
+                            <div className="mb-3">
+                                <label>Email :</label>
+                                <input
+                                    type="email"
+                                    className="form-control"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            {/* Champ pour saisir le mot de passe */}
+                            <div className="mb-3">
+                                <label>Mot de passe :</label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            {/* Champ pour sélectionner la date de naissance */}
+                            <div className="mb-3">
+                                <label>Date de naissance :</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    value={birthDate}
+                                    onChange={(e) => setBirthDate(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            {/* Bouton pour valider l'inscription, change de texte pendant le chargement */}
+                            <button type="submit" className="btn btn-success" disabled={loading}>
+                                {loading ? "Inscription..." : "S'inscrire"}
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                {/* Champ pour saisir l'adresse email */}
-                <div className="mb-3">
-                    <label>Email :</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                {/* Champ pour saisir le mot de passe */}
-                <div className="mb-3">
-                    <label>Mot de passe :</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                {/* Champ pour sélectionner la date de naissance */}
-                <div className="mb-3">
-                    <label>Date de naissance :</label>
-                    <input
-                        type="date"
-                        className="form-control"
-                        value={birthDate}
-                        onChange={(e) => setBirthDate(e.target.value)}
-                        required
-                    />
-                </div>
-                {/* Bouton pour valider l'inscription, change de texte pendant le chargement */}
-                <button type="submit" className="btn btn-success" disabled={loading}>
-                    {loading ? "Inscription..." : "S'inscrire"}
-                </button>
-            </form>
+            </div>
         </div>
     );
 };
