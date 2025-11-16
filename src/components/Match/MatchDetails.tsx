@@ -3,10 +3,11 @@ import { useParams, Link } from 'react-router-dom';
 import { TicketService } from "../../services/TicketService";
 import type { Match, MatchAvailability, MatchStage } from '../../types/Match';
 import { MatchService } from '../../services/MatchService';
-import { translate } from '../../utils/translate';
+import { translate } from '../../utils/translate'; // import de la fonction de traduction des pays et continents
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+// Traduction des phases de la compétition
 const getStage = (stage: MatchStage): JSX.Element => {
     let label = "";
     switch (stage) {
@@ -31,13 +32,17 @@ const getStage = (stage: MatchStage): JSX.Element => {
     return <span className="opacity-50">{label}</span>;
 };
 
+// Composant affichant les détails d'un match
 const MatchDetails: React.FC = () => {
+    // Récupère l'identifiant du match depuis l'URL
     const { matchId } = useParams<{ matchId: string }>();
+
+    // États locaux pour stocker les informations du match, l'état de chargement et les erreurs
     const [match, setMatch] = useState<Match | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Gestion ticket availability
+    // États locaux pour gérer la réservation : disponibilité, catégorie, quantité, état d'ajout et utilisateur courant
     const [availability, setAvailability] = useState<MatchAvailability | null>(null);
     const [category, setCategory] = useState<string>(""); // Catégorie sélectionnée
     const [quantity, setQuantity] = useState<number>(1); // Quantité sélectionnée
@@ -46,6 +51,8 @@ const MatchDetails: React.FC = () => {
         const user = localStorage.getItem("currentUser");
         return user ? JSON.parse(user) : null;
     });
+
+    // Récupère les données du match et les disponibilités
     useEffect(() => {
         if (!matchId) return;
 
@@ -70,7 +77,7 @@ const MatchDetails: React.FC = () => {
         fetchData();
     }, [matchId]);
 
-    // fonction d'ajout au panier
+    // Fonction pour ajouter des tickets au panier
     const handleAddToCart = async () => {
         if (!match) return;
 
@@ -79,7 +86,7 @@ const MatchDetails: React.FC = () => {
             alert("Vous devez être connecté pour ajouter des tickets au panier.");
             return;
         }
-
+        // Cas où la commande n'est pas conforme aux quantités de l'API
         if (quantity < 1 || quantity > 6) {
             alert("La quantité doit être comprise entre 1 et 6.");
             return;
@@ -97,24 +104,27 @@ const MatchDetails: React.FC = () => {
             setAdding(false);
         }
     };
+    // Affichage pendant le chargement des données du match
     if (loading) return <p>Chargement...</p>;
+    // Message affiché si le match n'a pas été trouvé
     if (!match) return <p>Match introuvable</p>;
 
     const matchDate = new Date(match.date);
-    // Format date as DD/MM
+    // Date formatée ainsi : JJ/MM
     const formattedDate = `${String(matchDate.getDate()).padStart(2, '0')}/${String(matchDate.getMonth() + 1).padStart(2, '0')}`;
 
-    // Format time as HH:MM
+    // Heure formatée ainsi HH:MM
     const formattedTime = matchDate.toLocaleTimeString('fr-FR', {
         hour: '2-digit',
         minute: '2-digit',
     });
 
+    // Structure principale de la page avec les informations du match et réservation
     return (
         <div className="vw-100 p-4">
             <div className="d-flex justify-content-center align-items-start flex-wrap gap-5">
 
-                {/* --- Colonne gauche : Match --- */}
+                {/* Colonne gauche : informations sur le match et équipes */}
                 <div className="flex-grow-1 p-4 bg-white shadow rounded-0" style={{ maxWidth: '380px' }}>
                     <h4 className="text-center mb-4">{getStage(match.stage)}</h4>
 
@@ -153,7 +163,7 @@ const MatchDetails: React.FC = () => {
                     </div>
                 </div>
 
-                {/* --- Colonne droite : Infos places --- */}
+                {/* Colonne droite : sélection de catégorie, quantité et ajout au panier */}
                 <div className="flex-grow-1 p-4 bg-white shadow rounded-0" style={{ maxWidth: '380px' }}>
                     <h4 className="text-center fw-bold mb-4">RÉSERVATION</h4>
                     {availability ? (
@@ -204,7 +214,7 @@ const MatchDetails: React.FC = () => {
                 </div>
             </div>
 
-            {/* --- Lien retour --- */}
+            {/* Bouton pour retourner à la liste des matchs */}
             <div className="text-center mt-4">
                 <Link to="/matches" className="btn btn-dark px-4 py-2 rounded-0 shadow-sm border-0">Retour</Link>
             </div>

@@ -13,17 +13,17 @@ export async function apiFetch<T = any>(
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers,
-    credentials: "include",
+    credentials: "include", // cookies http-only
   });
 
   // Lecture du corps JSON
   const data = await response.json().catch(() => null);
 
   const isAuthRoute =
-  endpoint.startsWith("/auth/signin") ||
-  endpoint.startsWith("/auth/signup") ||
-  endpoint.startsWith("/auth/refresh");
-  
+    endpoint.startsWith("/auth/signin") ||
+    endpoint.startsWith("/auth/signup") ||
+    endpoint.startsWith("/auth/refresh");
+
   // Gestion globale du cas "401 Unauthorized"
   if (response.status === 401 && !isAuthRoute) {
     console.warn("Session expirée ou utilisateur non authentifié.");

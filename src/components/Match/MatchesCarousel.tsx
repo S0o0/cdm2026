@@ -6,18 +6,24 @@ import { Link } from 'react-router-dom';
 import { GroupService } from '../../services/GroupService';
 import type { Group } from '../../types/Group';
 
+// Propriétés du composant : liste de matchs initiale et optionnellement un nom d’équipe pour filtrer
 interface MatchesCarouselProps {
     matches?: Match[];
     teamName?: string;
 }
 
+// Composant affichant un carousel de matchs avec navigation et filtrage par équipe
 const MatchesCarousel: React.FC<MatchesCarouselProps> = ({ matches: initialMatches, teamName }) => {
+    // Liste des matchs affichés dans le carrousel
     const [matches, setMatches] = useState<Match[]>(initialMatches || []);
+    // Index du premier match actuellement visible dans le carrousel
     const [currentIndex, setCurrentIndex] = useState(0);
+    // Indique si les données des matchs sont en cours de chargement
     const [loading, setLoading] = useState(!initialMatches);
+    // Dictionnaire associant l’ID d’un groupe à son nom pour l’affichage
     const [groupNames, setGroupNames] = useState<Record<number, string>>({});
 
-    // Récupération des groupes pour les noms
+    // Chargement des groupes pour récupérer leurs noms et pouvoir les afficher
     useEffect(() => {
         GroupService.getGroups()
             .then((groups: Group[]) => {
@@ -28,6 +34,7 @@ const MatchesCarousel: React.FC<MatchesCarouselProps> = ({ matches: initialMatch
             .catch(err => console.error("❌ Erreur chargement groupes :", err));
     }, []);
 
+    // Chargement des matchs depuis l’API si aucun match initial n’est fourni
     useEffect(() => {
         if (!initialMatches) {
             MatchService.getMatches()
@@ -38,6 +45,7 @@ const MatchesCarousel: React.FC<MatchesCarouselProps> = ({ matches: initialMatch
     }, [initialMatches]);
 
 
+    // Filtrage des matchs selon le nom de l’équipe si un filtre est fourni
     const filteredMatches = teamName
         ? matches.filter(match =>
             match.homeTeam && match.awayTeam &&
@@ -46,16 +54,21 @@ const MatchesCarousel: React.FC<MatchesCarouselProps> = ({ matches: initialMatch
         )
         : matches;
 
+    // Fonctions pour naviguer dans le carrousel (suivant/précédent)
     const next = () => setCurrentIndex(prev => (prev + 4 >= filteredMatches.length ? 0 : prev + 4));
     const prev = () => setCurrentIndex(prev => (prev - 4 < 0 ? Math.max(filteredMatches.length - 4, 0) : prev - 4));
 
+    // Affichage d’un message pendant le chargement des matchs
     if (loading) return <p>Chargement des matchs...</p>;
+    // Message affiché si aucun match ne correspond au filtre
     if (filteredMatches.length === 0) return <p>Aucun match disponible</p>;
 
+    // Sélection des matchs visibles dans le carrousel
     const visibleMatches = filteredMatches.slice(currentIndex, currentIndex + 4);
 
     return (
         <>  {/*Animation de fondu*/}
+            {/* Styles et animation de fondu pour le carrousel */}
             <style>
                 {`
                 .fade-carousel {
@@ -68,6 +81,7 @@ const MatchesCarousel: React.FC<MatchesCarouselProps> = ({ matches: initialMatch
                 }
             `}
             </style>
+            {/* Structure principale du carrousel avec boutons de navigation et affichage des matchs */}
             <div className="position-relative">
                 <button
                     className="btn btn-dark position-absolute top-50 start-0 translate-middle-y rounded-0 shadow-sm border-0"

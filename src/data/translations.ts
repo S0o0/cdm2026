@@ -1,4 +1,4 @@
-// Dictionnaire unique regroupant toutes les traductions de ton app
+// Dictionnaire unique regroupant toutes les traductions
 export const translations: Record<string, string> = {
 
     //  PAYS
@@ -68,7 +68,8 @@ export const translations: Record<string, string> = {
     RSA: "AFS",
     KSA: "ARA",
     CMR: "CAM",
-    //  Continents 
+
+    //  CONTINENTS
     Europe: "Europe",
     "South America": "Amérique du Sud",
     "North America": "Amérique du Nord",

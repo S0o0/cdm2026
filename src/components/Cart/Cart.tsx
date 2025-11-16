@@ -2,18 +2,27 @@ import React, { useEffect, useState } from "react";
 import type { Ticket } from "../../types/Ticket";
 import { TicketService } from "../../services/TicketService";
 import "../../assets/style/Cart.css";
-import { translate } from "../../utils/translate";
+import { translate } from "../../utils/translate"; // import de la fonction de traduction des pays et continents
 
+// Composant du panier affichant les tickets ajoutés par l’utilisateur
 const Cart: React.FC = () => {
+    // Liste des tickets actuellement présents dans le panier
     const [tickets, setTickets] = useState<Ticket[]>([]);
+    // Nombre total de tickets déjà confirmés ou utilisés par l’utilisateur
     const [userTotalTickets, setUserTotalTickets] = useState<number>(0);
+    // Indique si les données du panier sont en cours de chargement
     const [loadingTickets, setLoadingTickets] = useState<boolean>(true);
+
+    // Limite maximale de tickets autorisés par utilisateur
     const MAX_TICKETS = 6;
 
+    // Chargement initial des tickets au montage du composant
     useEffect(() => {
+        // Fonction interne qui récupère les tickets et met à jour le panier
         const fetchTickets = async () => {
             try {
                 setLoadingTickets(true);
+                // Récupération du nombre total de tickets confirmés ou utilisés
                 // On récupère tous les tickets puis on compte ceux payés ou utilisés
                 const allTickets = await TicketService.getAllTickets();
 
@@ -23,11 +32,13 @@ const Cart: React.FC = () => {
                 const effectiveCount = confirmedCount + usedCount;
                 setUserTotalTickets(effectiveCount);
 
+                // Séparation des tickets valides et expirés
                 // On récupère les tickets en attente
                 const fetched = await TicketService.getPendingTickets();
                 const now = new Date();
                 const validTickets: Ticket[] = [];
                 const expiredTickets: Ticket[] = [];
+
 
                 // On ne garde que les tickets qui n'ont pas expirés
                 for (const ticket of fetched.tickets) {
@@ -37,8 +48,7 @@ const Cart: React.FC = () => {
                         expiredTickets.push(ticket);
                     }
                 }
-
-                // Les tickets expirés sont supprimés du panier
+                // Suppression automatique des tickets expirés côté API
                 for (const ticket of expiredTickets) {
                     try {
                         await TicketService.deleteTicket(ticket.id);
@@ -48,6 +58,7 @@ const Cart: React.FC = () => {
                     }
                 }
 
+                // Mise à jour du panier avec uniquement les tickets valides
                 // Le panier ne contient que les tickets valides
                 setTickets(fetched.tickets);
 
@@ -63,9 +74,10 @@ const Cart: React.FC = () => {
         fetchTickets();
     }, []);
 
-    // Tous les tickets qui ont pour match et catégorie ceux passés en paramètre sont supprimés
+    // Suppression de tous les tickets correspondant à un match et une catégorie
     const handleRemove = async (matchId: number, category: string) => {
         try {
+            // Sélection des tickets ciblés pour la suppression
             // Trouver tous les tickets concernés
             const toDelete = tickets.filter(
                 (t) => t.matchId === matchId && t.category === category
@@ -80,6 +92,7 @@ const Cart: React.FC = () => {
                 }
             }
 
+            // Mise à jour locale du panier après suppression
             // Mettre à jour le state local
             setTickets((prev) =>
                 prev.filter(
@@ -95,10 +108,13 @@ const Cart: React.FC = () => {
         }
     };
 
+    // Fonction de paiement des tickets en attente
     const handleCheckout = async () => {
         try {
+            // Envoi du paiement des tickets au serveur
             await TicketService.payPendingTickets();
             setTickets([]);
+            // Mise à jour du nombre total de tickets confirmés après paiement
             // Après paiement, on met à jour le nombre total de tickets confirmés
             try {
                 const allTickets = await TicketService.getAllTickets();
@@ -117,6 +133,7 @@ const Cart: React.FC = () => {
         }
     };
 
+    // Regroupement des tickets par match et catégorie pour un affichage simplifié
     // Regrouper les tickets ayant même match.id + catégorie
     const groupedTickets = Object.values(
         tickets.reduce((acc, ticket) => {
@@ -135,15 +152,18 @@ const Cart: React.FC = () => {
         }, {} as Record<string, Ticket & { quantity: number; totalPrice: number }>)
     );
 
+    // Calcul du nombre de tickets restants que l’utilisateur peut encore acheter
     // Calcule le nombre maximum restant à acheter
     const remainingTickets = Math.max(
         0,
         MAX_TICKETS - userTotalTickets - tickets.length
     );
 
+    // Calcule le prix total du panier
     const calculateTotal = () =>
         groupedTickets.reduce((total, t) => total + t.totalPrice, 0);
 
+    // Gestion du changement de quantité pour un groupe de tickets donné
     const handleQuantityChange = async (matchId: number, category: string, newQuantity: number) => {
         if (newQuantity < 1 || newQuantity > 6) {
             alert("La quantité doit être comprise entre 1 et 6 par match.");
@@ -160,6 +180,7 @@ const Cart: React.FC = () => {
 
         if (diff === 0) return; // rien à faire
 
+        // Vérification que la limite globale de 6 tickets n’est pas dépassée
         // Vérification limite globale (confirmés + panier + ajout)
         if (userTotalTickets + tickets.length + diff > MAX_TICKETS) {
             alert("Vous ne pouvez pas dépasser la limite totale de 6 tickets.");
@@ -167,10 +188,12 @@ const Cart: React.FC = () => {
         }
 
         try {
+            // Cas où l’utilisateur augmente la quantité de tickets
             if (diff > 0) {
                 // ➕ AJOUT : on ajoute diff tickets à l’utilisateur
                 const added = await TicketService.addTicket(matchId, category, diff);
 
+                // Réinjection d’un ticket de référence pour conserver les informations du match
                 // NEW : on récupère un ticket de référence pour réinjecter le champ `match`
                 const refTicket = tickets.find(
                     (t) => t.matchId === matchId && t.category === category && t.match
@@ -184,7 +207,9 @@ const Cart: React.FC = () => {
                 setTickets((prev) => [...prev, ...completedAdded]);
 
                 console.info(`+${diff} ticket(s) ajouté(s) pour match ${matchId} (${category})`);
-            } else {
+            }
+            // Cas où l’utilisateur réduit la quantité de tickets
+            else {
                 // ➖ SUPPRESSION : on retire |diff| tickets existants du panier
                 const toRemove = tickets.filter(
                     (t) => t.matchId === matchId && t.category === category
@@ -221,6 +246,7 @@ const Cart: React.FC = () => {
     };
 
 
+    // Affichage de l’interface du panier avec statistiques, tableau et actions
     return (
         <div className="cart-container">
             <h2 className="cart-title">Votre Panier</h2>
@@ -228,6 +254,7 @@ const Cart: React.FC = () => {
                 Les tickets ajoutés à votre panier expirent <strong>15 minutes</strong> après leur ajout.
                 Passé ce délai, ils seront automatiquement supprimés.
             </p>
+            {/* Affichage du message de chargement ou des statistiques utilisateur */}
             {loadingTickets ? (
                 <p>Chargement du panier...</p>
             ) : (
@@ -253,6 +280,7 @@ const Cart: React.FC = () => {
                 </>
             )}
 
+            {/* Affichage spécifique lorsque le panier est vide */}
             {tickets.length === 0 ? (
                 <>
                     <p className="text-center mt-3">Le panier est vide.</p>
@@ -279,6 +307,7 @@ const Cart: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody>
+                            {/* Génération des lignes du tableau pour chaque groupe de tickets */}
                             {groupedTickets
                                 .sort((a, b) => {
                                     const matchDiff = (a.match?.id || 0) - (b.match?.id || 0);

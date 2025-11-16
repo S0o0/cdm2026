@@ -1,7 +1,7 @@
-// Toutes les catégories de billets disponibles
+// Catégories possibles pour un billet
 export type TicketCategoryName = "VIP" | "CATEGORY_1" | "CATEGORY_2" | "CATEGORY_3";
 
-// Structure d'un ticket individuel
+// Représentation d'un billet individuel
 export type Ticket = {
     id: string;
     userId: string;
@@ -23,6 +23,7 @@ export type Ticket = {
     };
 };
 
+// Comptage des billets selon leur statut
 export type TicketCounts = {
     total: number;
     pending: number;
@@ -30,12 +31,14 @@ export type TicketCounts = {
     used: number;
 };
 
+// Regroupement des billets par statut
 export type GroupedTickets = {
     pending: Ticket[];
     confirmed: Ticket[];
     used: Ticket[];
 };
 
+// Réponse contenant tous les billets, leur regroupement et les comptes
 export type AllTicketsResponse = {
     tickets: Ticket[];
     grouped: GroupedTickets;

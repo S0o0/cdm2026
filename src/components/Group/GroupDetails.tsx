@@ -6,26 +6,32 @@ import { GroupService } from "../../services/GroupService";
 import { MatchService } from "../../services/MatchService";
 import MatchPreview from "../Match/MatchPreview";
 import logo from '../../assets/img/home/wc26logo-black.webp';
-import { translate } from "../../utils/translate";
+import { translate } from "../../utils/translate"; // import de la fonction de traduction des pays et continents
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+// Composant affichant les détails d'un groupe
 const GroupDetails: React.FC = () => {
     const { groupId } = useParams<{ groupId: string }>();
+
+    // États locaux pour stocker les données du groupe, les matchs, le chargement et les erreurs
     const [group, setGroup] = useState<Group | null>(null);
     const [matches, setMatches] = useState<Match[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    // Chargement des informations du groupe et des matchs liés
     useEffect(() => {
         if (!groupId) return;
 
         async function fetchData() {
             try {
+                // Récupération des informations du groupe depuis l'API
                 const groupData = await GroupService.getGroup(Number(groupId));
                 setGroup(groupData);
+                // Récupération de tous les matchs disponibles depuis l'API
                 const allMatches = await MatchService.getMatches();
-                // Filter matches belonging to this group
+                // Sélection des matchs appartenant à ce groupe
                 const groupMatches = allMatches.filter(
                     (match) =>
                         match.homeTeam.groupId === Number(groupId)
@@ -45,6 +51,7 @@ const GroupDetails: React.FC = () => {
     if (error) return <p>Erreur : {error}</p>;
     if (!group) return <p>Groupe introuvable</p>;
 
+    // Structure principale de la page affichant les détails du groupe
     return (
         <div className="vw-100 p-4 d-flex flex-column align-items-center mt-5">
             <img
@@ -63,6 +70,7 @@ const GroupDetails: React.FC = () => {
                 GROUP {group.name.toUpperCase()}
             </div>
 
+            {/* Affichage des équipes appartenant à ce groupe */}
             <div
                 className="d-grid"
                 style={{
@@ -73,9 +81,9 @@ const GroupDetails: React.FC = () => {
                 }}
             >
                 {group.teams.map((team) => (
-                    <Link 
-                        key={team.id} 
-                        to={`/teams/${team.id}`} 
+                    <Link
+                        key={team.id}
+                        to={`/teams/${team.id}`}
                         style={{ textDecoration: 'none', color: 'inherit' }}
                     >
                         <div
@@ -97,6 +105,7 @@ const GroupDetails: React.FC = () => {
                 ))}
             </div>
 
+            {/* Affichage des matchs du groupe si disponibles */}
             {matches.length > 0 && (
                 <>
                     <h3 className="text-white mt-5 mb-3">Matchs du groupe</h3>
@@ -122,6 +131,7 @@ const GroupDetails: React.FC = () => {
                 </>
             )}
 
+            {/* Bouton permettant de revenir à la liste des groupes */}
             <div className="text-center mt-5">
                 <Link to="/groups" className="btn btn-dark px-4 py-2 rounded-0 shadow-sm border-0">
                     Retour aux groupes

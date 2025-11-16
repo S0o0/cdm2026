@@ -5,14 +5,19 @@ import { QRCodeCanvas } from "qrcode.react";
 import { translate } from "../utils/translate";
 
 const OrdersHistory: React.FC = () => {
+    // État pour stocker les tickets filtrés
     const [tickets, setTickets] = useState<Ticket[]>([]);
+    // État pour indiquer le chargement
     const [loading, setLoading] = useState(true);
+    // État pour stocker les erreurs éventuelles
     const [error, setError] = useState<string | null>(null);
 
+    // Récupération des tickets au montage du composant
     useEffect(() => {
         const fetchTickets = async () => {
             try {
                 const allTicketsResponse = await TicketService.getAllTickets();
+                // Filtrer les tickets confirmés ou utilisés
                 const filtered = allTicketsResponse.tickets.filter(
                     (t) => t.status === "confirmed" || t.status === "used"
                 );
@@ -28,15 +33,18 @@ const OrdersHistory: React.FC = () => {
         fetchTickets();
     }, []);
 
+    // Formatage simple de la date ou retour d'un tiret si null
     const formatDate = (date: string | null) => {
         if (!date) return "-";
         return new Date(date).toLocaleString();
     };
 
+    // Affichage pendant le chargement
     if (loading) {
         return <p className="mt-5 ms-5">Chargement...</p>;
     }
 
+    // Affichage en cas d'erreur
     if (error) {
         return <p className="mt-5 ms-5" style={{ color: "red" }}>{error}</p>;
     }
@@ -45,6 +53,7 @@ const OrdersHistory: React.FC = () => {
         <div className="container pt-5">
             <h2 className="mb-4">Historique des commandes</h2>
 
+            {/* Message si aucune commande */}
             {tickets.length === 0 && (
                 <p>Aucune commande trouvee.</p>
             )}
@@ -53,6 +62,7 @@ const OrdersHistory: React.FC = () => {
                 {tickets.map((t) => (
                     <div key={t.id} className="list-group-item mb-3 shadow-sm">
 
+                        {/* Titre du match */}
                         <h5 className="mb-3">
                             Match: {translate(t.match?.homeTeam || "")} vs {translate(t.match?.awayTeam || "")}
                         </h5>
@@ -72,7 +82,7 @@ const OrdersHistory: React.FC = () => {
                                 )}
                             </div>
 
-                            {/* Bloc Infos */}
+                            {/* Bloc Infos du ticket */}
                             <div>
                                 <p className="mb-1"><strong>Date du match:</strong> {formatDate(t.match?.matchDate || null)}</p>
                                 <p className="mb-1"><strong>Stade:</strong> {t.match?.stadium}</p>

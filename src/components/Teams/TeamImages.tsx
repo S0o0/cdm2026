@@ -1,3 +1,4 @@
+// Fichier permettant l'uniformisation des images des équipes afin de les importer dans TeamDetails, TeamsMaster et TeamPreview
 import FranceImg from "../../assets/img/countryImages/france2.jpg";
 import MexicoIMG from "../../assets/img/countryImages/mexique.jpg";
 import MarocIMG from "../../assets/img/countryImages/maroc.jpg";
